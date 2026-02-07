@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏹 Tiro con Arco Virtual</title>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            color: white;
+        }
+
+        .intro-screen.hidden {
+            display: none;
+        }
+
+        .intro-title {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .intro-instructions {
+            font-size: 1.2em;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .start-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .score {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            font-size: 1.2em;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .instructions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 300px;
+            z-index: 10;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .target {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            transform: translate(0, -50%);
+            width: 200px;
+            height: 200px;
+            z-index: 1;
+        }
+
+        .target-ring {
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ring-1 {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border: 3px solid #333;
+        }
+
+        .ring-2 {
+            width: 160px;
+            height: 160px;
+            background: black;
+        }
+
+        .ring-3 {
+            width: 120px;
+            height: 120px;
+            background: blue;
+        }
+
+        .ring-4 {
+            width: 80px;
+            height: 80px;
+            background: red;
+        }
+
+        .ring-5 {
+            width: 40px;
+            height: 40px;
+            background: yellow;
+        }
+
+        .result-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(255,255,255,0.95);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+            z-index: 100;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .result-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .result-title {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .result-score {
+            font-size: 4em;
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .result-message {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .arrow {
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #8B4513 0%, #D2691E 100%);
+            z-index: 5;
+            display: none;
+            transform-origin: left center;
+        }
+
+        .arrow::before {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -5px;
+            width: 0;
+            height: 0;
+            border-left: 15px solid #D2691E;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -3px;
+            width: 20px;
+            height: 9px;
+            background: #8B4513;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .power-bar {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 30px;
+            background: rgba(0,0,0,0.5);
+            border: 3px solid white;
+            border-radius: 15px;
+            overflow: hidden;
+            z-index: 10;
+            display: none;
+        }
+
+        .power-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4ade80 0%, #22c55e 50%, #15803d 100%);
+            transition: width 0.1s linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.5em;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .bow-visual {
+            position: absolute;
+            z-index: 3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-title">🏹 Tiro con Arco Virtual 🎯</div>
+        <div class="intro-instructions">
+            <p><strong>¿Cómo jugar?</strong></p>
+            <p>✋ Levanta tu <strong>mano derecha</strong> para sostener el arco</p>
+            <p>👆 Extiende tu <strong>índice y pulgar de la mano izquierda</strong> (forma de pistola) para tensar la cuerda</p>
+            <p>🎯 Cuanto más atrás tenses, más fuerza tendrá tu disparo</p>
+            <p>🚀 Suelta el gesto para disparar la flecha</p>
+        </div>
+        <button class="start-btn" id="startBtn">¡Comenzar! 🏹</button>
+    </div>
+
+    <div class="container" id="gameContainer">
+        <div class="loading" id="loading">Cargando cámara... 📹</div>
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
+
+        <div class="hud">
+            <div class="score">Puntos: <span id="score">0</span></div>
+            <div class="status" id="status">Levanta ambas manos</div>
+            <div class="status">Tiros: <span id="shots">0</span></div>
+        </div>
+
+        <div class="instructions">
+            <strong>📋 Instrucciones:</strong><br>
+            🏹 Mano derecha arriba = Arco<br>
+            👆 Mano izquierda: índice + pulgar = Tensar<br>
+            🎯 Tensa hacia atrás y suelta<br>
+            💯 Centro amarillo = 10 puntos<br>
+            🔴 Rojo = 8 puntos<br>
+            🔵 Azul = 6 puntos<br>
+            ⚫ Negro = 4 puntos<br>
+            ⚪ Blanco = 2 puntos
+        </div>
+
+        <div class="target">
+            <div class="target-ring ring-1"></div>
+            <div class="target-ring ring-2"></div>
+            <div class="target-ring ring-3"></div>
+            <div class="target-ring ring-4"></div>
+            <div class="target-ring ring-5"></div>
+        </div>
+
+        <div class="power-bar" id="powerBar">
+            <div class="power-fill" id="powerFill"></div>
+        </div>
+
+        <div class="arrow" id="arrow"></div>
+
+        <div class="result-popup" id="resultPopup">
+            <div class="result-title">¡Impacto! 🎯</div>
+            <div class="result-score" id="resultScore">10</div>
+            <div class="result-message" id="resultMessage">¡Tiro perfecto!</div>
+            <button class="continue-btn" id="continueBtn">Siguiente tiro →</button>
+        </div>
+    </div>
+
+    <script>
+        let video, canvas, ctx;
+        let hands, camera;
+        let score = 0;
+        let shots = 0;
+        let isDrawing = false;
+        let isTensing = false;
+        let tensionPower = 0;
+        let rightHandPos = null;
+        let leftHandPos = null;
+        let gameState = 'idle'; // idle, tensing, shooting, result
+        let arrowFlying = false;
+
+        const startBtn = document.getElementById('startBtn');
+        const introScreen = document.getElementById('introScreen');
+        const gameContainer = document.getElementById('gameContainer');
+        const loading = document.getElementById('loading');
+
+        startBtn.addEventListener('click', async () => {
+            introScreen.classList.add('hidden');
+            gameContainer.classList.add('active');
+            await initCamera();
+        });
+
+        async function initCamera() {
+            video = document.getElementById('video');
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 1280, height: 720 }
+                });
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    video.play();
+                    loading.style.display = 'none';
+                    initHands();
+                };
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                loading.textContent = 'Error al acceder a la cámara. Por favor permite el acceso.';
+            }
+        }
+
+        function initHands() {
+            hands = new Hands({
+                locateFile: (file) => {
+                    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+                }
+            });
+
+            hands.setOptions({
+                maxNumHands: 2,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.7,
+                minTrackingConfidence: 0.7
+            });
+
+            hands.onResults(onResults);
+
+            camera = new Camera(video, {
+                onFrame: async () => {
+                    await hands.send({ image: video });
+                },
+                width: 1280,
+                height: 720
+            });
+
+            camera.start();
+        }
+
+        function onResults(results) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (results.multiHandLandmarks && results.multiHandedness) {
+                rightHandPos = null;
+                leftHandPos = null;
+
+                for (let i = 0; i < results.multiHandLandmarks.length; i++) {
+                    const landmarks = results.multiHandLandmarks[i];
+                    const handedness = results.multiHandedness[i].label;
+
+                    // Invertir la etiqueta porque el video está en espejo
+                    const actualHand = handedness === 'Left' ? 'Right' : 'Left';
+
+                    drawHand(landmarks, actualHand);
+
+                    if (actualHand === 'Right') {
+                        rightHandPos = landmarks[9]; // Muñeca
+                    } else if (actualHand === 'Left') {
+                        leftHandPos = landmarks;
+                    }
+                }
+
+                processGestures();
+            }
+
+            if (gameState === 'shooting' && arrowFlying) {
+                updateArrow();
+            }
+        }
+
+        function drawHand(landmarks, hand) {
+            ctx.fillStyle = hand === 'Right' ? 'rgba(255, 100, 100, 0.5)' : 'rgba(100, 100, 255, 0.5)';
+            
+            landmarks.forEach(landmark => {
+                const x = canvas.width - (landmark.x * canvas.width);
+                const y = landmark.y * canvas.height;
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        function processGestures() {
+            if (!rightHandPos || !leftHandPos) {
+                if (gameState === 'tensing') {
+                    gameState = 'idle';
+                    document.getElementById('powerBar').style.display = 'none';
+                }
+                updateStatus('Levanta ambas manos');
+                return;
+            }
+
+            // Detectar gesto de pistola (índice y pulgar extendidos)
+            const thumbTip = leftHandPos[4];
+            const indexTip = leftHandPos[8];
+            const middleTip = leftHandPos[12];
+            const ringTip = leftHandPos[16];
+            const pinkyTip = leftHandPos[20];
+            const wrist = leftHandPos[0];
+
+            // Comprobar si índice está extendido
+            const indexExtended = indexTip.y < leftHandPos[6].y;
+            
+            // Comprobar si otros dedos están doblados
+            const middleClosed = middleTip.y > leftHandPos[10].y;
+            const ringClosed = ringTip.y > leftHandPos[14].y;
+            const pinkyClosed = pinkyTip.y > leftHandPos[18].y;
+
+            const isGunGesture = indexExtended && middleClosed && ringClosed && pinkyClosed;
+
+            if (isGunGesture && gameState !== 'shooting' && !arrowFlying) {
+                const rightX = canvas.width - (rightHandPos.x * canvas.width);
+                const rightY = rightHandPos.y * canvas.height;
+                const leftX = canvas.width - (indexTip.x * canvas.width);
+                const leftY = indexTip.y * canvas.height;
+
+                const distance = Math.sqrt(
+                    Math.pow(rightX - leftX, 2) + 
+                    Math.pow(rightY - leftY, 2)
+                );
+
+                tensionPower = Math.min(100, (distance / 300) * 100);
+
+                if (tensionPower > 20) {
+                    gameState = 'tensing';
+                    document.getElementById('powerBar').style.display = 'block';
+                    document.getElementById('powerFill').style.width = tensionPower + '%';
+                    updateStatus(`Tensando... ${Math.round(tensionPower)}%`);
+                    
+                    // Dibujar arco y cuerda tensada
+                    drawBow(rightX, rightY, leftX, leftY);
+                }
+            } else if (gameState === 'tensing' && !isGunGesture) {
+                // ¡Disparo!
+                shootArrow();
+            }
+
+            if (!isGunGesture && gameState === 'idle') {
+                updateStatus('Haz gesto de pistola con mano izquierda');
+            }
+        }
+
+        function drawBow(rightX, rightY, leftX, leftY) {
+            // Dibujar arco
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(rightX, rightY, 80, -Math.PI/3, Math.PI/3);
+            ctx.stroke();
+
+            // Dibujar cuerda
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            const topX = rightX + Math.cos(-Math.PI/3) * 80;
+            const topY = rightY + Math.sin(-Math.PI/3) * 80;
+            const bottomX = rightX + Math.cos(Math.PI/3) * 80;
+            const bottomY = rightY + Math.sin(Math.PI/3) * 80;
+            
+            ctx.moveTo(topX, topY);
+            ctx.lineTo(leftX, leftY);
+            ctx.lineTo(bottomX, bottomY);
+            ctx.stroke();
+
+            // Dibujar flecha siendo tensada
+            ctx.strokeStyle = '#D2691E';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(leftX, leftY);
+            ctx.lineTo(rightX, rightY);
+            ctx.stroke();
+        }
+
+        function shootArrow() {
+            if (arrowFlying) return;
+
+            gameState = 'shooting';
+            arrowFlying = true;
+            shots++;
+            document.getElementById('shots').textContent = shots;
+            document.getElementById('powerBar').style.display = 'none';
+
+            const arrow = document.getElementById('arrow');
+            const rightX = canvas.width - (rightHandPos.x * canvas.width);
+            const rightY = rightHandPos.y * canvas.height;
+
+            // Calcular ángulo hacia el blanco
+            const target = document.querySelector('.target');
+            const targetRect = target.getBoundingClientRect();
+            const targetX = targetRect.left + targetRect.width / 2;
+            const targetY = targetRect.top + targetRect.height / 2;
+
+            const angle = Math.atan2(targetY - rightY, targetX - rightX);
+            
+            arrow.style.left = rightX + 'px';
+            arrow.style.top = rightY + 'px';
+            arrow.style.transform = `rotate(${angle}rad)`;
+            arrow.style.display = 'block';
+
+            // Animación de vuelo
+            const speed = tensionPower / 10;
+            arrow.dataset.vx = Math.cos(angle) * speed;
+            arrow.dataset.vy = Math.sin(angle) * speed;
+            arrow.dataset.x = rightX;
+            arrow.dataset.y = rightY;
+
+            updateStatus('¡Flecha en vuelo! 🏹');
+        }
+
+        function updateArrow() {
+            const arrow = document.getElementById('arrow');
+            let x = parseFloat(arrow.dataset.x);
+            let y = parseFloat(arrow.dataset.y);
+            const vx = parseFloat(arrow.dataset.vx);
+            const vy = parseFloat(arrow.dataset.vy);
+
+            x += vx * 10;
+            y += vy * 10;
+
+            arrow.style.left = x + 'px';
+            arrow.style.top = y + 'px';
+            arrow.dataset.x = x;
+            arrow.dataset.y = y;
+
+            // Verificar impacto en el blanco
+            const target = document.querySelector('.target');
+            const targetRect = target.getBoundingClientRect();
+            const targetCenterX = targetRect.left + targetRect.width / 2;
+            const targetCenterY = targetRect.top + targetRect.height / 2;
+
+            const distance = Math.sqrt(
+                Math.pow(x - targetCenterX, 2) + 
+                Math.pow(y - targetCenterY, 2)
+            );
+
+            if (distance < 100 || x > window.innerWidth || y < 0 || y > window.innerHeight) {
+                arrowFlying = false;
+                arrow.style.display = 'none';
+                calculateScore(distance);
+            }
+        }
+
+        function calculateScore(distance) {
+            let points = 0;
+            let message = '';
+
+            if (distance < 20) {
+                points = 10;
+                message = '¡TIRO PERFECTO! 🎯';
+            } else if (distance < 40) {
+                points = 8;
+                message = '¡Excelente! 🔥';
+            } else if (distance < 60) {
+                points = 6;
+                message = '¡Muy bien! 👍';
+            } else if (distance < 80) {
+                points = 4;
+                message = '¡Bien! 👌';
+            } else if (distance < 100) {
+                points = 2;
+                message = '¡En el blanco! 🎪';
+            } else {
+                points = 0;
+                message = '¡Fallaste! Inténtalo de nuevo 😅';
+            }
+
+            score += points;
+            document.getElementById('score').textContent = score;
+
+            showResult(points, message);
+        }
+
+        function showResult(points, message) {
+            gameState = 'result';
+            document.getElementById('resultScore').textContent = points;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultPopup').classList.add('show');
+        }
+
+        document.getElementById('continueBtn').addEventListener('click', () => {
+            document.getElementById('resultPopup').classList.remove('show');
+            gameState = 'idle';
+            tensionPower = 0;
+            updateStatus('Prepara el siguiente tiro');
+        });
+
+        function updateStatus(text) {
+            document.getElementById('status').textContent = text;
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
