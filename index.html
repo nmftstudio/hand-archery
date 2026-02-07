@@ -205,6 +205,14 @@
             color: #ffd700;
         }
 
+        .score.player1 {
+            color: #00d4ff;
+        }
+
+        .score.player2 {
+            color: #ff6b9d;
+        }
+
         .status {
             font-size: 1em;
             background: rgba(0,0,0,0.7);
@@ -214,6 +222,57 @@
             font-weight: 300;
             letter-spacing: 1px;
             backdrop-filter: blur(10px);
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: rgba(0,0,0,0.7);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            color: #ffd700;
+            padding: 10px 20px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .control-btn.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        .versus-hud {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+            font-family: 'Noto Serif JP', serif;
+            text-align: right;
+            display: none;
+        }
+
+        .versus-hud.active {
+            display: block;
         }
 
         .info-icon {
@@ -414,6 +473,16 @@
             filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
         }
 
+        .arrow.player1 {
+            background: linear-gradient(90deg, #8B4513 0%, #00a8cc 80%, #00d4ff 100%);
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+        }
+
+        .arrow.player2 {
+            background: linear-gradient(90deg, #8B4513 0%, #c44569 80%, #ff6b9d 100%);
+            filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
+        }
+
         .arrow::before {
             content: '';
             position: absolute;
@@ -425,6 +494,16 @@
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
             filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+        }
+
+        .arrow.player1::before {
+            border-left-color: #00d4ff;
+            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.8));
+        }
+
+        .arrow.player2::before {
+            border-left-color: #ff6b9d;
+            filter: drop-shadow(0 0 5px rgba(255, 107, 157, 0.8));
         }
 
         .arrow::after {
@@ -544,6 +623,59 @@
         .zen-message.show {
             opacity: 1;
         }
+
+        .winner-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(15, 15, 30, 0.98);
+            padding: 60px 80px;
+            border: 3px solid rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+            z-index: 200;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(20px);
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        .winner-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .winner-title {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 4px;
+        }
+
+        .winner-title.player1 {
+            color: #00d4ff;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+        }
+
+        .winner-title.player2 {
+            color: #ff6b9d;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.8);
+        }
+
+        .winner-scores {
+            font-size: 2em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .winner-message {
+            font-size: 1.3em;
+            color: #ffd700;
+            margin-bottom: 35px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -567,9 +699,20 @@
         <div class="zen-message" id="zenMessage">集中 Concentración</div>
 
         <div class="hud">
-            <div class="score">得点 <span id="score">0</span></div>
+            <div class="score" id="soloScore">得点 <span id="score">0</span></div>
+            <div class="score player1" id="player1Score" style="display: none;">
+                <span style="font-size: 0.7em;">青</span> Jugador 1: <span id="score1">0</span>
+            </div>
+            <div class="score player2" id="player2Score" style="display: none;">
+                <span style="font-size: 0.7em;">桃</span> Jugador 2: <span id="score2">0</span>
+            </div>
             <div class="status" id="status">両手を上げて Levanta ambas manos</div>
             <div class="status">射撃 <span id="shots">0</span></div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="resetBtn">🔄 リセット REINICIAR</button>
+            <button class="control-btn" id="modeBtn">👥 対戦 MODO VS</button>
         </div>
 
         <div class="info-icon" id="infoIcon"></div>
@@ -630,6 +773,7 @@
         </div>
 
         <div class="arrow" id="arrow"></div>
+        <div class="arrow player2" id="arrow2" style="display: none;"></div>
 
         <div class="result-popup" id="resultPopup">
             <div class="result-title">的中 HIT</div>
@@ -637,12 +781,21 @@
             <div class="result-message" id="resultMessage">完璧 ¡Perfecto!</div>
             <button class="continue-btn" id="continueBtn">続ける CONTINUAR</button>
         </div>
+
+        <div class="winner-popup" id="winnerPopup">
+            <div class="winner-title" id="winnerTitle">勝利 VICTORIA</div>
+            <div class="winner-scores" id="winnerScores">5 - 3</div>
+            <div class="winner-message">二人とも素晴らしい戦いでした<br>Ambos lucharon con honor</div>
+            <button class="continue-btn" id="newGameBtn">新しい試合 NUEVA PARTIDA</button>
+        </div>
     </div>
 
     <script>
         let video, canvas, ctx;
         let hands, camera;
         let score = 0;
+        let score1 = 0; // Jugador 1 (izquierda - azul)
+        let score2 = 0; // Jugador 2 (derecha - rosa)
         let shots = 0;
         let isDrawing = false;
         let isTensing = false;
@@ -651,6 +804,10 @@
         let leftHandPos = null;
         let gameState = 'idle'; // idle, tensing, shooting, result
         let arrowFlying = false;
+        let versusMode = false;
+        let currentPlayer = 1; // En modo versus, qué jugador está tirando
+        let vsRounds = 5; // Número de rondas en modo versus
+        let vsCurrentRound = 0;
 
         // Sound effects using Web Audio API
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -702,10 +859,70 @@
         const loading = document.getElementById('loading');
         const infoIcon = document.getElementById('infoIcon');
         const instructions = document.getElementById('instructions');
+        const resetBtn = document.getElementById('resetBtn');
+        const modeBtn = document.getElementById('modeBtn');
 
         infoIcon.addEventListener('click', () => {
             instructions.classList.toggle('show');
         });
+
+        resetBtn.addEventListener('click', () => {
+            resetGame();
+            playSound(440, 0.3, 'sine');
+        });
+
+        modeBtn.addEventListener('click', () => {
+            versusMode = !versusMode;
+            resetGame();
+            updateModeUI();
+            playSound(versusMode ? 600 : 440, 0.3, 'sine');
+        });
+
+        function resetGame() {
+            score = 0;
+            score1 = 0;
+            score2 = 0;
+            shots = 0;
+            vsCurrentRound = 0;
+            currentPlayer = 1;
+            gameState = 'idle';
+            arrowFlying = false;
+            tensionPower = 0;
+            
+            document.getElementById('score').textContent = '0';
+            document.getElementById('score1').textContent = '0';
+            document.getElementById('score2').textContent = '0';
+            document.getElementById('shots').textContent = '0';
+            document.getElementById('arrow').style.display = 'none';
+            document.getElementById('arrow2').style.display = 'none';
+            document.getElementById('resultPopup').classList.remove('show');
+            document.getElementById('winnerPopup').classList.remove('show');
+            
+            updateStatus(versusMode ? 
+                (currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2') : 
+                '準備 Preparado'
+            );
+        }
+
+        function updateModeUI() {
+            const soloScore = document.getElementById('soloScore');
+            const player1Score = document.getElementById('player1Score');
+            const player2Score = document.getElementById('player2Score');
+            
+            if (versusMode) {
+                soloScore.style.display = 'none';
+                player1Score.style.display = 'block';
+                player2Score.style.display = 'block';
+                modeBtn.classList.add('active');
+                modeBtn.textContent = '👤 ソロ MODO SOLO';
+            } else {
+                soloScore.style.display = 'block';
+                player1Score.style.display = 'none';
+                player2Score.style.display = 'none';
+                modeBtn.classList.remove('active');
+                modeBtn.textContent = '👥 対戦 MODO VS';
+            }
+        }
 
         startBtn.addEventListener('click', async () => {
             introScreen.classList.add('hidden');
@@ -954,7 +1171,15 @@
             playShootSound();
             showZenMessage('放つ ¡Dispara!');
 
-            const arrow = document.getElementById('arrow');
+            const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
+            const arrow = document.getElementById(arrowId);
+            
+            if (versusMode && currentPlayer === 2) {
+                arrow.classList.add('player2');
+            } else if (versusMode && currentPlayer === 1) {
+                document.getElementById('arrow').classList.add('player1');
+            }
+
             const rightX = canvas.width - (rightHandPos.x * canvas.width);
             const rightY = rightHandPos.y * canvas.height;
 
@@ -977,12 +1202,21 @@
             arrow.dataset.vy = Math.sin(angle) * speed;
             arrow.dataset.x = rightX;
             arrow.dataset.y = rightY;
+            arrow.dataset.player = currentPlayer;
 
             updateStatus('飛行中 ¡Flecha en vuelo!');
         }
 
         function updateArrow() {
-            const arrow = document.getElementById('arrow');
+            const arrowId = versusMode && parseInt(document.getElementById('arrow2').dataset.player) === 2 && 
+                           document.getElementById('arrow2').style.display === 'block' ? 'arrow2' : 'arrow';
+            const arrow = document.getElementById(arrowId);
+            
+            if (arrow.style.display === 'none') {
+                arrowId = arrowId === 'arrow' ? 'arrow2' : 'arrow';
+                arrow = document.getElementById(arrowId);
+            }
+            
             let x = parseFloat(arrow.dataset.x);
             let y = parseFloat(arrow.dataset.y);
             const vx = parseFloat(arrow.dataset.vx);
@@ -1051,11 +1285,62 @@
                 playMissSound();
             }
 
-            score += points;
-            document.getElementById('score').textContent = score;
-
-            showResult(points, message, zenPhrase);
+            if (versusMode) {
+                if (currentPlayer === 1) {
+                    score1 += points;
+                    document.getElementById('score1').textContent = score1;
+                } else {
+                    score2 += points;
+                    document.getElementById('score2').textContent = score2;
+                }
+                
+                vsCurrentRound++;
+                
+                if (vsCurrentRound >= vsRounds * 2) {
+                    // Fin del juego versus
+                    setTimeout(() => showWinner(), 500);
+                } else {
+                    // Cambiar de jugador
+                    showResult(points, message, zenPhrase);
+                }
+            } else {
+                score += points;
+                document.getElementById('score').textContent = score;
+                showResult(points, message, zenPhrase);
+            }
         }
+
+        function showWinner() {
+            const winnerPopup = document.getElementById('winnerPopup');
+            const winnerTitle = document.getElementById('winnerTitle');
+            const winnerScores = document.getElementById('winnerScores');
+            
+            if (score1 > score2) {
+                winnerTitle.textContent = '青の勝利 JUGADOR 1 GANA';
+                winnerTitle.className = 'winner-title player1';
+            } else if (score2 > score1) {
+                winnerTitle.textContent = '桃の勝利 JUGADOR 2 GANA';
+                winnerTitle.className = 'winner-title player2';
+            } else {
+                winnerTitle.textContent = '引き分け EMPATE';
+                winnerTitle.className = 'winner-title';
+                winnerTitle.style.color = '#ffd700';
+            }
+            
+            winnerScores.textContent = `${score1} - ${score2}`;
+            winnerPopup.classList.add('show');
+            
+            // Sonido de victoria
+            playSound(800, 0.3, 'sine');
+            setTimeout(() => playSound(1000, 0.3, 'sine'), 200);
+            setTimeout(() => playSound(1200, 0.5, 'sine'), 400);
+        }
+
+        document.getElementById('newGameBtn').addEventListener('click', () => {
+            document.getElementById('winnerPopup').classList.remove('show');
+            resetGame();
+            playSound(440, 0.3, 'sine');
+        });
 
         function showResult(points, message, zenPhrase) {
             gameState = 'result';
@@ -1080,7 +1365,17 @@
             document.getElementById('resultPopup').classList.remove('show');
             gameState = 'idle';
             tensionPower = 0;
-            updateStatus('準備 Prepara el siguiente tiro');
+            
+            if (versusMode) {
+                // Cambiar de jugador
+                currentPlayer = currentPlayer === 1 ? 2 : 1;
+                const playerName = currentPlayer === 1 ? '青 Jugador 1' : '桃 Jugador 2';
+                updateStatus(`${playerName} - 準備 Turno`);
+                showZenMessage(currentPlayer === 1 ? '青の番 Turno Azul' : '桃の番 Turno Rosa');
+            } else {
+                updateStatus('準備 Prepara el siguiente tiro');
+            }
+            
             playSound(440, 0.2, 'sine');
         });
 
