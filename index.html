@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏹 侍の道 - Camino del Samurai</title>
+    <title>🏹 侍の弓道 - Tiro con Arco Samurai</title>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&display=swap');
 
@@ -103,7 +102,7 @@
         }
 
         .zen-circle::before {
-            content: '侍';
+            content: '弓';
             position: absolute;
             top: 50%;
             left: 50%;
@@ -159,34 +158,11 @@
             overflow: hidden;
         }
 
-        .start-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(212, 165, 116, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .start-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
         .start-btn:hover {
             background: rgba(212, 165, 116, 0.15);
             border-color: rgba(212, 165, 116, 0.9);
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(212, 165, 116, 0.3);
-        }
-
-        .start-btn span {
-            position: relative;
-            z-index: 1;
         }
 
         .container {
@@ -209,7 +185,7 @@
             height: 100%;
             object-fit: cover;
             transform: scaleX(-1);
-            opacity: 0.7;
+            opacity: 0.6;
             filter: sepia(0.6) contrast(1.1) brightness(0.85);
         }
 
@@ -321,43 +297,43 @@
 
         .arrow {
             position: absolute;
-            width: 80px;
-            height: 6px;
+            width: 100px;
+            height: 8px;
             background: linear-gradient(to right, #5a2d0c 0%, #d4a574 30%, #f5deb3 50%, #d4a574 70%, #5a2d0c 100%);
             display: none;
             z-index: 5;
             transform-origin: left center;
-            filter: drop-shadow(0 0 8px rgba(212, 165, 116, 0.8)) drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
-            box-shadow: 0 0 15px rgba(212, 165, 116, 0.6);
+            filter: drop-shadow(0 0 10px rgba(212, 165, 116, 0.9)) drop-shadow(2px 2px 6px rgba(0,0,0,0.8));
+            box-shadow: 0 0 20px rgba(212, 165, 116, 0.7);
         }
 
         .arrow::before {
             content: '';
             position: absolute;
-            right: -15px;
+            right: -18px;
             top: 50%;
             transform: translateY(-50%);
             width: 0;
             height: 0;
-            border-left: 20px solid #5a2d0c;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            filter: drop-shadow(0 0 5px rgba(90, 45, 12, 0.8));
+            border-left: 25px solid #5a2d0c;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            filter: drop-shadow(0 0 6px rgba(90, 45, 12, 0.9));
         }
 
         .arrow::after {
             content: '';
             position: absolute;
-            left: -5px;
+            left: -8px;
             top: 50%;
             transform: translateY(-50%);
-            width: 20px;
-            height: 12px;
+            width: 25px;
+            height: 14px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(212, 165, 116, 0.6) 20%, 
-                rgba(212, 165, 116, 0.8) 50%, 
-                rgba(212, 165, 116, 0.6) 80%, 
+                rgba(212, 165, 116, 0.7) 20%, 
+                rgba(212, 165, 116, 0.9) 50%, 
+                rgba(212, 165, 116, 0.7) 80%, 
                 transparent 100%
             );
             border-radius: 50%;
@@ -365,7 +341,7 @@
 
         .arrow.player1 {
             background: linear-gradient(to right, #2d4a5f 0%, #7fb3d5 30%, #a8d5f2 50%, #7fb3d5 70%, #2d4a5f 100%);
-            filter: drop-shadow(0 0 8px rgba(127, 179, 213, 0.8)) drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
+            filter: drop-shadow(0 0 10px rgba(127, 179, 213, 0.9)) drop-shadow(2px 2px 6px rgba(0,0,0,0.8));
         }
 
         .arrow.player1::before {
@@ -374,7 +350,7 @@
 
         .arrow.player2 {
             background: linear-gradient(to right, #5a2d47 0%, #c27ba0 30%, #e8b3d0 50%, #c27ba0 70%, #5a2d47 100%);
-            filter: drop-shadow(0 0 8px rgba(194, 123, 160, 0.8)) drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
+            filter: drop-shadow(0 0 10px rgba(194, 123, 160, 0.9)) drop-shadow(2px 2px 6px rgba(0,0,0,0.8));
         }
 
         .arrow.player2::before {
@@ -414,6 +390,7 @@
             display: none;
             z-index: 10;
             text-shadow: 0 0 10px rgba(212, 165, 116, 0.5), 2px 2px 8px rgba(0,0,0,0.9);
+            font-size: 1.2em;
         }
 
         .result-popup, .winner-popup, .highscore-popup {
@@ -525,7 +502,6 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        /* Highscores Panel */
         .highscore-btn {
             position: absolute;
             top: 20px;
@@ -637,6 +613,26 @@
             background: rgba(139, 69, 19, 0.5);
             border-color: rgba(139, 69, 19, 0.9);
         }
+
+        /* Timer countdown */
+        .countdown-timer {
+            position: absolute;
+            bottom: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            color: #d4a574;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(212, 165, 116, 0.8), 2px 2px 10px rgba(0,0,0,0.9);
+            display: none;
+            z-index: 10;
+            animation: pulse-timer 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-timer {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+        }
     </style>
 </head>
 <body>
@@ -650,9 +646,7 @@
             La verdadera diana está en tu interior.<br>
             一射絶命 - Un disparo, una vida."
         </p>
-        <button class="start-btn" id="startBtn">
-            <span>始める COMENZAR</span>
-        </button>
+        <button class="start-btn" id="startBtn">始める COMENZAR</button>
     </div>
 
     <!-- Contenedor del juego -->
@@ -692,6 +686,7 @@
         <div class="arrow" id="arrow2"></div>
 
         <!-- Barra de poder -->
+        <div class="countdown-timer" id="countdownTimer">3</div>
         <div class="power-label" id="powerLabel">張力 Tensión</div>
         <div class="power-bar" id="powerBar">
             <div class="power-fill" id="powerFill"></div>
@@ -732,8 +727,6 @@
         canvas.height = window.innerHeight;
 
         let hands;
-        let faceDetection;
-        let camera;
         let gameState = 'idle';
         let score = 0;
         let shots = 0;
@@ -741,7 +734,9 @@
         let leftHandPos = null;
         let rightHandPos = null;
         let arrowFlying = false;
-        let faceDetected = null;
+        let aimingStartTime = null;
+        let countdownInterval = null;
+        let canShoot = false;
 
         // Variables versus
         let versusMode = false;
@@ -829,7 +824,6 @@
         // Inicializar cámara y modelos
         async function initCamera() {
             try {
-                // MediaPipe Hands
                 hands = new Hands({
                     locateFile: (file) => {
                         return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
@@ -838,28 +832,13 @@
 
                 hands.setOptions({
                     maxNumHands: 2,
-                    modelComplexity: 0, // Reducido para mejor rendimiento
+                    modelComplexity: 0,
                     minDetectionConfidence: 0.5,
                     minTrackingConfidence: 0.5
                 });
 
                 hands.onResults(onResults);
 
-                // MediaPipe Face Detection (solo si es necesario)
-                faceDetection = new FaceDetection({
-                    locateFile: (file) => {
-                        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`;
-                    }
-                });
-
-                faceDetection.setOptions({
-                    model: 'short',
-                    minDetectionConfidence: 0.5
-                });
-
-                faceDetection.onResults(onFaceResults);
-
-                // Iniciar cámara
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: { width: 1280, height: 720 }
                 });
@@ -875,38 +854,16 @@
             }
         }
 
-        let frameCount = 0;
         async function processFrame() {
             if (video.readyState === 4) {
-                frameCount++;
-                
-                // Procesar manos en cada frame
                 await hands.send({ image: video });
-                
-                // Procesar cara cada 5 frames (optimización mejorada)
-                if (frameCount % 5 === 0) {
-                    await faceDetection.send({ image: video });
-                }
             }
             requestAnimationFrame(processFrame);
-        }
-
-        function onFaceResults(results) {
-            if (results.detections && results.detections.length > 0) {
-                faceDetected = results.detections[0];
-            } else {
-                faceDetected = null;
-            }
         }
 
         function onResults(results) {
             ctx.save();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Dibujar máscara de samurai si se detecta cara (simplificada)
-            if (faceDetected) {
-                drawSamuraiMask(faceDetected);
-            }
 
             if (results.multiHandLandmarks && results.multiHandedness) {
                 leftHandPos = null;
@@ -915,7 +872,6 @@
                 for (let i = 0; i < results.multiHandLandmarks.length; i++) {
                     const landmarks = results.multiHandLandmarks[i];
                     const handedness = results.multiHandedness[i].label;
-
                     const wrist = landmarks[0];
 
                     if (handedness === 'Left') {
@@ -923,12 +879,9 @@
                     } else {
                         rightHandPos = wrist;
                     }
-
-                    // Dibujar solo puntos clave de la mano
-                    drawHandPoints(landmarks);
                 }
 
-                // Lógica del juego
+                // Lógica del juego mejorada
                 if (leftHandPos && rightHandPos && !arrowFlying) {
                     const leftX = canvas.width - (leftHandPos.x * canvas.width);
                     const leftY = leftHandPos.y * canvas.height;
@@ -943,28 +896,46 @@
                     if (distance > 150) {
                         if (gameState === 'idle') {
                             gameState = 'aiming';
-                            updateStatus('照準 ¡Apuntando!');
+                            aimingStartTime = Date.now();
+                            canShoot = false;
+                            updateStatus('照準 ¡Apuntando! Mantén tensado 3 segundos');
                             document.getElementById('powerBar').style.display = 'block';
                             document.getElementById('powerLabel').style.display = 'block';
+                            document.getElementById('countdownTimer').style.display = 'block';
+                            startCountdown();
                         }
 
                         if (gameState === 'aiming') {
                             tensionPower = Math.min((distance - 150) / 3, 100);
                             document.getElementById('powerFill').style.width = tensionPower + '%';
 
-                            // Dibujar ARCO mejorado y destacado
+                            // Actualizar countdown
+                            const elapsed = (Date.now() - aimingStartTime) / 1000;
+                            const remaining = Math.max(0, 3 - elapsed);
+                            
+                            if (remaining <= 0 && !canShoot) {
+                                canShoot = true;
+                                document.getElementById('countdownTimer').style.display = 'none';
+                                updateStatus('✓ ¡LISTO! Suelta para disparar');
+                                playSound(600, 0.2, 'sine');
+                            }
+
+                            // Dibujar ARCO 2D mejorado
                             drawBow(leftX, leftY, rightX, rightY, tensionPower);
                         }
                     } else {
-                        if (gameState === 'aiming' && tensionPower > 20) {
-                            shootArrow();
-                        } else if (gameState === 'aiming') {
-                            gameState = 'idle';
-                            tensionPower = 0;
-                            document.getElementById('powerBar').style.display = 'none';
-                            document.getElementById('powerLabel').style.display = 'none';
-                            updateStatus('準備 Separa las manos más');
+                        if (gameState === 'aiming') {
+                            if (canShoot && tensionPower > 20) {
+                                shootArrow();
+                            } else {
+                                resetAiming();
+                                updateStatus('準備 Mantén tensado 3 segundos completos');
+                            }
                         }
+                    }
+                } else {
+                    if (gameState === 'aiming') {
+                        resetAiming();
                     }
                 }
             }
@@ -976,7 +947,41 @@
             }
         }
 
-        // ARCO MEJORADO Y MÁS VISIBLE
+        function startCountdown() {
+            let count = 3;
+            const timerElement = document.getElementById('countdownTimer');
+            
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    timerElement.textContent = count;
+                    playSound(400, 0.1, 'sine');
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+            }, 1000);
+        }
+
+        function resetAiming() {
+            gameState = 'idle';
+            tensionPower = 0;
+            canShoot = false;
+            aimingStartTime = null;
+            document.getElementById('powerBar').style.display = 'none';
+            document.getElementById('powerLabel').style.display = 'none';
+            document.getElementById('countdownTimer').style.display = 'none';
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+        }
+
+        // ARCO 2D SUPER MEJORADO Y VISIBLE
         function drawBow(leftX, leftY, rightX, rightY, power) {
             const midX = (leftX + rightX) / 2;
             const midY = (leftY + rightY) / 2;
@@ -987,34 +992,42 @@
             const perpX = -dy;
             const perpY = dx;
             const length = Math.sqrt(perpX * perpX + perpY * perpY);
-            const bowCurve = (power / 100) * 80; // Curvatura según tensión
+            const bowCurve = (power / 100) * 100; // Curvatura según tensión
             const controlX = midX + (perpX / length) * bowCurve;
             const controlY = midY + (perpY / length) * bowCurve;
 
-            // Dibujar cuerda del arco (línea tensada)
-            ctx.strokeStyle = 'rgba(212, 165, 116, 0.9)';
-            ctx.lineWidth = 4;
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = 'rgba(212, 165, 116, 0.8)';
+            // 1. CUERDA DEL ARCO (línea tensada) - MUY VISIBLE
+            ctx.strokeStyle = '#f5deb3';
+            ctx.lineWidth = 6;
+            ctx.shadowBlur = 25;
+            ctx.shadowColor = 'rgba(245, 222, 179, 1)';
             ctx.beginPath();
             ctx.moveTo(leftX, leftY);
             ctx.lineTo(rightX, rightY);
             ctx.stroke();
 
-            // Dibujar arco (curva)
-            ctx.strokeStyle = 'rgba(139, 69, 19, 1)';
-            ctx.lineWidth = 8;
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = 'rgba(139, 69, 19, 0.8)';
+            // 2. ARCO (curva principal) - GRUESO Y DESTACADO
+            const gradient = ctx.createLinearGradient(leftX, leftY, rightX, rightY);
+            gradient.addColorStop(0, '#5a2d0c');
+            gradient.addColorStop(0.3, '#8b4513');
+            gradient.addColorStop(0.5, '#d4a574');
+            gradient.addColorStop(0.7, '#8b4513');
+            gradient.addColorStop(1, '#5a2d0c');
+            
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = 12;
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = 'rgba(139, 69, 19, 0.9)';
+            ctx.lineCap = 'round';
             ctx.beginPath();
             ctx.moveTo(leftX, leftY);
             ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
             ctx.stroke();
 
-            // Detalles del arco (línea interna)
-            ctx.strokeStyle = 'rgba(212, 165, 116, 0.6)';
-            ctx.lineWidth = 3;
-            ctx.shadowBlur = 10;
+            // 3. Borde interior del arco (detalle)
+            ctx.strokeStyle = 'rgba(212, 165, 116, 0.7)';
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 15;
             ctx.beginPath();
             ctx.moveTo(leftX, leftY);
             ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
@@ -1022,83 +1035,101 @@
 
             ctx.shadowBlur = 0;
 
-            // Dibujar puntos de agarre brillantes
-            const gradient1 = ctx.createRadialGradient(leftX, leftY, 0, leftX, leftY, 20);
-            gradient1.addColorStop(0, 'rgba(245, 222, 179, 1)');
-            gradient1.addColorStop(0.5, 'rgba(212, 165, 116, 0.8)');
-            gradient1.addColorStop(1, 'rgba(212, 165, 116, 0)');
+            // 4. PUNTOS DE AGARRE - BRILLANTES Y DESTACADOS
+            // Mano izquierda
+            const gradientLeft = ctx.createRadialGradient(leftX, leftY, 0, leftX, leftY, 30);
+            gradientLeft.addColorStop(0, 'rgba(255, 245, 220, 1)');
+            gradientLeft.addColorStop(0.4, 'rgba(245, 222, 179, 0.9)');
+            gradientLeft.addColorStop(0.7, 'rgba(212, 165, 116, 0.6)');
+            gradientLeft.addColorStop(1, 'rgba(212, 165, 116, 0)');
             
-            const gradient2 = ctx.createRadialGradient(rightX, rightY, 0, rightX, rightY, 20);
-            gradient2.addColorStop(0, 'rgba(245, 222, 179, 1)');
-            gradient2.addColorStop(0.5, 'rgba(212, 165, 116, 0.8)');
-            gradient2.addColorStop(1, 'rgba(212, 165, 116, 0)');
-
-            ctx.shadowBlur = 25;
-            ctx.shadowColor = 'rgba(245, 222, 179, 1)';
-            
-            ctx.fillStyle = gradient1;
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = 'rgba(255, 245, 220, 1)';
+            ctx.fillStyle = gradientLeft;
             ctx.beginPath();
-            ctx.arc(leftX, leftY, 15, 0, Math.PI * 2);
+            ctx.arc(leftX, leftY, 20, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.fillStyle = gradient2;
+            // Mano derecha
+            const gradientRight = ctx.createRadialGradient(rightX, rightY, 0, rightX, rightY, 30);
+            gradientRight.addColorStop(0, 'rgba(255, 245, 220, 1)');
+            gradientRight.addColorStop(0.4, 'rgba(245, 222, 179, 0.9)');
+            gradientRight.addColorStop(0.7, 'rgba(212, 165, 116, 0.6)');
+            gradientRight.addColorStop(1, 'rgba(212, 165, 116, 0)');
+            
+            ctx.fillStyle = gradientRight;
             ctx.beginPath();
-            ctx.arc(rightX, rightY, 15, 0, Math.PI * 2);
+            ctx.arc(rightX, rightY, 20, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.shadowBlur = 0;
 
-            // Dibujar flecha en el arco cuando está tensado
+            // 5. FLECHA EN EL ARCO - MUY VISIBLE
             if (power > 20) {
-                const arrowLength = 60;
+                const arrowLength = 80;
                 const angle = Math.atan2(rightY - leftY, rightX - leftX);
-                const arrowX = rightX - Math.cos(angle) * 20;
-                const arrowY = rightY - Math.sin(angle) * 20;
+                const arrowX = rightX - Math.cos(angle) * 25;
+                const arrowY = rightY - Math.sin(angle) * 25;
                 const arrowEndX = arrowX - Math.cos(angle) * arrowLength;
                 const arrowEndY = arrowY - Math.sin(angle) * arrowLength;
 
-                // Cuerpo de la flecha
-                ctx.strokeStyle = 'rgba(212, 165, 116, 1)';
-                ctx.lineWidth = 5;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = 'rgba(212, 165, 116, 0.9)';
+                // Cuerpo de la flecha - GRUESO
+                const arrowGradient = ctx.createLinearGradient(arrowEndX, arrowEndY, arrowX, arrowY);
+                arrowGradient.addColorStop(0, '#8b4513');
+                arrowGradient.addColorStop(0.3, '#d4a574');
+                arrowGradient.addColorStop(0.5, '#f5deb3');
+                arrowGradient.addColorStop(0.7, '#d4a574');
+                arrowGradient.addColorStop(1, '#8b4513');
+                
+                ctx.strokeStyle = arrowGradient;
+                ctx.lineWidth = 7;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = 'rgba(245, 222, 179, 1)';
+                ctx.lineCap = 'round';
                 ctx.beginPath();
                 ctx.moveTo(arrowEndX, arrowEndY);
                 ctx.lineTo(arrowX, arrowY);
                 ctx.stroke();
 
-                // Punta de flecha
-                ctx.fillStyle = 'rgba(139, 69, 19, 1)';
+                // Punta de flecha - TRIANGULAR BRILLANTE
+                ctx.fillStyle = '#5a2d0c';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = 'rgba(90, 45, 12, 1)';
                 ctx.beginPath();
-                const tipSize = 12;
+                const tipSize = 16;
                 ctx.moveTo(arrowX, arrowY);
                 ctx.lineTo(
-                    arrowX - Math.cos(angle + 0.3) * tipSize,
-                    arrowY - Math.sin(angle + 0.3) * tipSize
+                    arrowX - Math.cos(angle + 0.35) * tipSize,
+                    arrowY - Math.sin(angle + 0.35) * tipSize
                 );
                 ctx.lineTo(
-                    arrowX - Math.cos(angle - 0.3) * tipSize,
-                    arrowY - Math.sin(angle - 0.3) * tipSize
+                    arrowX - Math.cos(angle - 0.35) * tipSize,
+                    arrowY - Math.sin(angle - 0.35) * tipSize
                 );
                 ctx.closePath();
                 ctx.fill();
 
-                // Plumas
-                ctx.strokeStyle = 'rgba(212, 165, 116, 0.7)';
-                ctx.lineWidth = 3;
-                const featherSize = 8;
+                // Plumas - VISIBLES
+                ctx.strokeStyle = 'rgba(212, 165, 116, 0.9)';
+                ctx.lineWidth = 4;
+                ctx.shadowBlur = 10;
+                const featherSize = 12;
+                
+                // Pluma superior
                 ctx.beginPath();
                 ctx.moveTo(arrowEndX, arrowEndY);
                 ctx.lineTo(
-                    arrowEndX + Math.cos(angle + 1.5) * featherSize,
-                    arrowEndY + Math.sin(angle + 1.5) * featherSize
+                    arrowEndX + Math.cos(angle + 1.4) * featherSize,
+                    arrowEndY + Math.sin(angle + 1.4) * featherSize
                 );
                 ctx.stroke();
+                
+                // Pluma inferior
                 ctx.beginPath();
                 ctx.moveTo(arrowEndX, arrowEndY);
                 ctx.lineTo(
-                    arrowEndX + Math.cos(angle - 1.5) * featherSize,
-                    arrowEndY + Math.sin(angle - 1.5) * featherSize
+                    arrowEndX + Math.cos(angle - 1.4) * featherSize,
+                    arrowEndY + Math.sin(angle - 1.4) * featherSize
                 );
                 ctx.stroke();
 
@@ -1106,98 +1137,27 @@
             }
         }
 
-        // Simplificar dibujo de manos - solo puntos clave
-        function drawHandPoints(landmarks) {
-            // Solo dibujar puntos importantes
-            const keyPoints = [0, 4, 8, 12, 16, 20]; // Muñeca y puntas de dedos
-            
-            keyPoints.forEach(index => {
-                const landmark = landmarks[index];
-                const x = canvas.width - (landmark.x * canvas.width);
-                const y = landmark.y * canvas.height;
-                
-                ctx.fillStyle = index === 0 ? 'rgba(245, 222, 179, 0.8)' : 'rgba(212, 165, 116, 0.6)';
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = 'rgba(212, 165, 116, 0.5)';
-                ctx.beginPath();
-                ctx.arc(x, y, index === 0 ? 8 : 5, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            ctx.shadowBlur = 0;
-        }
-
-        function drawSamuraiMask(face) {
-            const bbox = face.boundingBox;
-            const x = (1 - bbox.xCenter) * canvas.width;
-            const y = bbox.yCenter * canvas.height;
-            const width = bbox.width * canvas.width * 1.3;
-            const height = bbox.height * canvas.height * 1.5;
-
-            ctx.save();
-            ctx.translate(x, y);
-            
-            // Casco simplificado
-            ctx.fillStyle = 'rgba(139, 69, 19, 0.6)';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = 'rgba(212, 165, 116, 0.4)';
-            ctx.beginPath();
-            ctx.ellipse(0, -height * 0.2, width * 0.5, height * 0.4, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Cuernos
-            ctx.fillStyle = 'rgba(90, 45, 12, 0.7)';
-            ctx.beginPath();
-            ctx.moveTo(-width * 0.4, -height * 0.3);
-            ctx.lineTo(-width * 0.5, -height * 0.5);
-            ctx.lineTo(-width * 0.3, -height * 0.4);
-            ctx.closePath();
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.moveTo(width * 0.4, -height * 0.3);
-            ctx.lineTo(width * 0.5, -height * 0.5);
-            ctx.lineTo(width * 0.3, -height * 0.4);
-            ctx.closePath();
-            ctx.fill();
-
-            // Máscara facial
-            ctx.fillStyle = 'rgba(212, 165, 116, 0.5)';
-            ctx.beginPath();
-            ctx.moveTo(-width * 0.35, 0);
-            ctx.quadraticCurveTo(-width * 0.4, height * 0.2, -width * 0.3, height * 0.3);
-            ctx.lineTo(width * 0.3, height * 0.3);
-            ctx.quadraticCurveTo(width * 0.4, height * 0.2, width * 0.35, 0);
-            ctx.closePath();
-            ctx.fill();
-
-            // Símbolo
-            ctx.font = `${width * 0.15}px "Noto Serif JP"`;
-            ctx.fillStyle = 'rgba(139, 69, 19, 0.7)';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('侍', 0, -height * 0.2);
-
-            ctx.shadowBlur = 0;
-            ctx.restore();
-        }
-
         // Funciones de sonido
         function playSound(frequency, duration, type = 'sine') {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
 
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
 
-            oscillator.frequency.value = frequency;
-            oscillator.type = type;
+                oscillator.frequency.value = frequency;
+                oscillator.type = type;
 
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
 
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration);
+            } catch (e) {
+                console.log('Audio not available');
+            }
         }
 
         function playShootSound() {
@@ -1243,9 +1203,8 @@
         });
 
         function resetGame() {
-            gameState = 'idle';
+            resetAiming();
             arrowFlying = false;
-            tensionPower = 0;
             
             if (versusMode) {
                 score1 = 0;
@@ -1268,8 +1227,6 @@
             document.getElementById('shots').textContent = '0';
             document.getElementById('arrow').style.display = 'none';
             document.getElementById('arrow2').style.display = 'none';
-            document.getElementById('powerBar').style.display = 'none';
-            document.getElementById('powerLabel').style.display = 'none';
             document.getElementById('resultPopup').classList.remove('show');
             document.getElementById('winnerPopup').classList.remove('show');
         }
@@ -1290,8 +1247,7 @@
             arrowFlying = true;
             shots++;
             document.getElementById('shots').textContent = shots;
-            document.getElementById('powerBar').style.display = 'none';
-            document.getElementById('powerLabel').style.display = 'none';
+            resetAiming();
 
             playShootSound();
             showZenMessage('放つ ¡Dispara!');
@@ -1481,7 +1437,6 @@
         document.getElementById('continueBtn').addEventListener('click', () => {
             document.getElementById('resultPopup').classList.remove('show');
             gameState = 'idle';
-            tensionPower = 0;
             
             if (versusMode) {
                 currentPlayer = currentPlayer === 1 ? 2 : 1;
