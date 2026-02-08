@@ -1,4 +1,4 @@
-           <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -209,8 +209,8 @@
             height: 100%;
             object-fit: cover;
             transform: scaleX(-1);
-            opacity: 0.85;
-            filter: sepia(0.7) contrast(1.2) brightness(0.9);
+            opacity: 0.7;
+            filter: sepia(0.6) contrast(1.1) brightness(0.85);
         }
 
         #canvas {
@@ -220,32 +220,6 @@
             width: 100%;
             height: 100%;
             z-index: 2;
-        }
-
-        /* Partículas flotantes */
-        .particle {
-            position: absolute;
-            background: rgba(212, 165, 116, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float-particle 15s linear infinite;
-        }
-
-        @keyframes float-particle {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px) rotate(360deg);
-                opacity: 0;
-            }
         }
 
         .hud {
@@ -347,41 +321,51 @@
 
         .arrow {
             position: absolute;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(to right, #8b4513 0%, #d4a574 50%, #5a2d0c 100%);
+            width: 80px;
+            height: 6px;
+            background: linear-gradient(to right, #5a2d0c 0%, #d4a574 30%, #f5deb3 50%, #d4a574 70%, #5a2d0c 100%);
             display: none;
             z-index: 5;
             transform-origin: left center;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 8px rgba(212, 165, 116, 0.8)) drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
+            box-shadow: 0 0 15px rgba(212, 165, 116, 0.6);
         }
 
         .arrow::before {
             content: '';
             position: absolute;
-            right: -10px;
+            right: -15px;
             top: 50%;
             transform: translateY(-50%);
             width: 0;
             height: 0;
-            border-left: 12px solid #5a2d0c;
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
+            border-left: 20px solid #5a2d0c;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            filter: drop-shadow(0 0 5px rgba(90, 45, 12, 0.8));
         }
 
         .arrow::after {
             content: '';
             position: absolute;
-            left: 0;
+            left: -5px;
             top: 50%;
             transform: translateY(-50%);
-            width: 15px;
-            height: 8px;
-            background: linear-gradient(to right, transparent, #d4a574, transparent);
+            width: 20px;
+            height: 12px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(212, 165, 116, 0.6) 20%, 
+                rgba(212, 165, 116, 0.8) 50%, 
+                rgba(212, 165, 116, 0.6) 80%, 
+                transparent 100%
+            );
+            border-radius: 50%;
         }
 
         .arrow.player1 {
-            background: linear-gradient(to right, #4a7ba7 0%, #7fb3d5 50%, #2d4a5f 100%);
+            background: linear-gradient(to right, #2d4a5f 0%, #7fb3d5 30%, #a8d5f2 50%, #7fb3d5 70%, #2d4a5f 100%);
+            filter: drop-shadow(0 0 8px rgba(127, 179, 213, 0.8)) drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
         }
 
         .arrow.player1::before {
@@ -389,7 +373,8 @@
         }
 
         .arrow.player2 {
-            background: linear-gradient(to right, #8b4570 0%, #c27ba0 50%, #5a2d47 100%);
+            background: linear-gradient(to right, #5a2d47 0%, #c27ba0 30%, #e8b3d0 50%, #c27ba0 70%, #5a2d47 100%);
+            filter: drop-shadow(0 0 8px rgba(194, 123, 160, 0.8)) drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
         }
 
         .arrow.player2::before {
@@ -652,20 +637,9 @@
             background: rgba(139, 69, 19, 0.5);
             border-color: rgba(139, 69, 19, 0.9);
         }
-
-        /* Samurai Mask Overlay */
-        .samurai-mask {
-            position: absolute;
-            pointer-events: none;
-            z-index: 4;
-            filter: drop-shadow(0 0 10px rgba(212, 165, 116, 0.5));
-        }
     </style>
 </head>
 <body>
-    <!-- Partículas flotantes -->
-    <div id="particles"></div>
-
     <!-- Pantalla de introducción -->
     <div class="intro-screen" id="introScreen">
         <div class="zen-circle"></div>
@@ -777,24 +751,6 @@
         let vsRounds = 5;
         let vsCurrentRound = 0;
 
-        // Crear partículas flotantes
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const size = Math.random() * 4 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        createParticles();
-
         // Highscores management
         function getHighscores() {
             const scores = localStorage.getItem('samuraiArcheryScores');
@@ -810,7 +766,7 @@
             };
             scores.push(newScore);
             scores.sort((a, b) => b.score - a.score);
-            scores.splice(10); // Keep only top 10
+            scores.splice(10);
             localStorage.setItem('samuraiArcheryScores', JSON.stringify(scores));
         }
 
@@ -882,14 +838,14 @@
 
                 hands.setOptions({
                     maxNumHands: 2,
-                    modelComplexity: 1,
+                    modelComplexity: 0, // Reducido para mejor rendimiento
                     minDetectionConfidence: 0.5,
                     minTrackingConfidence: 0.5
                 });
 
                 hands.onResults(onResults);
 
-                // MediaPipe Face Detection
+                // MediaPipe Face Detection (solo si es necesario)
                 faceDetection = new FaceDetection({
                     locateFile: (file) => {
                         return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`;
@@ -927,8 +883,8 @@
                 // Procesar manos en cada frame
                 await hands.send({ image: video });
                 
-                // Procesar cara cada 3 frames (optimización)
-                if (frameCount % 3 === 0) {
+                // Procesar cara cada 5 frames (optimización mejorada)
+                if (frameCount % 5 === 0) {
                     await faceDetection.send({ image: video });
                 }
             }
@@ -947,7 +903,7 @@
             ctx.save();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Dibujar máscara de samurai si se detecta cara
+            // Dibujar máscara de samurai si se detecta cara (simplificada)
             if (faceDetected) {
                 drawSamuraiMask(faceDetected);
             }
@@ -968,8 +924,8 @@
                         rightHandPos = wrist;
                     }
 
-                    // Dibujar puntos de la mano con estilo vintage
-                    drawHandLandmarks(landmarks);
+                    // Dibujar solo puntos clave de la mano
+                    drawHandPoints(landmarks);
                 }
 
                 // Lógica del juego
@@ -996,28 +952,8 @@
                             tensionPower = Math.min((distance - 150) / 3, 100);
                             document.getElementById('powerFill').style.width = tensionPower + '%';
 
-                            // Dibujar línea de tensión con estilo vintage
-                            ctx.strokeStyle = 'rgba(212, 165, 116, 0.8)';
-                            ctx.lineWidth = 3;
-                            ctx.shadowBlur = 10;
-                            ctx.shadowColor = 'rgba(212, 165, 116, 0.5)';
-                            ctx.beginPath();
-                            ctx.moveTo(leftX, leftY);
-                            ctx.lineTo(rightX, rightY);
-                            ctx.stroke();
-                            ctx.shadowBlur = 0;
-
-                            // Dibujar puntos de mano con efecto glow
-                            ctx.fillStyle = 'rgba(212, 165, 116, 0.9)';
-                            ctx.shadowBlur = 15;
-                            ctx.shadowColor = 'rgba(212, 165, 116, 0.8)';
-                            ctx.beginPath();
-                            ctx.arc(leftX, leftY, 12, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.beginPath();
-                            ctx.arc(rightX, rightY, 12, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.shadowBlur = 0;
+                            // Dibujar ARCO mejorado y destacado
+                            drawBow(leftX, leftY, rightX, rightY, tensionPower);
                         }
                     } else {
                         if (gameState === 'aiming' && tensionPower > 20) {
@@ -1040,6 +976,156 @@
             }
         }
 
+        // ARCO MEJORADO Y MÁS VISIBLE
+        function drawBow(leftX, leftY, rightX, rightY, power) {
+            const midX = (leftX + rightX) / 2;
+            const midY = (leftY + rightY) / 2;
+            
+            // Calcular punto de control para curva del arco
+            const dx = rightX - leftX;
+            const dy = rightY - leftY;
+            const perpX = -dy;
+            const perpY = dx;
+            const length = Math.sqrt(perpX * perpX + perpY * perpY);
+            const bowCurve = (power / 100) * 80; // Curvatura según tensión
+            const controlX = midX + (perpX / length) * bowCurve;
+            const controlY = midY + (perpY / length) * bowCurve;
+
+            // Dibujar cuerda del arco (línea tensada)
+            ctx.strokeStyle = 'rgba(212, 165, 116, 0.9)';
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(212, 165, 116, 0.8)';
+            ctx.beginPath();
+            ctx.moveTo(leftX, leftY);
+            ctx.lineTo(rightX, rightY);
+            ctx.stroke();
+
+            // Dibujar arco (curva)
+            ctx.strokeStyle = 'rgba(139, 69, 19, 1)';
+            ctx.lineWidth = 8;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = 'rgba(139, 69, 19, 0.8)';
+            ctx.beginPath();
+            ctx.moveTo(leftX, leftY);
+            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
+            ctx.stroke();
+
+            // Detalles del arco (línea interna)
+            ctx.strokeStyle = 'rgba(212, 165, 116, 0.6)';
+            ctx.lineWidth = 3;
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.moveTo(leftX, leftY);
+            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+
+            // Dibujar puntos de agarre brillantes
+            const gradient1 = ctx.createRadialGradient(leftX, leftY, 0, leftX, leftY, 20);
+            gradient1.addColorStop(0, 'rgba(245, 222, 179, 1)');
+            gradient1.addColorStop(0.5, 'rgba(212, 165, 116, 0.8)');
+            gradient1.addColorStop(1, 'rgba(212, 165, 116, 0)');
+            
+            const gradient2 = ctx.createRadialGradient(rightX, rightY, 0, rightX, rightY, 20);
+            gradient2.addColorStop(0, 'rgba(245, 222, 179, 1)');
+            gradient2.addColorStop(0.5, 'rgba(212, 165, 116, 0.8)');
+            gradient2.addColorStop(1, 'rgba(212, 165, 116, 0)');
+
+            ctx.shadowBlur = 25;
+            ctx.shadowColor = 'rgba(245, 222, 179, 1)';
+            
+            ctx.fillStyle = gradient1;
+            ctx.beginPath();
+            ctx.arc(leftX, leftY, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = gradient2;
+            ctx.beginPath();
+            ctx.arc(rightX, rightY, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+
+            // Dibujar flecha en el arco cuando está tensado
+            if (power > 20) {
+                const arrowLength = 60;
+                const angle = Math.atan2(rightY - leftY, rightX - leftX);
+                const arrowX = rightX - Math.cos(angle) * 20;
+                const arrowY = rightY - Math.sin(angle) * 20;
+                const arrowEndX = arrowX - Math.cos(angle) * arrowLength;
+                const arrowEndY = arrowY - Math.sin(angle) * arrowLength;
+
+                // Cuerpo de la flecha
+                ctx.strokeStyle = 'rgba(212, 165, 116, 1)';
+                ctx.lineWidth = 5;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = 'rgba(212, 165, 116, 0.9)';
+                ctx.beginPath();
+                ctx.moveTo(arrowEndX, arrowEndY);
+                ctx.lineTo(arrowX, arrowY);
+                ctx.stroke();
+
+                // Punta de flecha
+                ctx.fillStyle = 'rgba(139, 69, 19, 1)';
+                ctx.beginPath();
+                const tipSize = 12;
+                ctx.moveTo(arrowX, arrowY);
+                ctx.lineTo(
+                    arrowX - Math.cos(angle + 0.3) * tipSize,
+                    arrowY - Math.sin(angle + 0.3) * tipSize
+                );
+                ctx.lineTo(
+                    arrowX - Math.cos(angle - 0.3) * tipSize,
+                    arrowY - Math.sin(angle - 0.3) * tipSize
+                );
+                ctx.closePath();
+                ctx.fill();
+
+                // Plumas
+                ctx.strokeStyle = 'rgba(212, 165, 116, 0.7)';
+                ctx.lineWidth = 3;
+                const featherSize = 8;
+                ctx.beginPath();
+                ctx.moveTo(arrowEndX, arrowEndY);
+                ctx.lineTo(
+                    arrowEndX + Math.cos(angle + 1.5) * featherSize,
+                    arrowEndY + Math.sin(angle + 1.5) * featherSize
+                );
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(arrowEndX, arrowEndY);
+                ctx.lineTo(
+                    arrowEndX + Math.cos(angle - 1.5) * featherSize,
+                    arrowEndY + Math.sin(angle - 1.5) * featherSize
+                );
+                ctx.stroke();
+
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        // Simplificar dibujo de manos - solo puntos clave
+        function drawHandPoints(landmarks) {
+            // Solo dibujar puntos importantes
+            const keyPoints = [0, 4, 8, 12, 16, 20]; // Muñeca y puntas de dedos
+            
+            keyPoints.forEach(index => {
+                const landmark = landmarks[index];
+                const x = canvas.width - (landmark.x * canvas.width);
+                const y = landmark.y * canvas.height;
+                
+                ctx.fillStyle = index === 0 ? 'rgba(245, 222, 179, 0.8)' : 'rgba(212, 165, 116, 0.6)';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(212, 165, 116, 0.5)';
+                ctx.beginPath();
+                ctx.arc(x, y, index === 0 ? 8 : 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.shadowBlur = 0;
+        }
+
         function drawSamuraiMask(face) {
             const bbox = face.boundingBox;
             const x = (1 - bbox.xCenter) * canvas.width;
@@ -1048,22 +1134,18 @@
             const height = bbox.height * canvas.height * 1.5;
 
             ctx.save();
-
-            // Dibujar máscara de samurai estilizada
             ctx.translate(x, y);
             
-            // Fondo de la máscara
-            ctx.fillStyle = 'rgba(139, 69, 19, 0.7)';
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = 'rgba(212, 165, 116, 0.5)';
-            
-            // Forma de la máscara (casco samurai simplificado)
+            // Casco simplificado
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.6)';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(212, 165, 116, 0.4)';
             ctx.beginPath();
             ctx.ellipse(0, -height * 0.2, width * 0.5, height * 0.4, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Cuernos del casco
-            ctx.fillStyle = 'rgba(90, 45, 12, 0.8)';
+            // Cuernos
+            ctx.fillStyle = 'rgba(90, 45, 12, 0.7)';
             ctx.beginPath();
             ctx.moveTo(-width * 0.4, -height * 0.3);
             ctx.lineTo(-width * 0.5, -height * 0.5);
@@ -1078,8 +1160,8 @@
             ctx.closePath();
             ctx.fill();
 
-            // Máscara facial (menpo)
-            ctx.fillStyle = 'rgba(212, 165, 116, 0.6)';
+            // Máscara facial
+            ctx.fillStyle = 'rgba(212, 165, 116, 0.5)';
             ctx.beginPath();
             ctx.moveTo(-width * 0.35, 0);
             ctx.quadraticCurveTo(-width * 0.4, height * 0.2, -width * 0.3, height * 0.3);
@@ -1088,72 +1170,15 @@
             ctx.closePath();
             ctx.fill();
 
-            // Detalles de la máscara
-            ctx.strokeStyle = 'rgba(90, 45, 12, 0.9)';
-            ctx.lineWidth = 2;
-            ctx.shadowBlur = 5;
-            
-            // Líneas decorativas
-            for (let i = -2; i <= 2; i++) {
-                ctx.beginPath();
-                ctx.moveTo(i * width * 0.08, height * 0.05);
-                ctx.lineTo(i * width * 0.08, height * 0.25);
-                ctx.stroke();
-            }
-
-            // Símbolo japonés en el centro
+            // Símbolo
             ctx.font = `${width * 0.15}px "Noto Serif JP"`;
-            ctx.fillStyle = 'rgba(139, 69, 19, 0.8)';
+            ctx.fillStyle = 'rgba(139, 69, 19, 0.7)';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('侍', 0, -height * 0.2);
 
             ctx.shadowBlur = 0;
             ctx.restore();
-        }
-
-        function drawHandLandmarks(landmarks) {
-            // Dibujar conexiones de la mano con estilo vintage
-            const connections = [
-                [0,1],[1,2],[2,3],[3,4], // Pulgar
-                [0,5],[5,6],[6,7],[7,8], // Índice
-                [0,9],[9,10],[10,11],[11,12], // Medio
-                [0,13],[13,14],[14,15],[15,16], // Anular
-                [0,17],[17,18],[18,19],[19,20], // Meñique
-                [5,9],[9,13],[13,17] // Palma
-            ];
-
-            ctx.strokeStyle = 'rgba(212, 165, 116, 0.5)';
-            ctx.lineWidth = 2;
-            ctx.shadowBlur = 5;
-            ctx.shadowColor = 'rgba(212, 165, 116, 0.3)';
-
-            connections.forEach(([start, end]) => {
-                const startPoint = landmarks[start];
-                const endPoint = landmarks[end];
-                const startX = canvas.width - (startPoint.x * canvas.width);
-                const startY = startPoint.y * canvas.height;
-                const endX = canvas.width - (endPoint.x * canvas.width);
-                const endY = endPoint.y * canvas.height;
-
-                ctx.beginPath();
-                ctx.moveTo(startX, startY);
-                ctx.lineTo(endX, endY);
-                ctx.stroke();
-            });
-
-            ctx.shadowBlur = 0;
-
-            // Dibujar puntos de landmarks
-            landmarks.forEach((landmark, index) => {
-                const x = canvas.width - (landmark.x * canvas.width);
-                const y = landmark.y * canvas.height;
-                
-                ctx.fillStyle = index === 0 ? 'rgba(245, 222, 179, 0.9)' : 'rgba(212, 165, 116, 0.8)';
-                ctx.beginPath();
-                ctx.arc(x, y, index === 0 ? 6 : 4, 0, Math.PI * 2);
-                ctx.fill();
-            });
         }
 
         // Funciones de sonido
@@ -1231,7 +1256,6 @@
                 document.getElementById('score2').textContent = '桃 Jugador 2: 0';
                 updateStatus('青 Jugador 1 - 準備 Comienza');
             } else {
-                // Guardar highscore si es mayor que 0
                 if (score > 0) {
                     saveHighscore(score);
                 }
@@ -1275,10 +1299,11 @@
             const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
             const arrow = document.getElementById(arrowId);
             
+            arrow.classList.remove('player1', 'player2');
             if (versusMode && currentPlayer === 2) {
                 arrow.classList.add('player2');
             } else if (versusMode && currentPlayer === 1) {
-                document.getElementById('arrow').classList.add('player1');
+                arrow.classList.add('player1');
             }
 
             const rightX = canvas.width - (rightHandPos.x * canvas.width);
