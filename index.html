@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Noto Serif JP', serif;
-            background: #2a1f16;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             overflow: hidden;
             height: 100vh;
         }
@@ -28,13 +28,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #2a1f16 0%, #1a1108 50%, #0f0a05 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 10000;
-            color: #d4a574;
+            color: #e94560;
         }
 
         .intro-screen.hidden {
@@ -44,7 +44,7 @@
         .zen-circle {
             width: 200px;
             height: 200px;
-            border: 3px solid rgba(212, 165, 116, 0.6);
+            border: 3px solid rgba(233, 69, 96, 0.6);
             border-radius: 50%;
             position: relative;
             margin-bottom: 40px;
@@ -63,7 +63,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 80px;
-            color: rgba(212, 165, 116, 0.8);
+            color: rgba(233, 69, 96, 0.8);
         }
 
         .intro-title {
@@ -75,15 +75,28 @@
 
         .intro-subtitle {
             font-size: 1em;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             opacity: 0.8;
             letter-spacing: 8px;
         }
 
+        .intro-instructions {
+            max-width: 500px;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .intro-instructions p {
+            margin-bottom: 10px;
+        }
+
         .start-btn {
-            background: rgba(212, 165, 116, 0.1);
-            color: #d4a574;
-            border: 2px solid rgba(212, 165, 116, 0.6);
+            background: rgba(233, 69, 96, 0.2);
+            color: #e94560;
+            border: 2px solid rgba(233, 69, 96, 0.6);
             padding: 15px 50px;
             font-size: 1.1em;
             cursor: pointer;
@@ -93,7 +106,7 @@
         }
 
         .start-btn:hover {
-            background: rgba(212, 165, 116, 0.15);
+            background: rgba(233, 69, 96, 0.3);
             transform: scale(1.05);
         }
 
@@ -116,8 +129,8 @@
             height: 100%;
             object-fit: cover;
             transform: scaleX(-1);
-            opacity: 0.6;
-            filter: sepia(0.6) contrast(1.1) brightness(0.85);
+            opacity: 0.3;
+            filter: blur(3px);
         }
 
         #canvas {
@@ -134,7 +147,7 @@
             top: 20px;
             left: 20px;
             z-index: 10;
-            color: #d4a574;
+            color: #e94560;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
         }
 
@@ -146,33 +159,33 @@
 
         .status {
             font-size: 1em;
-            background: rgba(42, 31, 22, 0.8);
+            background: rgba(26, 26, 46, 0.8);
             padding: 8px 16px;
-            border-left: 3px solid rgba(212, 165, 116, 0.6);
+            border-left: 3px solid rgba(233, 69, 96, 0.6);
             margin-bottom: 8px;
         }
 
         .target {
             position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
+            right: 15%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 250px;
             z-index: 1;
         }
 
         .target-ring {
             position: absolute;
             border-radius: 50%;
-            border: 2px solid;
+            border: 3px solid;
         }
 
         .target-ring:nth-child(1) {
             width: 100%;
             height: 100%;
-            background: #8B0000;
-            border-color: #5A0000;
+            background: #2C3E50;
+            border-color: #1a252f;
         }
 
         .target-ring:nth-child(2) {
@@ -180,8 +193,8 @@
             height: 80%;
             top: 10%;
             left: 10%;
-            background: #FFD700;
-            border-color: #B8860B;
+            background: #34495E;
+            border-color: #2C3E50;
         }
 
         .target-ring:nth-child(3) {
@@ -189,8 +202,8 @@
             height: 60%;
             top: 20%;
             left: 20%;
-            background: #4169E1;
-            border-color: #1E3A8A;
+            background: #5DADE2;
+            border-color: #3498DB;
         }
 
         .target-ring:nth-child(4) {
@@ -198,8 +211,8 @@
             height: 40%;
             top: 30%;
             left: 30%;
-            background: #DC143C;
-            border-color: #8B0000;
+            background: #E74C3C;
+            border-color: #C0392B;
         }
 
         .target-ring:nth-child(5) {
@@ -207,45 +220,17 @@
             height: 20%;
             top: 40%;
             left: 40%;
-            background: #FFD700;
-            border-color: #B8860B;
+            background: #F39C12;
+            border-color: #D68910;
         }
 
-        .arrow {
+        .arrow-flying {
             position: absolute;
-            width: 100px;
-            height: 8px;
+            width: 80px;
+            height: 5px;
             display: none;
             z-index: 5;
             pointer-events: none;
-            filter: drop-shadow(0 0 10px rgba(220, 20, 60, 0.8));
-        }
-
-        .arrow::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #E0E0E0 0%, #DC143C 20%, #DC143C 80%, #8B0000 100%);
-            box-shadow: 0 0 15px rgba(220, 20, 60, 0.6), 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .arrow::before {
-            content: '';
-            position: absolute;
-            left: -18px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            border-right: 25px solid #E0E0E0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 2px 3px rgba(0,0,0,0.4));
-            z-index: 2;
         }
 
         .zen-message {
@@ -253,10 +238,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(42, 31, 22, 0.95);
-            color: #d4a574;
+            background: rgba(26, 26, 46, 0.95);
+            color: #e94560;
             padding: 30px 60px;
-            border: 2px solid rgba(212, 165, 116, 0.6);
+            border: 2px solid rgba(233, 69, 96, 0.6);
             font-size: 1.5em;
             z-index: 100;
             opacity: 0;
@@ -275,10 +260,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(42, 31, 22, 0.98);
-            color: #d4a574;
+            background: rgba(26, 26, 46, 0.98);
+            color: #e94560;
             padding: 40px 60px;
-            border: 3px solid rgba(212, 165, 116, 0.6);
+            border: 3px solid rgba(233, 69, 96, 0.6);
             z-index: 200;
             opacity: 0;
             transition: all 0.3s;
@@ -312,9 +297,9 @@
         }
 
         .continue-btn {
-            background: rgba(212, 165, 116, 0.1);
-            color: #d4a574;
-            border: 2px solid rgba(212, 165, 116, 0.6);
+            background: rgba(233, 69, 96, 0.2);
+            color: #e94560;
+            border: 2px solid rgba(233, 69, 96, 0.6);
             padding: 12px 40px;
             font-size: 1.1em;
             cursor: pointer;
@@ -323,39 +308,56 @@
         }
 
         .continue-btn:hover {
-            background: rgba(212, 165, 116, 0.2);
+            background: rgba(233, 69, 96, 0.3);
         }
 
-        .tension-meter {
+        .power-meter {
             position: absolute;
             bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
             width: 300px;
-            height: 30px;
+            height: 40px;
             background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(212, 165, 116, 0.6);
-            border-radius: 15px;
+            border: 3px solid rgba(233, 69, 96, 0.6);
+            border-radius: 20px;
             overflow: hidden;
             display: none;
             z-index: 10;
         }
 
-        .tension-bar {
+        .power-bar {
             height: 100%;
-            background: linear-gradient(90deg, #4169E1, #FFD700, #DC143C);
+            background: linear-gradient(90deg, #3498DB, #E74C3C, #F39C12);
             width: 0%;
             transition: width 0.1s;
         }
 
-        .tension-label {
+        .power-label {
             position: absolute;
-            top: -30px;
+            top: -35px;
             left: 50%;
             transform: translateX(-50%);
-            color: #d4a574;
-            font-size: 0.9em;
+            color: #e94560;
+            font-size: 1em;
             white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .aim-guide {
+            position: absolute;
+            top: 50%;
+            left: 30%;
+            width: 3px;
+            height: 200px;
+            background: rgba(233, 69, 96, 0.3);
+            transform: translateY(-50%);
+            display: none;
+            z-index: 1;
+        }
+
+        .aim-guide.active {
+            display: block;
         }
     </style>
 </head>
@@ -364,6 +366,12 @@
         <div class="zen-circle"></div>
         <h1 class="intro-title">侍の弓道</h1>
         <p class="intro-subtitle">KYUDO SAMURAI</p>
+        <div class="intro-instructions">
+            <p><strong>🎯 Cómo jugar:</strong></p>
+            <p>✋ <strong>Mano Izquierda:</strong> Sostiene el arco (puño cerrado)</p>
+            <p>✋ <strong>Mano Derecha:</strong> Tensa la cuerda (índice + pulgar)</p>
+            <p>🎯 Separa los dedos para disparar</p>
+        </div>
         <button class="start-btn" id="startBtn">始める COMENZAR</button>
     </div>
 
@@ -379,17 +387,19 @@
             <div class="target-ring"></div>
         </div>
 
-        <div class="arrow" id="arrow"></div>
+        <div class="aim-guide" id="aimGuide"></div>
+
+        <div class="arrow-flying" id="arrowFlying"></div>
 
         <div class="hud">
             <div class="score" id="score">得点 Puntos: 0</div>
-            <div class="status" id="status">準備 Prepara tu arco</div>
+            <div class="status" id="status">🏹 Sostén el arco con mano izquierda</div>
             <div class="status" id="shots">試技 Intentos: 0</div>
         </div>
 
-        <div class="tension-meter" id="tensionMeter">
-            <div class="tension-label">張力 Tensión</div>
-            <div class="tension-bar" id="tensionBar"></div>
+        <div class="power-meter" id="powerMeter">
+            <div class="power-label">張力 POTENCIA</div>
+            <div class="power-bar" id="powerBar"></div>
         </div>
 
         <div class="zen-message" id="zenMessage"></div>
@@ -411,12 +421,20 @@
         let shots = 0;
         let arrowFlying = false;
 
-        // Estados de las manos
-        let leftHandPos = null;
-        let rightHandPos = null;
-        let fingersPinched = false;
-        let tensionPower = 0;
-        let isTensing = false;
+        // Estados del arco
+        let bowHand = null; // Mano que sostiene el arco (izquierda)
+        let drawHand = null; // Mano que tensa (derecha)
+        let isPinching = false;
+        let wasPinching = false;
+        let drawPower = 0;
+        let isAiming = false;
+
+        // Configuración del arco
+        const bowConfig = {
+            length: 300, // Largo del arco
+            width: 15,
+            gripRadius: 30
+        };
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -475,19 +493,23 @@
             ctx.scale(-1, 1);
             ctx.translate(-canvas.width, 0);
 
+            bowHand = null;
+            drawHand = null;
+
             if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
                 for (let i = 0; i < results.multiHandLandmarks.length; i++) {
                     const landmarks = results.multiHandLandmarks[i];
                     const handedness = results.multiHandedness[i].label;
 
-                    // NO dibujar las manos - dejamos que solo se vea el arco
-
                     if (handedness === 'Left') {
-                        leftHandPos = landmarks[9]; // Punto medio de la mano
+                        // Mano izquierda sostiene el arco
+                        bowHand = {
+                            wrist: landmarks[0],
+                            middle: landmarks[9],
+                            index: landmarks[8]
+                        };
                     } else {
-                        rightHandPos = landmarks[9];
-                        
-                        // Detectar si índice y pulgar están unidos (tensando)
+                        // Mano derecha tensa la cuerda
                         const thumbTip = landmarks[4];
                         const indexTip = landmarks[8];
                         const distance = Math.sqrt(
@@ -495,405 +517,313 @@
                             Math.pow(thumbTip.y - indexTip.y, 2)
                         );
 
-                        const wasPinched = fingersPinched;
-                        fingersPinched = distance < 0.05; // Dedos juntos
+                        wasPinching = isPinching;
+                        isPinching = distance < 0.05;
 
-                        // Si dedos estaban juntos y ahora se separaron = DISPARAR
-                        if (wasPinched && !fingersPinched && isTensing && !arrowFlying) {
-                            shootArrow();
-                        }
+                        drawHand = {
+                            wrist: landmarks[0],
+                            middle: landmarks[9],
+                            isPinching: isPinching
+                        };
                     }
                 }
 
-                // Si ambas manos están detectadas
-                if (leftHandPos && rightHandPos && !arrowFlying) {
-                    const handDistance = Math.sqrt(
-                        Math.pow(leftHandPos.x - rightHandPos.x, 2) + 
-                        Math.pow(leftHandPos.y - rightHandPos.y, 2)
-                    );
-
-                    // Si dedos están unidos = tensando el arco
-                    if (fingersPinched) {
-                        isTensing = true;
-                        tensionPower = Math.min(handDistance * 100, 100);
-                        
-                        document.getElementById('tensionMeter').style.display = 'block';
-                        document.getElementById('tensionBar').style.width = tensionPower + '%';
-                        
-                        updateStatus(`張力 Tensando: ${Math.round(tensionPower)}% - Separa los dedos para disparar`);
-
-                        // Dibujar el arco con curva realista
-                        drawBow(leftHandPos, rightHandPos, tensionPower);
-                    } else {
-                        if (isTensing) {
-                            tensionPower = 0;
-                            isTensing = false;
-                            document.getElementById('tensionMeter').style.display = 'none';
-                        }
-                        // Dibujar arco en reposo
-                        if (leftHandPos && rightHandPos) {
-                            drawBow(leftHandPos, rightHandPos, 0);
-                        }
-                        updateStatus('準備 Une índice y pulgar para tensar');
+                // Dibujar el arco y la flecha
+                if (bowHand && !arrowFlying) {
+                    const bowX = (1 - bowHand.middle.x) * canvas.width;
+                    const bowY = bowHand.middle.y * canvas.height;
+                    
+                    // Calcular ángulo del arco basado en la posición de la mano
+                    let bowAngle = 0;
+                    if (bowHand.wrist && bowHand.index) {
+                        const dx = bowHand.index.x - bowHand.wrist.x;
+                        const dy = bowHand.index.y - bowHand.wrist.y;
+                        bowAngle = Math.atan2(dy, dx) + Math.PI / 2;
                     }
+
+                    // Calcular tensión si está tensando
+                    if (drawHand && drawHand.isPinching) {
+                        const drawX = (1 - drawHand.middle.x) * canvas.width;
+                        const drawY = drawHand.middle.y * canvas.height;
+                        
+                        const dx = drawX - bowX;
+                        const dy = drawY - bowY;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        drawPower = Math.min(Math.max((dist - 100) / 200 * 100, 0), 100);
+                        isAiming = drawPower > 10;
+
+                        if (isAiming) {
+                            document.getElementById('powerMeter').style.display = 'block';
+                            document.getElementById('powerBar').style.width = drawPower + '%';
+                            document.getElementById('aimGuide').classList.add('active');
+                            updateStatus(`🎯 Tensando: ${Math.round(drawPower)}% - Suelta para disparar`);
+                        }
+
+                        drawBowWithArrow(bowX, bowY, bowAngle, drawX, drawY, drawPower);
+
+                        // Detectar cuando suelta
+                        if (wasPinching && !isPinching && drawPower > 20) {
+                            shootArrow(bowX, bowY, bowAngle, drawPower);
+                        }
+                    } else {
+                        // Arco en reposo
+                        drawPower = 0;
+                        isAiming = false;
+                        document.getElementById('powerMeter').style.display = 'none';
+                        document.getElementById('aimGuide').classList.remove('active');
+                        drawBow(bowX, bowY, bowAngle);
+                        updateStatus('🏹 Sostén el arco y tensa con la otra mano');
+                    }
+                } else if (!bowHand && !arrowFlying) {
+                    updateStatus('✋ Coloca tu mano izquierda para sostener el arco');
+                    document.getElementById('powerMeter').style.display = 'none';
+                    document.getElementById('aimGuide').classList.remove('active');
                 }
             }
 
             ctx.restore();
 
             if (arrowFlying) {
-                updateArrow();
+                updateArrowFlight();
             }
         }
 
-        function drawBow(leftHand, rightHand, tension) {
-            const leftX = (1 - leftHand.x) * canvas.width;
-            const leftY = leftHand.y * canvas.height;
-            const rightX = (1 - rightHand.x) * canvas.width;
-            const rightY = rightHand.y * canvas.height;
+        function drawBow(x, y, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
 
-            // Calcular el punto medio y la curvatura
-            const midX = (leftX + rightX) / 2;
-            const midY = (leftY + rightY) / 2;
+            // Cuerpo del arco (curva)
+            const curveAmount = 40;
             
-            // Vector perpendicular para la curva del arco
-            const dx = rightX - leftX;
-            const dy = rightY - leftY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // Curvatura del arco - SIEMPRE curvo (es la madera)
-            const bowCurve = distance * 0.3;
-            const perpX = -dy / distance * bowCurve;
-            const perpY = dx / distance * bowCurve;
-            
-            const controlX = midX + perpX;
-            const controlY = midY + perpY;
-
-            // Resplandor del arco
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = 'rgba(220, 20, 60, 0.8)';
-
-            // Dibujar el cuerpo del arco (rojo brillante)
-            ctx.strokeStyle = '#DC143C';
+            ctx.strokeStyle = '#8B0000';
             ctx.lineWidth = 12;
             ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
-            ctx.stroke();
-
-            // Capa interna más clara del arco
-            ctx.strokeStyle = '#FF6B6B';
-            ctx.lineWidth = 6;
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
-            ctx.stroke();
-
-            // Detalles decorativos del arco (dorado)
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
-            ctx.strokeStyle = '#FFD700';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
-            ctx.stroke();
-
-            ctx.shadowBlur = 0;
-
-            // LA CUERDA - siempre entre las puntas del arco
-            // Cuando se tensa, se estira hacia el lado opuesto del arco
-            let stringEndX = rightX;
-            let stringEndY = rightY;
-            
-            if (tension > 20) {
-                // La cuerda se tensa hacia el lado opuesto de la curva del arco
-                const tensionAmount = (tension / 100) * distance * 0.15;
-                stringEndX = rightX - perpX / bowCurve * tensionAmount;
-                stringEndY = rightY - perpY / bowCurve * tensionAmount;
-            }
-
-            // Dibujar la cuerda
-            ctx.strokeStyle = tension > 20 ? '#FFD700' : '#F5DEB3';
-            ctx.lineWidth = 3;
-            ctx.shadowBlur = tension > 20 ? 15 : 5;
-            ctx.shadowColor = tension > 20 ? 'rgba(255, 215, 0, 0.9)' : 'rgba(245, 222, 179, 0.5)';
-            
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.lineTo(stringEndX, stringEndY);
-            ctx.stroke();
-
-            ctx.shadowBlur = 0;
-
-            // Dibujar la flecha cuando está tensado
-            if (tension > 20) {
-                drawArrowOnBow(leftX, leftY, stringEndX, stringEndY, controlX, controlY, tension);
-            }
-
-            // Puntos de agarre decorativos (dorados brillantes)
-            ctx.fillStyle = '#FFD700';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
-            ctx.beginPath();
-            ctx.arc(leftX, leftY, 8, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(rightX, rightY, 8, 0, 2 * Math.PI);
-            ctx.fill();
-
-            // Anillo externo en los puntos de agarre
-            ctx.strokeStyle = '#DC143C';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(leftX, leftY, 12, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(rightX, rightY, 12, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            ctx.shadowBlur = 0;
-        }
-
-        function drawArrowOnBow(stringStartX, stringStartY, stringEndX, stringEndY, bowControlX, bowControlY, tension) {
-            // Calcular el punto medio de la cuerda donde va la flecha
-            const stringMidX = (stringStartX + stringEndX) / 2;
-            const stringMidY = (stringStartY + stringEndY) / 2;
-            
-            // Ángulo de la cuerda (la flecha es perpendicular a esto)
-            const stringAngle = Math.atan2(stringEndY - stringStartY, stringEndX - stringStartX);
-            
-            // La flecha apunta HACIA el objetivo (perpendicular a la cuerda)
-            const arrowAngle = stringAngle + Math.PI / 2;
-            
-            const arrowLength = 100;
-            
-            // La flecha va desde la cuerda hacia donde apunta (hacia el blanco)
-            const arrowStartX = stringMidX;
-            const arrowStartY = stringMidY;
-            const arrowEndX = stringMidX + Math.cos(arrowAngle) * arrowLength;
-            const arrowEndY = stringMidY + Math.sin(arrowAngle) * arrowLength;
-
-            // Efecto de resplandor de la flecha
             ctx.shadowBlur = 20;
-            ctx.shadowColor = 'rgba(220, 20, 60, 0.8)';
-
-            // Vara de la flecha (roja brillante)
-            ctx.strokeStyle = '#DC143C';
-            ctx.lineWidth = 6;
-            ctx.lineCap = 'round';
+            ctx.shadowColor = 'rgba(233, 69, 96, 0.8)';
+            
             ctx.beginPath();
-            ctx.moveTo(arrowStartX, arrowStartY);
-            ctx.lineTo(arrowEndX, arrowEndY);
+            ctx.moveTo(0, -bowConfig.length / 2);
+            ctx.quadraticCurveTo(-curveAmount, 0, 0, bowConfig.length / 2);
             ctx.stroke();
 
-            // Línea central dorada
-            ctx.strokeStyle = '#FFD700';
+            // Detalle interior
+            ctx.strokeStyle = '#DC143C';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(0, -bowConfig.length / 2);
+            ctx.quadraticCurveTo(-curveAmount, 0, 0, bowConfig.length / 2);
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+
+            // Cuerda en reposo
+            ctx.strokeStyle = '#D4AF37';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.moveTo(arrowStartX, arrowStartY);
-            ctx.lineTo(arrowEndX, arrowEndY);
+            ctx.moveTo(0, -bowConfig.length / 2);
+            ctx.lineTo(0, bowConfig.length / 2);
+            ctx.stroke();
+
+            // Empuñadura
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(-15, -40, 30, 80);
+            
+            ctx.fillStyle = '#D4AF37';
+            ctx.beginPath();
+            ctx.arc(0, 0, 10, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function drawBowWithArrow(bowX, bowY, bowAngle, drawX, drawY, power) {
+            ctx.save();
+            ctx.translate(bowX, bowY);
+            ctx.rotate(bowAngle);
+
+            // Cuerpo del arco
+            const curveAmount = 40;
+            
+            ctx.strokeStyle = '#8B0000';
+            ctx.lineWidth = 12;
+            ctx.lineCap = 'round';
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = 'rgba(233, 69, 96, 0.8)';
+            
+            ctx.beginPath();
+            ctx.moveTo(0, -bowConfig.length / 2);
+            ctx.quadraticCurveTo(-curveAmount, 0, 0, bowConfig.length / 2);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#DC143C';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(0, -bowConfig.length / 2);
+            ctx.quadraticCurveTo(-curveAmount, 0, 0, bowConfig.length / 2);
             ctx.stroke();
 
             ctx.shadowBlur = 0;
 
-            // Punta de la flecha (metálica brillante)
-            ctx.fillStyle = '#E0E0E0';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
-            ctx.save();
-            ctx.translate(arrowEndX, arrowEndY);
-            ctx.rotate(arrowAngle);
+            // Calcular posición de tensión en coordenadas locales
+            ctx.rotate(-bowAngle);
+            ctx.translate(-bowX, -bowY);
+            
+            const localDrawX = drawX;
+            const localDrawY = drawY;
+
+            ctx.translate(bowX, bowY);
+            ctx.rotate(bowAngle);
+
+            const dx = (localDrawX - bowX) * Math.cos(-bowAngle) - (localDrawY - bowY) * Math.sin(-bowAngle);
+            const dy = (localDrawX - bowX) * Math.sin(-bowAngle) + (localDrawY - bowY) * Math.cos(-bowAngle);
+
+            // Cuerda tensada
+            ctx.strokeStyle = power > 60 ? '#FFD700' : '#D4AF37';
+            ctx.lineWidth = power > 60 ? 4 : 3;
+            ctx.shadowBlur = power > 60 ? 20 : 10;
+            ctx.shadowColor = power > 60 ? 'rgba(255, 215, 0, 0.9)' : 'rgba(212, 175, 55, 0.5)';
+            
             ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(25, -10);
-            ctx.lineTo(20, 0);
-            ctx.lineTo(25, 10);
+            ctx.moveTo(0, -bowConfig.length / 2);
+            ctx.lineTo(dx, dy);
+            ctx.lineTo(0, bowConfig.length / 2);
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+
+            // Flecha
+            const arrowLength = 120;
+            
+            // Dirección de la flecha (perpendicular a la cuerda hacia adelante)
+            const arrowAngle = Math.atan2(dy, dx) + Math.PI / 2;
+            
+            ctx.save();
+            ctx.translate(dx, dy);
+            ctx.rotate(arrowAngle);
+
+            // Vara de la flecha
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(139, 69, 19, 0.5)';
+            
+            ctx.beginPath();
+            ctx.moveTo(-arrowLength, 0);
+            ctx.lineTo(0, 0);
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+
+            // Punta metálica
+            ctx.fillStyle = '#C0C0C0';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            ctx.beginPath();
+            ctx.moveTo(-arrowLength, 0);
+            ctx.lineTo(-arrowLength - 20, -8);
+            ctx.lineTo(-arrowLength - 15, 0);
+            ctx.lineTo(-arrowLength - 20, 8);
             ctx.closePath();
             ctx.fill();
-            
-            // Brillo en la punta
-            ctx.fillStyle = '#FFFFFF';
+
+            ctx.shadowBlur = 0;
+
+            // Plumas
+            ctx.fillStyle = '#DC143C';
             ctx.beginPath();
             ctx.moveTo(5, 0);
-            ctx.lineTo(18, -4);
+            ctx.lineTo(20, -10);
             ctx.lineTo(15, 0);
-            ctx.lineTo(18, 4);
-            ctx.closePath();
-            ctx.fill();
-            ctx.restore();
-
-            ctx.shadowBlur = 0;
-
-            // Plumas de la flecha (rojas y doradas) - en el extremo de la cuerda
-            ctx.save();
-            ctx.translate(arrowStartX, arrowStartY);
-            ctx.rotate(arrowAngle);
-            
-            // Pluma superior roja
-            ctx.fillStyle = '#DC143C';
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = 'rgba(220, 20, 60, 0.6)';
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(-20, -12);
-            ctx.lineTo(-15, -2);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Pluma inferior roja
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(-20, 12);
-            ctx.lineTo(-15, 2);
             ctx.closePath();
             ctx.fill();
 
-            // Detalles dorados en las plumas
-            ctx.fillStyle = '#FFD700';
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
             ctx.beginPath();
-            ctx.moveTo(-5, -1);
-            ctx.lineTo(-18, -10);
-            ctx.lineTo(-15, -2);
+            ctx.moveTo(5, 0);
+            ctx.lineTo(20, 10);
+            ctx.lineTo(15, 0);
             ctx.closePath();
             ctx.fill();
-            
-            ctx.beginPath();
-            ctx.moveTo(-5, 1);
-            ctx.lineTo(-18, 10);
-            ctx.lineTo(-15, 2);
-            ctx.closePath();
-            ctx.fill();
-            
-            ctx.restore();
-            ctx.shadowBlur = 0;
 
-            // Efecto de energía cuando hay mucha tensión
-            if (tension > 60) {
-                ctx.strokeStyle = 'rgba(255, 215, 0, 0.5)';
-                ctx.lineWidth = 12;
+            // Efecto de energía
+            if (power > 70) {
+                ctx.strokeStyle = 'rgba(255, 215, 0, 0.4)';
+                ctx.lineWidth = 10;
                 ctx.shadowBlur = 25;
                 ctx.shadowColor = 'rgba(255, 215, 0, 0.9)';
                 ctx.beginPath();
-                ctx.moveTo(arrowStartX, arrowStartY);
-                ctx.lineTo(arrowEndX, arrowEndY);
+                ctx.moveTo(-arrowLength, 0);
+                ctx.lineTo(0, 0);
                 ctx.stroke();
-                
-                // Partículas de energía
-                for (let i = 0; i < 3; i++) {
-                    const t = (Date.now() % 1000) / 1000 + i * 0.33;
-                    const px = arrowStartX + (arrowEndX - arrowStartX) * t;
-                    const py = arrowStartY + (arrowEndY - arrowStartY) * t;
-                    
-                    ctx.fillStyle = 'rgba(255, 215, 0, ' + (1 - t) + ')';
-                    ctx.beginPath();
-                    ctx.arc(px, py, 4, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
             }
+
+            ctx.restore();
+
+            // Empuñadura
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(-15, -40, 30, 80);
             
-            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#D4AF37';
+            ctx.beginPath();
+            ctx.arc(0, 0, 10, 0, 2 * Math.PI);
+            ctx.fill();
+
+            ctx.restore();
         }
 
-        function shootArrow() {
-            if (arrowFlying || tensionPower < 20) return;
+        function shootArrow(bowX, bowY, bowAngle, power) {
+            if (arrowFlying) return;
 
             arrowFlying = true;
             shots++;
             document.getElementById('shots').textContent = '試技 Intentos: ' + shots;
-            
-            isTensing = false;
-            document.getElementById('tensionMeter').style.display = 'none';
+            document.getElementById('powerMeter').style.display = 'none';
+            document.getElementById('aimGuide').classList.remove('active');
 
             playShootSound();
             showZenMessage('放つ ¡Dispara!');
-
-            const arrow = document.getElementById('arrow');
-            const rightX = canvas.width - (rightHandPos.x * canvas.width);
-            const rightY = rightHandPos.y * canvas.height;
 
             const target = document.querySelector('.target');
             const targetRect = target.getBoundingClientRect();
             const targetX = targetRect.left + targetRect.width / 2;
             const targetY = targetRect.top + targetRect.height / 2;
 
-            const angle = Math.atan2(targetY - rightY, targetX - rightX);
-            
-            arrow.style.left = rightX + 'px';
-            arrow.style.top = rightY + 'px';
-            arrow.style.transform = `rotate(${angle}rad)`;
-            arrow.style.display = 'block';
-            
-            // Efecto de estela de partículas
-            createReleaseEffect(rightX, rightY);
+            const angle = Math.atan2(targetY - bowY, targetX - bowX);
+            const speed = (power / 100) * 15 + 5;
 
-            const speed = tensionPower / 8;
+            // Crear flecha visual
+            const arrow = document.getElementById('arrowFlying');
+            arrow.style.left = bowX + 'px';
+            arrow.style.top = bowY + 'px';
+            arrow.style.transform = `rotate(${angle}rad)`;
+            arrow.style.background = `linear-gradient(90deg, 
+                #C0C0C0 0%, 
+                #8B4513 15%, 
+                #DC143C 50%, 
+                #DC143C 85%, 
+                #8B0000 100%)`;
+            arrow.style.boxShadow = '0 0 15px rgba(233, 69, 96, 0.8)';
+            arrow.style.display = 'block';
+
+            arrow.dataset.x = bowX;
+            arrow.dataset.y = bowY;
             arrow.dataset.vx = Math.cos(angle) * speed;
             arrow.dataset.vy = Math.sin(angle) * speed;
-            arrow.dataset.x = rightX;
-            arrow.dataset.y = rightY;
 
             updateStatus('飛行中 ¡Flecha en vuelo!');
         }
 
-        function createReleaseEffect(x, y) {
-            // Crear partículas de liberación rojas y doradas
-            for (let i = 0; i < 12; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.width = '6px';
-                particle.style.height = '6px';
-                particle.style.borderRadius = '50%';
-                
-                // Alternar entre rojo y dorado
-                const isRed = i % 2 === 0;
-                particle.style.background = isRed ? 'rgba(220, 20, 60, 0.9)' : 'rgba(255, 215, 0, 0.9)';
-                particle.style.boxShadow = isRed ? '0 0 10px rgba(220, 20, 60, 0.8)' : '0 0 10px rgba(255, 215, 0, 0.8)';
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '4';
-                document.body.appendChild(particle);
-
-                const angle = (Math.PI * 2 * i) / 12;
-                const speed = 4 + Math.random() * 3;
-                let vx = Math.cos(angle) * speed;
-                let vy = Math.sin(angle) * speed;
-                let px = x;
-                let py = y;
-                let opacity = 1;
-
-                const animateParticle = () => {
-                    px += vx;
-                    py += vy;
-                    opacity -= 0.02;
-                    
-                    particle.style.left = px + 'px';
-                    particle.style.top = py + 'px';
-                    particle.style.opacity = opacity;
-
-                    if (opacity > 0) {
-                        requestAnimationFrame(animateParticle);
-                    } else {
-                        particle.remove();
-                    }
-                };
-                animateParticle();
-            }
-        }
-
-        function updateArrow() {
-            const arrow = document.getElementById('arrow');
+        function updateArrowFlight() {
+            const arrow = document.getElementById('arrowFlying');
             let x = parseFloat(arrow.dataset.x);
             let y = parseFloat(arrow.dataset.y);
             const vx = parseFloat(arrow.dataset.vx);
             const vy = parseFloat(arrow.dataset.vy);
 
-            x += vx * 10;
-            y += vy * 10;
+            x += vx;
+            y += vy;
 
             arrow.style.left = x + 'px';
             arrow.style.top = y + 'px';
@@ -910,7 +840,7 @@
                 Math.pow(y - targetCenterY, 2)
             );
 
-            if (distance < 100 || x > window.innerWidth || y < 0 || y > window.innerHeight) {
+            if (distance < 125 || x > window.innerWidth || y < 0 || y > window.innerHeight) {
                 arrowFlying = false;
                 arrow.style.display = 'none';
                 calculateScore(distance);
@@ -922,36 +852,27 @@
             let message = '';
             let zenPhrase = '';
 
-            // Crear efecto de impacto
-            const arrow = document.getElementById('arrow');
-            const impactX = parseFloat(arrow.style.left);
-            const impactY = parseFloat(arrow.style.top);
-            
-            if (distance < 100) {
-                createImpactEffect(impactX, impactY, distance);
-            }
-
-            if (distance < 20) {
+            if (distance < 25) {
                 points = 10;
                 message = '完璧 ¡PERFECTO!';
                 zenPhrase = '心が一つになった El espíritu es uno';
                 playHitSound(10);
-            } else if (distance < 40) {
+            } else if (distance < 50) {
                 points = 8;
                 message = '素晴らしい ¡Excelente!';
                 zenPhrase = '良い集中 Buena concentración';
                 playHitSound(8);
-            } else if (distance < 60) {
+            } else if (distance < 75) {
                 points = 6;
                 message = 'よくやった ¡Muy bien!';
                 zenPhrase = '道は続く El camino continúa';
                 playHitSound(6);
-            } else if (distance < 80) {
+            } else if (distance < 100) {
                 points = 4;
                 message = '良い ¡Bien!';
                 zenPhrase = '練習あるのみ Solo práctica';
                 playHitSound(4);
-            } else if (distance < 100) {
+            } else if (distance < 125) {
                 points = 2;
                 message = '的中 ¡En el blanco!';
                 zenPhrase = '始まりに過ぎない Es solo el comienzo';
@@ -968,90 +889,6 @@
             showResult(points, message, zenPhrase);
         }
 
-        function createImpactEffect(x, y, distance) {
-            // Color basado en la precisión
-            let color = distance < 20 ? 'rgba(255, 215, 0, 0.9)' : 
-                       distance < 40 ? 'rgba(212, 165, 116, 0.9)' : 
-                       'rgba(139, 69, 19, 0.7)';
-            
-            // Onda de impacto
-            const ripple = document.createElement('div');
-            ripple.style.position = 'fixed';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.width = '10px';
-            ripple.style.height = '10px';
-            ripple.style.border = `3px solid ${color}`;
-            ripple.style.borderRadius = '50%';
-            ripple.style.transform = 'translate(-50%, -50%)';
-            ripple.style.pointerEvents = 'none';
-            ripple.style.zIndex = '100';
-            document.body.appendChild(ripple);
-
-            let scale = 1;
-            let opacity = 1;
-            const animateRipple = () => {
-                scale += 0.3;
-                opacity -= 0.03;
-                ripple.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                ripple.style.opacity = opacity;
-                
-                if (opacity > 0) {
-                    requestAnimationFrame(animateRipple);
-                } else {
-                    ripple.remove();
-                }
-            };
-            animateRipple();
-
-            // Partículas de impacto
-            const particleCount = distance < 40 ? 12 : 6;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'fixed';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.width = '6px';
-                particle.style.height = '6px';
-                particle.style.borderRadius = '50%';
-                particle.style.background = color;
-                particle.style.pointerEvents = 'none';
-                particle.style.zIndex = '99';
-                particle.style.boxShadow = `0 0 8px ${color}`;
-                document.body.appendChild(particle);
-
-                const angle = (Math.PI * 2 * i) / particleCount;
-                const speed = 5 + Math.random() * 5;
-                let vx = Math.cos(angle) * speed;
-                let vy = Math.sin(angle) * speed;
-                let px = x;
-                let py = y;
-                let pOpacity = 1;
-                let pScale = 1;
-
-                const animateParticle = () => {
-                    vx *= 0.95;
-                    vy *= 0.95;
-                    px += vx;
-                    py += vy;
-                    pOpacity -= 0.025;
-                    pScale -= 0.02;
-                    
-                    particle.style.left = px + 'px';
-                    particle.style.top = py + 'px';
-                    particle.style.opacity = pOpacity;
-                    particle.style.transform = `scale(${pScale})`;
-
-                    if (pOpacity > 0) {
-                        requestAnimationFrame(animateParticle);
-                    } else {
-                        particle.remove();
-                    }
-                };
-                animateParticle();
-            }
-        }
-
         function showResult(points, message, zenPhrase) {
             document.getElementById('resultScore').textContent = points;
             document.getElementById('resultMessage').textContent = message;
@@ -1061,7 +898,7 @@
 
         document.getElementById('continueBtn').addEventListener('click', () => {
             document.getElementById('resultPopup').classList.remove('show');
-            updateStatus('準備 Prepara el siguiente tiro');
+            updateStatus('🏹 Sostén el arco y prepara el siguiente tiro');
             playSound(440, 0.2, 'sine');
         });
 
@@ -1111,37 +948,6 @@
         function playMissSound() {
             playSound(200, 0.3, 'sawtooth');
         }
-
-        function drawConnectors(ctx, landmarks, connections, style) {
-            ctx.strokeStyle = style.color;
-            ctx.lineWidth = style.lineWidth;
-            for (const connection of connections) {
-                const start = landmarks[connection[0]];
-                const end = landmarks[connection[1]];
-                ctx.beginPath();
-                ctx.moveTo(start.x * canvas.width, start.y * canvas.height);
-                ctx.lineTo(end.x * canvas.width, end.y * canvas.height);
-                ctx.stroke();
-            }
-        }
-
-        function drawLandmarks(ctx, landmarks, style) {
-            ctx.fillStyle = style.color;
-            for (const landmark of landmarks) {
-                ctx.beginPath();
-                ctx.arc(landmark.x * canvas.width, landmark.y * canvas.height, style.radius, 0, 2 * Math.PI);
-                ctx.fill();
-            }
-        }
-
-        const HAND_CONNECTIONS = [
-            [0, 1], [1, 2], [2, 3], [3, 4],
-            [0, 5], [5, 6], [6, 7], [7, 8],
-            [0, 9], [9, 10], [10, 11], [11, 12],
-            [0, 13], [13, 14], [14, 15], [15, 16],
-            [0, 17], [17, 18], [18, 19], [19, 20],
-            [5, 9], [9, 13], [13, 17]
-        ];
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
