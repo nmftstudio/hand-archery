@@ -368,9 +368,9 @@
         <p class="intro-subtitle">KYUDO SAMURAI</p>
         <div class="intro-instructions">
             <p><strong>🎯 Cómo jugar:</strong></p>
-            <p>✋ <strong>Mano Izquierda:</strong> Sostiene el arco (puño cerrado)</p>
-            <p>✋ <strong>Mano Derecha:</strong> Tensa la cuerda (índice + pulgar)</p>
-            <p>🎯 Separa los dedos para disparar</p>
+            <p>🖐️ <strong>Mano Izquierda:</strong> Abierta = sostiene el arco</p>
+            <p>👌 <strong>Mano Derecha:</strong> Junta índice + pulgar = tensa</p>
+            <p>✌️ <strong>Separa los dedos</strong> = dispara la flecha</p>
         </div>
         <button class="start-btn" id="startBtn">始める COMENZAR</button>
     </div>
@@ -393,7 +393,7 @@
 
         <div class="hud">
             <div class="score" id="score">得点 Puntos: 0</div>
-            <div class="status" id="status">🏹 Sostén el arco con mano izquierda</div>
+            <div class="status" id="status">🖐️ Abre tu mano izquierda para sostener el arco</div>
             <div class="status" id="shots">試技 Intentos: 0</div>
         </div>
 
@@ -502,14 +502,27 @@
                     const handedness = results.multiHandedness[i].label;
 
                     if (handedness === 'Left') {
-                        // Mano izquierda sostiene el arco
-                        bowHand = {
-                            wrist: landmarks[0],
-                            middle: landmarks[9],
-                            index: landmarks[8]
-                        };
+                        // Mano izquierda sostiene el arco (detectar si está abierta)
+                        const thumb = landmarks[4];
+                        const index = landmarks[8];
+                        const middle = landmarks[12];
+                        const ring = landmarks[16];
+                        const pinky = landmarks[20];
+                        const palm = landmarks[0];
+
+                        // Calcular si la mano está abierta (dedos extendidos)
+                        const avgY = (index.y + middle.y + ring.y + pinky.y) / 4;
+                        const isOpen = avgY < palm.y - 0.1; // Dedos arriba = mano abierta
+
+                        if (isOpen) {
+                            bowHand = {
+                                wrist: landmarks[0],
+                                middle: landmarks[9],
+                                index: landmarks[8]
+                            };
+                        }
                     } else {
-                        // Mano derecha tensa la cuerda
+                        // Mano derecha tensa la cuerda con índice y pulgar
                         const thumbTip = landmarks[4];
                         const indexTip = landmarks[8];
                         const distance = Math.sqrt(
@@ -518,7 +531,7 @@
                         );
 
                         wasPinching = isPinching;
-                        isPinching = distance < 0.05;
+                        isPinching = distance < 0.05; // Dedos juntos = tensando
 
                         drawHand = {
                             wrist: landmarks[0],
@@ -573,10 +586,10 @@
                         document.getElementById('powerMeter').style.display = 'none';
                         document.getElementById('aimGuide').classList.remove('active');
                         drawBow(bowX, bowY, bowAngle);
-                        updateStatus('🏹 Sostén el arco y tensa con la otra mano');
+                        updateStatus('🖐️ Mano abierta sostiene - Junta dedos de la otra mano para tensar');
                     }
                 } else if (!bowHand && !arrowFlying) {
-                    updateStatus('✋ Coloca tu mano izquierda para sostener el arco');
+                    updateStatus('🖐️ Abre tu mano izquierda para sostener el arco');
                     document.getElementById('powerMeter').style.display = 'none';
                     document.getElementById('aimGuide').classList.remove('active');
                 }
@@ -898,7 +911,7 @@
 
         document.getElementById('continueBtn').addEventListener('click', () => {
             document.getElementById('resultPopup').classList.remove('show');
-            updateStatus('🏹 Sostén el arco y prepara el siguiente tiro');
+            updateStatus('🖐️ Abre la mano y prepara el siguiente tiro');
             playSound(440, 0.2, 'sine');
         });
 
