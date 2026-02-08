@@ -20,36 +20,6 @@
             background: #2a1f16;
             overflow: hidden;
             height: 100vh;
-            position: relative;
-        }
-
-        /* Efecto de papel antiguo */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px);
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* Efecto de viñeta */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            box-shadow: inset 0 0 200px rgba(0,0,0,0.6);
-            pointer-events: none;
-            z-index: 9998;
         }
 
         .intro-screen {
@@ -68,15 +38,7 @@
         }
 
         .intro-screen.hidden {
-            animation: fadeOutScreen 0.8s ease-out forwards;
-        }
-
-        @keyframes fadeOutScreen {
-            to {
-                opacity: 0;
-                transform: scale(0.95);
-                pointer-events: none;
-            }
+            display: none;
         }
 
         .zen-circle {
@@ -87,18 +49,11 @@
             position: relative;
             margin-bottom: 40px;
             animation: pulse-zen 3s ease-in-out infinite;
-            box-shadow: 0 0 30px rgba(212, 165, 116, 0.3);
         }
 
         @keyframes pulse-zen {
-            0%, 100% { 
-                transform: scale(1);
-                border-color: rgba(212, 165, 116, 0.6);
-            }
-            50% { 
-                transform: scale(1.05);
-                border-color: rgba(212, 165, 116, 0.9);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .zen-circle::before {
@@ -109,60 +64,37 @@
             transform: translate(-50%, -50%);
             font-size: 80px;
             color: rgba(212, 165, 116, 0.8);
-            text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
         }
 
         .intro-title {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
             font-weight: 600;
             letter-spacing: 4px;
-            text-align: center;
-            color: #d4a574;
         }
 
         .intro-subtitle {
             font-size: 1em;
             margin-bottom: 40px;
-            color: rgba(212, 165, 116, 0.8);
-            font-weight: 300;
+            opacity: 0.8;
             letter-spacing: 8px;
-            text-align: center;
-        }
-
-        .philosophy-text {
-            max-width: 500px;
-            text-align: center;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            padding: 0 20px;
-            font-weight: 300;
-            font-size: 0.95em;
-            color: rgba(212, 165, 116, 0.85);
         }
 
         .start-btn {
-            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(212, 165, 116, 0.05) 100%);
+            background: rgba(212, 165, 116, 0.1);
             color: #d4a574;
             border: 2px solid rgba(212, 165, 116, 0.6);
             padding: 15px 50px;
             font-size: 1.1em;
-            border-radius: 0;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 400;
-            letter-spacing: 3px;
             font-family: 'Noto Serif JP', serif;
-            position: relative;
-            overflow: hidden;
+            letter-spacing: 3px;
         }
 
         .start-btn:hover {
             background: rgba(212, 165, 116, 0.15);
-            border-color: rgba(212, 165, 116, 0.9);
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(212, 165, 116, 0.3);
         }
 
         .container {
@@ -170,7 +102,6 @@
             width: 100vw;
             height: 100vh;
             display: none;
-            background: #2a1f16;
         }
 
         .container.active {
@@ -205,26 +136,12 @@
             z-index: 10;
             color: #d4a574;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
-            font-family: 'Noto Serif JP', serif;
         }
 
         .score {
             font-size: 1.8em;
-            font-weight: 300;
             margin-bottom: 10px;
             letter-spacing: 2px;
-            color: #d4a574;
-            text-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
-        }
-
-        .score.player1 {
-            color: #7fb3d5;
-            text-shadow: 0 0 10px rgba(127, 179, 213, 0.5);
-        }
-
-        .score.player2 {
-            color: #c27ba0;
-            text-shadow: 0 0 10px rgba(194, 123, 160, 0.5);
         }
 
         .status {
@@ -233,709 +150,380 @@
             padding: 8px 16px;
             border-left: 3px solid rgba(212, 165, 116, 0.6);
             margin-bottom: 8px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 165, 116, 0.3);
-        }
-
-        .controls {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 10;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .control-btn {
-            background: rgba(42, 31, 22, 0.8);
-            border: 2px solid rgba(212, 165, 116, 0.6);
-            color: #d4a574;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'Noto Serif JP', serif;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            backdrop-filter: blur(10px);
-        }
-
-        .control-btn:hover {
-            background: rgba(212, 165, 116, 0.2);
-            border-color: rgba(212, 165, 116, 0.9);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
         }
 
         .target {
             position: absolute;
-            right: 100px;
             top: 50%;
-            transform: translateY(-50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 200px;
             height: 200px;
-            z-index: 3;
-            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+            z-index: 1;
         }
 
         .target-ring {
             position: absolute;
             border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 3px solid;
+            border: 2px solid;
         }
 
-        .ring1 { width: 200px; height: 200px; background: #8b4513; border-color: #5a2d0c; }
-        .ring2 { width: 160px; height: 160px; background: #d4a574; border-color: #8b4513; }
-        .ring3 { width: 120px; height: 120px; background: #f5deb3; border-color: #d4a574; }
-        .ring4 { width: 80px; height: 80px; background: #8b4513; border-color: #5a2d0c; }
-        .ring5 { width: 40px; height: 40px; background: #d4a574; border-color: #8b4513; box-shadow: 0 0 20px rgba(212, 165, 116, 0.5); }
+        .target-ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            background: #8B0000;
+            border-color: #5A0000;
+        }
+
+        .target-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            background: #FFD700;
+            border-color: #B8860B;
+        }
+
+        .target-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            background: #4169E1;
+            border-color: #1E3A8A;
+        }
+
+        .target-ring:nth-child(4) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            background: #DC143C;
+            border-color: #8B0000;
+        }
+
+        .target-ring:nth-child(5) {
+            width: 20%;
+            height: 20%;
+            top: 40%;
+            left: 40%;
+            background: #FFD700;
+            border-color: #B8860B;
+        }
 
         .arrow {
             position: absolute;
-            width: 100px;
-            height: 8px;
-            background: linear-gradient(to right, #5a2d0c 0%, #d4a574 30%, #f5deb3 50%, #d4a574 70%, #5a2d0c 100%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513 0%, #D2691E 50%, #8B4513 100%);
             display: none;
             z-index: 5;
-            transform-origin: left center;
-            filter: drop-shadow(0 0 10px rgba(212, 165, 116, 0.9)) drop-shadow(2px 2px 6px rgba(0,0,0,0.8));
-            box-shadow: 0 0 20px rgba(212, 165, 116, 0.7);
+            pointer-events: none;
         }
 
         .arrow::before {
             content: '';
             position: absolute;
-            right: -18px;
+            right: -10px;
             top: 50%;
             transform: translateY(-50%);
             width: 0;
             height: 0;
-            border-left: 25px solid #5a2d0c;
-            border-top: 12px solid transparent;
-            border-bottom: 12px solid transparent;
-            filter: drop-shadow(0 0 6px rgba(90, 45, 12, 0.9));
-        }
-
-        .arrow::after {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 25px;
-            height: 14px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(212, 165, 116, 0.7) 20%, 
-                rgba(212, 165, 116, 0.9) 50%, 
-                rgba(212, 165, 116, 0.7) 80%, 
-                transparent 100%
-            );
-            border-radius: 50%;
-        }
-
-        .arrow.player1 {
-            background: linear-gradient(to right, #2d4a5f 0%, #7fb3d5 30%, #a8d5f2 50%, #7fb3d5 70%, #2d4a5f 100%);
-            filter: drop-shadow(0 0 10px rgba(127, 179, 213, 0.9)) drop-shadow(2px 2px 6px rgba(0,0,0,0.8));
-        }
-
-        .arrow.player1::before {
-            border-left-color: #2d4a5f;
-        }
-
-        .arrow.player2 {
-            background: linear-gradient(to right, #5a2d47 0%, #c27ba0 30%, #e8b3d0 50%, #c27ba0 70%, #5a2d47 100%);
-            filter: drop-shadow(0 0 10px rgba(194, 123, 160, 0.9)) drop-shadow(2px 2px 6px rgba(0,0,0,0.8));
-        }
-
-        .arrow.player2::before {
-            border-left-color: #5a2d47;
-        }
-
-        .power-bar {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px;
-            height: 30px;
-            background: rgba(42, 31, 22, 0.8);
-            border: 2px solid rgba(212, 165, 116, 0.6);
-            display: none;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-
-        .power-fill {
-            height: 100%;
-            background: linear-gradient(to right, #8b4513, #d4a574, #f5deb3);
-            width: 0%;
-            transition: width 0.1s;
-            box-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
-        }
-
-        .power-label {
-            position: absolute;
-            bottom: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #d4a574;
-            font-weight: 300;
-            letter-spacing: 2px;
-            display: none;
-            z-index: 10;
-            text-shadow: 0 0 10px rgba(212, 165, 116, 0.5), 2px 2px 8px rgba(0,0,0,0.9);
-            font-size: 1.2em;
-        }
-
-        .result-popup, .winner-popup, .highscore-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(135deg, rgba(42, 31, 22, 0.95) 0%, rgba(26, 17, 8, 0.95) 100%);
-            border: 3px solid rgba(212, 165, 116, 0.6);
-            padding: 40px;
-            z-index: 1000;
-            text-align: center;
-            transition: transform 0.3s ease;
-            min-width: 400px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 50px rgba(212, 165, 116, 0.1);
-        }
-
-        .result-popup.show, .winner-popup.show, .highscore-popup.show {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .result-score {
-            font-size: 4em;
-            color: #d4a574;
-            margin-bottom: 20px;
-            font-weight: 600;
-            text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
-        }
-
-        .result-message {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            color: #d4a574;
-            letter-spacing: 2px;
-        }
-
-        .zen-phrase {
-            font-size: 0.9em;
-            color: rgba(212, 165, 116, 0.8);
-            margin-bottom: 20px;
-            font-style: italic;
-            font-weight: 300;
-        }
-
-        .continue-btn, .new-game-btn, .close-highscore-btn {
-            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(212, 165, 116, 0.05) 100%);
-            color: #d4a574;
-            border: 2px solid rgba(212, 165, 116, 0.6);
-            padding: 12px 40px;
-            cursor: pointer;
-            font-family: 'Noto Serif JP', serif;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            margin: 5px;
-        }
-
-        .continue-btn:hover, .new-game-btn:hover, .close-highscore-btn:hover {
-            background: rgba(212, 165, 116, 0.2);
-            border-color: rgba(212, 165, 116, 0.9);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
-        }
-
-        .winner-title {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-            color: #d4a574;
-            text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
-        }
-
-        .winner-title.player1 {
-            color: #7fb3d5;
-            text-shadow: 0 0 20px rgba(127, 179, 213, 0.5);
-        }
-
-        .winner-title.player2 {
-            color: #c27ba0;
-            text-shadow: 0 0 20px rgba(194, 123, 160, 0.5);
-        }
-
-        .winner-scores {
-            font-size: 3em;
-            margin-bottom: 30px;
-            color: #d4a574;
-            text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
+            border-left: 15px solid #8B4513;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
         }
 
         .zen-message {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
+            transform: translate(-50%, -50%);
             background: rgba(42, 31, 22, 0.95);
             color: #d4a574;
-            padding: 30px 50px;
-            font-size: 1.5em;
+            padding: 30px 60px;
             border: 2px solid rgba(212, 165, 116, 0.6);
-            z-index: 999;
-            transition: transform 0.3s ease;
+            font-size: 1.5em;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            text-align: center;
             letter-spacing: 3px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
         .zen-message.show {
+            opacity: 1;
+        }
+
+        .result-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(42, 31, 22, 0.98);
+            color: #d4a574;
+            padding: 40px 60px;
+            border: 3px solid rgba(212, 165, 116, 0.6);
+            z-index: 200;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            text-align: center;
+        }
+
+        .result-popup.show {
+            opacity: 1;
             transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
         }
 
-        .highscore-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(42, 31, 22, 0.8);
-            border: 2px solid rgba(212, 165, 116, 0.6);
-            color: #d4a574;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'Noto Serif JP', serif;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-
-        .highscore-btn:hover {
-            background: rgba(212, 165, 116, 0.2);
-            border-color: rgba(212, 165, 116, 0.9);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
-        }
-
-        .highscore-list {
-            max-height: 400px;
-            overflow-y: auto;
-            margin: 20px 0;
-            text-align: left;
-        }
-
-        .highscore-item {
-            background: rgba(212, 165, 116, 0.1);
-            border: 1px solid rgba(212, 165, 116, 0.3);
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .highscore-item:hover {
-            background: rgba(212, 165, 116, 0.2);
-            transform: translateX(5px);
-        }
-
-        .highscore-rank {
-            font-size: 1.5em;
-            font-weight: 600;
-            color: #d4a574;
-            margin-right: 15px;
-            min-width: 40px;
-        }
-
-        .highscore-item.gold .highscore-rank {
-            color: #f5deb3;
-            text-shadow: 0 0 10px rgba(245, 222, 179, 0.8);
-        }
-
-        .highscore-item.silver .highscore-rank {
-            color: #c0c0c0;
-            text-shadow: 0 0 10px rgba(192, 192, 192, 0.8);
-        }
-
-        .highscore-item.bronze .highscore-rank {
-            color: #cd7f32;
-            text-shadow: 0 0 10px rgba(205, 127, 50, 0.8);
-        }
-
-        .highscore-details {
-            flex: 1;
-        }
-
-        .highscore-score {
-            font-size: 1.2em;
-            color: #d4a574;
-            font-weight: 600;
-        }
-
-        .highscore-date {
-            font-size: 0.8em;
-            color: rgba(212, 165, 116, 0.6);
-            margin-top: 3px;
-        }
-
-        .highscore-title {
-            font-size: 2em;
+        .result-score {
+            font-size: 4em;
             margin-bottom: 20px;
-            color: #d4a574;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
+            font-weight: 600;
         }
 
-        .clear-scores-btn {
-            background: rgba(139, 69, 19, 0.3);
-            color: rgba(212, 165, 116, 0.7);
-            border: 2px solid rgba(139, 69, 19, 0.6);
-            padding: 8px 20px;
+        .result-message {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .zen-phrase {
+            font-size: 1em;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .continue-btn {
+            background: rgba(212, 165, 116, 0.1);
+            color: #d4a574;
+            border: 2px solid rgba(212, 165, 116, 0.6);
+            padding: 12px 40px;
+            font-size: 1.1em;
             cursor: pointer;
             font-family: 'Noto Serif JP', serif;
-            font-size: 0.85em;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            margin-top: 15px;
+            letter-spacing: 2px;
         }
 
-        .clear-scores-btn:hover {
-            background: rgba(139, 69, 19, 0.5);
-            border-color: rgba(139, 69, 19, 0.9);
+        .continue-btn:hover {
+            background: rgba(212, 165, 116, 0.2);
         }
 
-        /* Timer countdown */
-        .countdown-timer {
+        .tension-meter {
             position: absolute;
-            bottom: 180px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 3em;
-            color: #d4a574;
-            font-weight: 600;
-            text-shadow: 0 0 20px rgba(212, 165, 116, 0.8), 2px 2px 10px rgba(0,0,0,0.9);
+            width: 300px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(212, 165, 116, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
             display: none;
             z-index: 10;
-            animation: pulse-timer 1s ease-in-out infinite;
         }
 
-        @keyframes pulse-timer {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.1); }
+        .tension-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4169E1, #FFD700, #DC143C);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .tension-label {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4a574;
+            font-size: 0.9em;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
-    <!-- Pantalla de introducción -->
     <div class="intro-screen" id="introScreen">
         <div class="zen-circle"></div>
         <h1 class="intro-title">侍の弓道</h1>
-        <p class="intro-subtitle">CAMINO DEL SAMURAI</p>
-        <p class="philosophy-text">
-            "El arco y la flecha son solo herramientas.<br>
-            La verdadera diana está en tu interior.<br>
-            一射絶命 - Un disparo, una vida."
-        </p>
+        <p class="intro-subtitle">KYUDO SAMURAI</p>
         <button class="start-btn" id="startBtn">始める COMENZAR</button>
     </div>
 
-    <!-- Contenedor del juego -->
     <div class="container" id="gameContainer">
         <video id="video" autoplay playsinline></video>
         <canvas id="canvas"></canvas>
 
-        <!-- Botón de Highscores -->
-        <button class="highscore-btn" id="highscoreBtn">🏆 殿堂 Hall of Fame</button>
+        <div class="target">
+            <div class="target-ring"></div>
+            <div class="target-ring"></div>
+            <div class="target-ring"></div>
+            <div class="target-ring"></div>
+            <div class="target-ring"></div>
+        </div>
 
-        <!-- HUD -->
+        <div class="arrow" id="arrow"></div>
+
         <div class="hud">
             <div class="score" id="score">得点 Puntos: 0</div>
-            <div class="score player1" id="score1" style="display: none;">青 Jugador 1: 0</div>
-            <div class="score player2" id="score2" style="display: none;">桃 Jugador 2: 0</div>
-            <div class="status" id="status">準備 Listo para comenzar</div>
-            <div class="status">発射 Disparos: <span id="shots">0</span></div>
+            <div class="status" id="status">準備 Prepara tu arco</div>
+            <div class="status" id="shots">試技 Intentos: 0</div>
         </div>
 
-        <!-- Controles -->
-        <div class="controls">
-            <button class="control-btn" id="resetBtn">🔄 新規 Reiniciar</button>
-            <button class="control-btn" id="vsBtn">⚔️ 対戦 Versus</button>
+        <div class="tension-meter" id="tensionMeter">
+            <div class="tension-label">張力 Tensión</div>
+            <div class="tension-bar" id="tensionBar"></div>
         </div>
 
-        <!-- Blanco -->
-        <div class="target">
-            <div class="target-ring ring1"></div>
-            <div class="target-ring ring2"></div>
-            <div class="target-ring ring3"></div>
-            <div class="target-ring ring4"></div>
-            <div class="target-ring ring5"></div>
-        </div>
+        <div class="zen-message" id="zenMessage"></div>
 
-        <!-- Flechas -->
-        <div class="arrow" id="arrow"></div>
-        <div class="arrow" id="arrow2"></div>
-
-        <!-- Barra de poder -->
-        <div class="countdown-timer" id="countdownTimer">3</div>
-        <div class="power-label" id="powerLabel">張力 Tensión</div>
-        <div class="power-bar" id="powerBar">
-            <div class="power-fill" id="powerFill"></div>
+        <div class="result-popup" id="resultPopup">
+            <div class="result-score" id="resultScore">10</div>
+            <div class="result-message" id="resultMessage">¡PERFECTO!</div>
+            <div class="zen-phrase" id="zenPhrase"></div>
+            <button class="continue-btn" id="continueBtn">続ける CONTINUAR</button>
         </div>
     </div>
-
-    <!-- Popup de resultado -->
-    <div class="result-popup" id="resultPopup">
-        <div class="result-score" id="resultScore">0</div>
-        <div class="result-message" id="resultMessage"></div>
-        <button class="continue-btn" id="continueBtn">続ける Continuar</button>
-    </div>
-
-    <!-- Popup de ganador (versus) -->
-    <div class="winner-popup" id="winnerPopup">
-        <div class="winner-title" id="winnerTitle"></div>
-        <div class="winner-scores" id="winnerScores"></div>
-        <button class="new-game-btn" id="newGameBtn">新規 Nueva Partida</button>
-    </div>
-
-    <!-- Popup de Highscores -->
-    <div class="highscore-popup" id="highscorePopup">
-        <div class="highscore-title">🏆 殿堂 HALL OF FAME</div>
-        <div class="highscore-list" id="highscoreList"></div>
-        <button class="clear-scores-btn" id="clearScoresBtn">消去 Borrar Récords</button>
-        <button class="close-highscore-btn" id="closeHighscoreBtn">閉じる Cerrar</button>
-    </div>
-
-    <!-- Mensaje zen -->
-    <div class="zen-message" id="zenMessage"></div>
 
     <script>
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
+        let score = 0;
+        let shots = 0;
+        let arrowFlying = false;
+
+        // Estados de las manos
+        let leftHandPos = null;
+        let rightHandPos = null;
+        let fingersPinched = false;
+        let tensionPower = 0;
+        let isTensing = false;
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let hands;
-        let gameState = 'idle';
-        let score = 0;
-        let shots = 0;
-        let tensionPower = 0;
-        let leftHandPos = null;
-        let rightHandPos = null;
-        let arrowFlying = false;
-        let aimingStartTime = null;
-        let countdownInterval = null;
-        let canShoot = false;
-
-        // Variables versus
-        let versusMode = false;
-        let currentPlayer = 1;
-        let score1 = 0;
-        let score2 = 0;
-        let vsRounds = 5;
-        let vsCurrentRound = 0;
-
-        // Highscores management
-        function getHighscores() {
-            const scores = localStorage.getItem('samuraiArcheryScores');
-            return scores ? JSON.parse(scores) : [];
-        }
-
-        function saveHighscore(score) {
-            const scores = getHighscores();
-            const newScore = {
-                score: score,
-                date: new Date().toLocaleDateString('es-ES'),
-                timestamp: Date.now()
-            };
-            scores.push(newScore);
-            scores.sort((a, b) => b.score - a.score);
-            scores.splice(10);
-            localStorage.setItem('samuraiArcheryScores', JSON.stringify(scores));
-        }
-
-        function displayHighscores() {
-            const scores = getHighscores();
-            const listContainer = document.getElementById('highscoreList');
-            
-            if (scores.length === 0) {
-                listContainer.innerHTML = '<p style="text-align: center; color: rgba(212, 165, 116, 0.6); padding: 20px;">まだ記録がありません<br>No hay récords aún</p>';
-                return;
-            }
-
-            listContainer.innerHTML = scores.map((s, index) => {
-                let rankClass = '';
-                if (index === 0) rankClass = 'gold';
-                else if (index === 1) rankClass = 'silver';
-                else if (index === 2) rankClass = 'bronze';
-
-                return `
-                    <div class="highscore-item ${rankClass}">
-                        <div class="highscore-rank">#${index + 1}</div>
-                        <div class="highscore-details">
-                            <div class="highscore-score">${s.score} puntos</div>
-                            <div class="highscore-date">${s.date}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        document.getElementById('highscoreBtn').addEventListener('click', () => {
-            displayHighscores();
-            document.getElementById('highscorePopup').classList.add('show');
-            playSound(440, 0.3, 'sine');
-        });
-
-        document.getElementById('closeHighscoreBtn').addEventListener('click', () => {
-            document.getElementById('highscorePopup').classList.remove('show');
-            playSound(440, 0.2, 'sine');
-        });
-
-        document.getElementById('clearScoresBtn').addEventListener('click', () => {
-            if (confirm('¿Estás seguro de que quieres borrar todos los récords?')) {
-                localStorage.removeItem('samuraiArcheryScores');
-                displayHighscores();
-                playSound(200, 0.3, 'sine');
-            }
-        });
-
-        // Botón de inicio
+        // Iniciar juego
         document.getElementById('startBtn').addEventListener('click', async () => {
             document.getElementById('introScreen').classList.add('hidden');
-            setTimeout(() => {
-                document.getElementById('gameContainer').classList.add('active');
-                initCamera();
-            }, 800);
+            document.getElementById('gameContainer').classList.add('active');
+            await startCamera();
             playSound(440, 0.3, 'sine');
         });
 
-        // Inicializar cámara y modelos
-        async function initCamera() {
+        async function startCamera() {
             try {
-                hands = new Hands({
-                    locateFile: (file) => {
-                        return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                    }
-                });
-
-                hands.setOptions({
-                    maxNumHands: 2,
-                    modelComplexity: 0,
-                    minDetectionConfidence: 0.5,
-                    minTrackingConfidence: 0.5
-                });
-
-                hands.onResults(onResults);
-
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: 1280, height: 720 }
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'user' } 
                 });
                 video.srcObject = stream;
-
-                video.addEventListener('loadeddata', () => {
-                    processFrame();
-                });
-
+                video.onloadedmetadata = () => {
+                    initHands();
+                };
             } catch (error) {
-                console.error('Error al inicializar:', error);
-                updateStatus('Error: No se pudo acceder a la cámara');
+                console.error('Error al acceder a la cámara:', error);
+                updateStatus('Error: No se puede acceder a la cámara');
             }
         }
 
-        async function processFrame() {
-            if (video.readyState === 4) {
-                await hands.send({ image: video });
-            }
-            requestAnimationFrame(processFrame);
+        function initHands() {
+            const hands = new Hands({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+            });
+
+            hands.setOptions({
+                maxNumHands: 2,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
+
+            hands.onResults(onHandsResults);
+
+            const camera = new Camera(video, {
+                onFrame: async () => {
+                    await hands.send({ image: video });
+                },
+                width: 1280,
+                height: 720
+            });
+
+            camera.start();
         }
 
-        function onResults(results) {
+        function onHandsResults(results) {
             ctx.save();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.scale(-1, 1);
+            ctx.translate(-canvas.width, 0);
 
-            if (results.multiHandLandmarks && results.multiHandedness) {
-                leftHandPos = null;
-                rightHandPos = null;
-
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
                 for (let i = 0; i < results.multiHandLandmarks.length; i++) {
                     const landmarks = results.multiHandLandmarks[i];
                     const handedness = results.multiHandedness[i].label;
-                    const wrist = landmarks[0];
+
+                    // Dibujar la mano
+                    drawConnectors(ctx, landmarks, HAND_CONNECTIONS, {color: '#d4a574', lineWidth: 2});
+                    drawLandmarks(ctx, landmarks, {color: '#FFD700', lineWidth: 1, radius: 3});
 
                     if (handedness === 'Left') {
-                        leftHandPos = wrist;
+                        leftHandPos = landmarks[9]; // Punto medio de la mano
                     } else {
-                        rightHandPos = wrist;
+                        rightHandPos = landmarks[9];
+                        
+                        // Detectar si índice y pulgar están unidos (tensando)
+                        const thumbTip = landmarks[4];
+                        const indexTip = landmarks[8];
+                        const distance = Math.sqrt(
+                            Math.pow(thumbTip.x - indexTip.x, 2) + 
+                            Math.pow(thumbTip.y - indexTip.y, 2)
+                        );
+
+                        const wasPinched = fingersPinched;
+                        fingersPinched = distance < 0.05; // Dedos juntos
+
+                        // Si dedos estaban juntos y ahora se separaron = DISPARAR
+                        if (wasPinched && !fingersPinched && isTensing && !arrowFlying) {
+                            shootArrow();
+                        }
                     }
                 }
 
-                // Lógica del juego mejorada
+                // Si ambas manos están detectadas
                 if (leftHandPos && rightHandPos && !arrowFlying) {
-                    const leftX = canvas.width - (leftHandPos.x * canvas.width);
-                    const leftY = leftHandPos.y * canvas.height;
-                    const rightX = canvas.width - (rightHandPos.x * canvas.width);
-                    const rightY = rightHandPos.y * canvas.height;
-
-                    const distance = Math.sqrt(
-                        Math.pow(rightX - leftX, 2) + 
-                        Math.pow(rightY - leftY, 2)
+                    const handDistance = Math.sqrt(
+                        Math.pow(leftHandPos.x - rightHandPos.x, 2) + 
+                        Math.pow(leftHandPos.y - rightHandPos.y, 2)
                     );
 
-                    if (distance > 150) {
-                        if (gameState === 'idle') {
-                            gameState = 'aiming';
-                            aimingStartTime = Date.now();
-                            canShoot = false;
-                            updateStatus('照準 ¡Apuntando! Mantén tensado 3 segundos');
-                            document.getElementById('powerBar').style.display = 'block';
-                            document.getElementById('powerLabel').style.display = 'block';
-                            document.getElementById('countdownTimer').style.display = 'block';
-                            startCountdown();
-                        }
+                    // Si dedos están unidos = tensando el arco
+                    if (fingersPinched) {
+                        isTensing = true;
+                        tensionPower = Math.min(handDistance * 100, 100);
+                        
+                        document.getElementById('tensionMeter').style.display = 'block';
+                        document.getElementById('tensionBar').style.width = tensionPower + '%';
+                        
+                        updateStatus(`張力 Tensando: ${Math.round(tensionPower)}% - Separa los dedos para disparar`);
 
-                        if (gameState === 'aiming') {
-                            tensionPower = Math.min((distance - 150) / 3, 100);
-                            document.getElementById('powerFill').style.width = tensionPower + '%';
-
-                            // Actualizar countdown
-                            const elapsed = (Date.now() - aimingStartTime) / 1000;
-                            const remaining = Math.max(0, 3 - elapsed);
-                            
-                            if (remaining <= 0 && !canShoot) {
-                                canShoot = true;
-                                document.getElementById('countdownTimer').style.display = 'none';
-                                updateStatus('✓ ¡LISTO! Suelta para disparar');
-                                playSound(600, 0.2, 'sine');
-                            }
-
-                            // Dibujar ARCO 2D mejorado
-                            drawBow(leftX, leftY, rightX, rightY, tensionPower);
-                        }
+                        // Dibujar línea del arco tensado
+                        ctx.strokeStyle = '#d4a574';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo((1 - leftHandPos.x) * canvas.width, leftHandPos.y * canvas.height);
+                        ctx.lineTo((1 - rightHandPos.x) * canvas.width, rightHandPos.y * canvas.height);
+                        ctx.stroke();
                     } else {
-                        if (gameState === 'aiming') {
-                            if (canShoot && tensionPower > 20) {
-                                shootArrow();
-                            } else {
-                                resetAiming();
-                                updateStatus('準備 Mantén tensado 3 segundos completos');
-                            }
+                        if (isTensing) {
+                            tensionPower = 0;
+                            isTensing = false;
+                            document.getElementById('tensionMeter').style.display = 'none';
                         }
-                    }
-                } else {
-                    if (gameState === 'aiming') {
-                        resetAiming();
+                        updateStatus('準備 Une índice y pulgar para tensar');
                     }
                 }
             }
@@ -947,321 +535,20 @@
             }
         }
 
-        function startCountdown() {
-            let count = 3;
-            const timerElement = document.getElementById('countdownTimer');
-            
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-            }
-
-            countdownInterval = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    timerElement.textContent = count;
-                    playSound(400, 0.1, 'sine');
-                } else {
-                    clearInterval(countdownInterval);
-                    countdownInterval = null;
-                }
-            }, 1000);
-        }
-
-        function resetAiming() {
-            gameState = 'idle';
-            tensionPower = 0;
-            canShoot = false;
-            aimingStartTime = null;
-            document.getElementById('powerBar').style.display = 'none';
-            document.getElementById('powerLabel').style.display = 'none';
-            document.getElementById('countdownTimer').style.display = 'none';
-            if (countdownInterval) {
-                clearInterval(countdownInterval);
-                countdownInterval = null;
-            }
-        }
-
-        // ARCO 2D SUPER MEJORADO Y VISIBLE
-        function drawBow(leftX, leftY, rightX, rightY, power) {
-            const midX = (leftX + rightX) / 2;
-            const midY = (leftY + rightY) / 2;
-            
-            // Calcular punto de control para curva del arco
-            const dx = rightX - leftX;
-            const dy = rightY - leftY;
-            const perpX = -dy;
-            const perpY = dx;
-            const length = Math.sqrt(perpX * perpX + perpY * perpY);
-            const bowCurve = (power / 100) * 100; // Curvatura según tensión
-            const controlX = midX + (perpX / length) * bowCurve;
-            const controlY = midY + (perpY / length) * bowCurve;
-
-            // 1. CUERDA DEL ARCO (línea tensada) - MUY VISIBLE
-            ctx.strokeStyle = '#f5deb3';
-            ctx.lineWidth = 6;
-            ctx.shadowBlur = 25;
-            ctx.shadowColor = 'rgba(245, 222, 179, 1)';
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.lineTo(rightX, rightY);
-            ctx.stroke();
-
-            // 2. ARCO (curva principal) - GRUESO Y DESTACADO
-            const gradient = ctx.createLinearGradient(leftX, leftY, rightX, rightY);
-            gradient.addColorStop(0, '#5a2d0c');
-            gradient.addColorStop(0.3, '#8b4513');
-            gradient.addColorStop(0.5, '#d4a574');
-            gradient.addColorStop(0.7, '#8b4513');
-            gradient.addColorStop(1, '#5a2d0c');
-            
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = 12;
-            ctx.shadowBlur = 30;
-            ctx.shadowColor = 'rgba(139, 69, 19, 0.9)';
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
-            ctx.stroke();
-
-            // 3. Borde interior del arco (detalle)
-            ctx.strokeStyle = 'rgba(212, 165, 116, 0.7)';
-            ctx.lineWidth = 4;
-            ctx.shadowBlur = 15;
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.quadraticCurveTo(controlX, controlY, rightX, rightY);
-            ctx.stroke();
-
-            ctx.shadowBlur = 0;
-
-            // 4. PUNTOS DE AGARRE - BRILLANTES Y DESTACADOS
-            // Mano izquierda
-            const gradientLeft = ctx.createRadialGradient(leftX, leftY, 0, leftX, leftY, 30);
-            gradientLeft.addColorStop(0, 'rgba(255, 245, 220, 1)');
-            gradientLeft.addColorStop(0.4, 'rgba(245, 222, 179, 0.9)');
-            gradientLeft.addColorStop(0.7, 'rgba(212, 165, 116, 0.6)');
-            gradientLeft.addColorStop(1, 'rgba(212, 165, 116, 0)');
-            
-            ctx.shadowBlur = 30;
-            ctx.shadowColor = 'rgba(255, 245, 220, 1)';
-            ctx.fillStyle = gradientLeft;
-            ctx.beginPath();
-            ctx.arc(leftX, leftY, 20, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Mano derecha
-            const gradientRight = ctx.createRadialGradient(rightX, rightY, 0, rightX, rightY, 30);
-            gradientRight.addColorStop(0, 'rgba(255, 245, 220, 1)');
-            gradientRight.addColorStop(0.4, 'rgba(245, 222, 179, 0.9)');
-            gradientRight.addColorStop(0.7, 'rgba(212, 165, 116, 0.6)');
-            gradientRight.addColorStop(1, 'rgba(212, 165, 116, 0)');
-            
-            ctx.fillStyle = gradientRight;
-            ctx.beginPath();
-            ctx.arc(rightX, rightY, 20, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.shadowBlur = 0;
-
-            // 5. FLECHA EN EL ARCO - MUY VISIBLE
-            if (power > 20) {
-                const arrowLength = 80;
-                const angle = Math.atan2(rightY - leftY, rightX - leftX);
-                const arrowX = rightX - Math.cos(angle) * 25;
-                const arrowY = rightY - Math.sin(angle) * 25;
-                const arrowEndX = arrowX - Math.cos(angle) * arrowLength;
-                const arrowEndY = arrowY - Math.sin(angle) * arrowLength;
-
-                // Cuerpo de la flecha - GRUESO
-                const arrowGradient = ctx.createLinearGradient(arrowEndX, arrowEndY, arrowX, arrowY);
-                arrowGradient.addColorStop(0, '#8b4513');
-                arrowGradient.addColorStop(0.3, '#d4a574');
-                arrowGradient.addColorStop(0.5, '#f5deb3');
-                arrowGradient.addColorStop(0.7, '#d4a574');
-                arrowGradient.addColorStop(1, '#8b4513');
-                
-                ctx.strokeStyle = arrowGradient;
-                ctx.lineWidth = 7;
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = 'rgba(245, 222, 179, 1)';
-                ctx.lineCap = 'round';
-                ctx.beginPath();
-                ctx.moveTo(arrowEndX, arrowEndY);
-                ctx.lineTo(arrowX, arrowY);
-                ctx.stroke();
-
-                // Punta de flecha - TRIANGULAR BRILLANTE
-                ctx.fillStyle = '#5a2d0c';
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = 'rgba(90, 45, 12, 1)';
-                ctx.beginPath();
-                const tipSize = 16;
-                ctx.moveTo(arrowX, arrowY);
-                ctx.lineTo(
-                    arrowX - Math.cos(angle + 0.35) * tipSize,
-                    arrowY - Math.sin(angle + 0.35) * tipSize
-                );
-                ctx.lineTo(
-                    arrowX - Math.cos(angle - 0.35) * tipSize,
-                    arrowY - Math.sin(angle - 0.35) * tipSize
-                );
-                ctx.closePath();
-                ctx.fill();
-
-                // Plumas - VISIBLES
-                ctx.strokeStyle = 'rgba(212, 165, 116, 0.9)';
-                ctx.lineWidth = 4;
-                ctx.shadowBlur = 10;
-                const featherSize = 12;
-                
-                // Pluma superior
-                ctx.beginPath();
-                ctx.moveTo(arrowEndX, arrowEndY);
-                ctx.lineTo(
-                    arrowEndX + Math.cos(angle + 1.4) * featherSize,
-                    arrowEndY + Math.sin(angle + 1.4) * featherSize
-                );
-                ctx.stroke();
-                
-                // Pluma inferior
-                ctx.beginPath();
-                ctx.moveTo(arrowEndX, arrowEndY);
-                ctx.lineTo(
-                    arrowEndX + Math.cos(angle - 1.4) * featherSize,
-                    arrowEndY + Math.sin(angle - 1.4) * featherSize
-                );
-                ctx.stroke();
-
-                ctx.shadowBlur = 0;
-            }
-        }
-
-        // Funciones de sonido
-        function playSound(frequency, duration, type = 'sine') {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-
-                oscillator.frequency.value = frequency;
-                oscillator.type = type;
-
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + duration);
-            } catch (e) {
-                console.log('Audio not available');
-            }
-        }
-
-        function playShootSound() {
-            playSound(800, 0.1, 'sine');
-            setTimeout(() => playSound(400, 0.15, 'sine'), 50);
-        }
-
-        function playHitSound(points) {
-            const baseFreq = 400 + (points * 40);
-            playSound(baseFreq, 0.2, 'sine');
-            setTimeout(() => playSound(baseFreq * 1.5, 0.3, 'sine'), 100);
-        }
-
-        function playMissSound() {
-            playSound(200, 0.3, 'sawtooth');
-        }
-
-        // Controles
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            resetGame();
-            playSound(440, 0.3, 'sine');
-        });
-
-        document.getElementById('vsBtn').addEventListener('click', () => {
-            versusMode = !versusMode;
-            resetGame();
-            
-            if (versusMode) {
-                document.getElementById('vsBtn').textContent = '👤 個人 Individual';
-                document.getElementById('score').style.display = 'none';
-                document.getElementById('score1').style.display = 'block';
-                document.getElementById('score2').style.display = 'block';
-                showZenMessage('対戦開始 Modo Versus');
-            } else {
-                document.getElementById('vsBtn').textContent = '⚔️ 対戦 Versus';
-                document.getElementById('score').style.display = 'block';
-                document.getElementById('score1').style.display = 'none';
-                document.getElementById('score2').style.display = 'none';
-                showZenMessage('個人モード Modo Individual');
-            }
-            
-            playSound(550, 0.3, 'sine');
-        });
-
-        function resetGame() {
-            resetAiming();
-            arrowFlying = false;
-            
-            if (versusMode) {
-                score1 = 0;
-                score2 = 0;
-                vsCurrentRound = 0;
-                currentPlayer = 1;
-                document.getElementById('score1').textContent = '青 Jugador 1: 0';
-                document.getElementById('score2').textContent = '桃 Jugador 2: 0';
-                updateStatus('青 Jugador 1 - 準備 Comienza');
-            } else {
-                if (score > 0) {
-                    saveHighscore(score);
-                }
-                score = 0;
-                document.getElementById('score').textContent = '得点 Puntos: 0';
-                updateStatus('準備 Listo para comenzar');
-            }
-            
-            shots = 0;
-            document.getElementById('shots').textContent = '0';
-            document.getElementById('arrow').style.display = 'none';
-            document.getElementById('arrow2').style.display = 'none';
-            document.getElementById('resultPopup').classList.remove('show');
-            document.getElementById('winnerPopup').classList.remove('show');
-        }
-
-        function showZenMessage(message) {
-            const zenMsg = document.getElementById('zenMessage');
-            zenMsg.textContent = message;
-            zenMsg.classList.add('show');
-            setTimeout(() => {
-                zenMsg.classList.remove('show');
-            }, 2000);
-        }
-
         function shootArrow() {
-            if (arrowFlying) return;
+            if (arrowFlying || tensionPower < 20) return;
 
-            gameState = 'shooting';
             arrowFlying = true;
             shots++;
-            document.getElementById('shots').textContent = shots;
-            resetAiming();
+            document.getElementById('shots').textContent = '試技 Intentos: ' + shots;
+            
+            isTensing = false;
+            document.getElementById('tensionMeter').style.display = 'none';
 
             playShootSound();
             showZenMessage('放つ ¡Dispara!');
 
-            const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
-            const arrow = document.getElementById(arrowId);
-            
-            arrow.classList.remove('player1', 'player2');
-            if (versusMode && currentPlayer === 2) {
-                arrow.classList.add('player2');
-            } else if (versusMode && currentPlayer === 1) {
-                arrow.classList.add('player1');
-            }
-
+            const arrow = document.getElementById('arrow');
             const rightX = canvas.width - (rightHandPos.x * canvas.width);
             const rightY = rightHandPos.y * canvas.height;
 
@@ -1277,25 +564,17 @@
             arrow.style.transform = `rotate(${angle}rad)`;
             arrow.style.display = 'block';
 
-            const speed = tensionPower / 10;
+            const speed = tensionPower / 8;
             arrow.dataset.vx = Math.cos(angle) * speed;
             arrow.dataset.vy = Math.sin(angle) * speed;
             arrow.dataset.x = rightX;
             arrow.dataset.y = rightY;
-            arrow.dataset.player = currentPlayer;
 
             updateStatus('飛行中 ¡Flecha en vuelo!');
         }
 
         function updateArrow() {
-            const arrowId = versusMode && parseInt(document.getElementById('arrow2').dataset.player) === 2 && 
-                           document.getElementById('arrow2').style.display === 'block' ? 'arrow2' : 'arrow';
-            let arrow = document.getElementById(arrowId);
-            
-            if (arrow.style.display === 'none') {
-                arrow = document.getElementById(arrowId === 'arrow' ? 'arrow2' : 'arrow');
-            }
-            
+            const arrow = document.getElementById('arrow');
             let x = parseFloat(arrow.dataset.x);
             let y = parseFloat(arrow.dataset.y);
             const vx = parseFloat(arrow.dataset.vx);
@@ -1363,96 +642,101 @@
                 playMissSound();
             }
 
-            if (versusMode) {
-                if (currentPlayer === 1) {
-                    score1 += points;
-                    document.getElementById('score1').textContent = '青 Jugador 1: ' + score1;
-                } else {
-                    score2 += points;
-                    document.getElementById('score2').textContent = '桃 Jugador 2: ' + score2;
-                }
-                
-                vsCurrentRound++;
-                
-                if (vsCurrentRound >= vsRounds * 2) {
-                    setTimeout(() => showWinner(), 500);
-                } else {
-                    showResult(points, message, zenPhrase);
-                }
-            } else {
-                score += points;
-                document.getElementById('score').textContent = '得点 Puntos: ' + score;
-                showResult(points, message, zenPhrase);
-            }
+            score += points;
+            document.getElementById('score').textContent = '得点 Puntos: ' + score;
+            showResult(points, message, zenPhrase);
         }
-
-        function showWinner() {
-            const winnerPopup = document.getElementById('winnerPopup');
-            const winnerTitle = document.getElementById('winnerTitle');
-            const winnerScores = document.getElementById('winnerScores');
-            
-            if (score1 > score2) {
-                winnerTitle.textContent = '青の勝利 JUGADOR 1 GANA';
-                winnerTitle.className = 'winner-title player1';
-            } else if (score2 > score1) {
-                winnerTitle.textContent = '桃の勝利 JUGADOR 2 GANA';
-                winnerTitle.className = 'winner-title player2';
-            } else {
-                winnerTitle.textContent = '引き分け EMPATE';
-                winnerTitle.className = 'winner-title';
-                winnerTitle.style.color = '#d4a574';
-            }
-            
-            winnerScores.textContent = `${score1} - ${score2}`;
-            winnerPopup.classList.add('show');
-            
-            playSound(800, 0.3, 'sine');
-            setTimeout(() => playSound(1000, 0.3, 'sine'), 200);
-            setTimeout(() => playSound(1200, 0.5, 'sine'), 400);
-        }
-
-        document.getElementById('newGameBtn').addEventListener('click', () => {
-            document.getElementById('winnerPopup').classList.remove('show');
-            resetGame();
-            playSound(440, 0.3, 'sine');
-        });
 
         function showResult(points, message, zenPhrase) {
-            gameState = 'result';
             document.getElementById('resultScore').textContent = points;
             document.getElementById('resultMessage').textContent = message;
-            
-            const resultPopup = document.getElementById('resultPopup');
-            let zenElement = resultPopup.querySelector('.zen-phrase');
-            if (!zenElement) {
-                zenElement = document.createElement('div');
-                zenElement.className = 'zen-phrase';
-                resultPopup.insertBefore(zenElement, document.getElementById('continueBtn'));
-            }
-            zenElement.textContent = zenPhrase;
-            
-            resultPopup.classList.add('show');
+            document.getElementById('zenPhrase').textContent = zenPhrase;
+            document.getElementById('resultPopup').classList.add('show');
         }
 
         document.getElementById('continueBtn').addEventListener('click', () => {
             document.getElementById('resultPopup').classList.remove('show');
-            gameState = 'idle';
-            
-            if (versusMode) {
-                currentPlayer = currentPlayer === 1 ? 2 : 1;
-                const playerName = currentPlayer === 1 ? '青 Jugador 1' : '桃 Jugador 2';
-                updateStatus(`${playerName} - 準備 Turno`);
-                showZenMessage(currentPlayer === 1 ? '青の番 Turno Azul' : '桃の番 Turno Rosa');
-            } else {
-                updateStatus('準備 Prepara el siguiente tiro');
-            }
-            
+            updateStatus('準備 Prepara el siguiente tiro');
             playSound(440, 0.2, 'sine');
         });
+
+        function showZenMessage(message) {
+            const zenMsg = document.getElementById('zenMessage');
+            zenMsg.textContent = message;
+            zenMsg.classList.add('show');
+            setTimeout(() => {
+                zenMsg.classList.remove('show');
+            }, 1500);
+        }
 
         function updateStatus(text) {
             document.getElementById('status').textContent = text;
         }
+
+        // Sonidos
+        function playSound(frequency, duration, type = 'sine') {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function playShootSound() {
+            playSound(800, 0.1, 'sine');
+            setTimeout(() => playSound(400, 0.2, 'sine'), 50);
+        }
+
+        function playHitSound(points) {
+            const freq = 400 + (points * 40);
+            playSound(freq, 0.3, 'sine');
+            setTimeout(() => playSound(freq * 1.5, 0.2, 'sine'), 100);
+        }
+
+        function playMissSound() {
+            playSound(200, 0.3, 'sawtooth');
+        }
+
+        function drawConnectors(ctx, landmarks, connections, style) {
+            ctx.strokeStyle = style.color;
+            ctx.lineWidth = style.lineWidth;
+            for (const connection of connections) {
+                const start = landmarks[connection[0]];
+                const end = landmarks[connection[1]];
+                ctx.beginPath();
+                ctx.moveTo(start.x * canvas.width, start.y * canvas.height);
+                ctx.lineTo(end.x * canvas.width, end.y * canvas.height);
+                ctx.stroke();
+            }
+        }
+
+        function drawLandmarks(ctx, landmarks, style) {
+            ctx.fillStyle = style.color;
+            for (const landmark of landmarks) {
+                ctx.beginPath();
+                ctx.arc(landmark.x * canvas.width, landmark.y * canvas.height, style.radius, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        const HAND_CONNECTIONS = [
+            [0, 1], [1, 2], [2, 3], [3, 4],
+            [0, 5], [5, 6], [6, 7], [7, 8],
+            [0, 9], [9, 10], [10, 11], [11, 12],
+            [0, 13], [13, 14], [14, 15], [15, 16],
+            [0, 17], [17, 18], [18, 19], [19, 20],
+            [5, 9], [9, 13], [13, 17]
+        ];
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
