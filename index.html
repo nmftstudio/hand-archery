@@ -561,8 +561,8 @@
             const dy = rightY - leftY;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
-            // Curvatura del arco (cuando NO está tensado es más curvo)
-            const bowCurve = tension > 0 ? distance * 0.15 : distance * 0.25;
+            // Curvatura del arco - SIEMPRE curvo (es la madera)
+            const bowCurve = distance * 0.3;
             const perpX = -dy / distance * bowCurve;
             const perpY = dx / distance * bowCurve;
             
@@ -602,7 +602,19 @@
 
             ctx.shadowBlur = 0;
 
-            // Dibujar la cuerda del arco
+            // LA CUERDA - siempre entre las puntas del arco
+            // Cuando se tensa, se estira hacia el lado opuesto del arco
+            let stringEndX = rightX;
+            let stringEndY = rightY;
+            
+            if (tension > 20) {
+                // La cuerda se tensa hacia el lado opuesto de la curva del arco
+                const tensionAmount = (tension / 100) * distance * 0.15;
+                stringEndX = rightX - perpX / bowCurve * tensionAmount;
+                stringEndY = rightY - perpY / bowCurve * tensionAmount;
+            }
+
+            // Dibujar la cuerda
             ctx.strokeStyle = tension > 20 ? '#FFD700' : '#F5DEB3';
             ctx.lineWidth = 3;
             ctx.shadowBlur = tension > 20 ? 15 : 5;
@@ -610,23 +622,15 @@
             
             ctx.beginPath();
             ctx.moveTo(leftX, leftY);
-            
-            if (tension > 20) {
-                // Cuerda tensada (sigue la mano derecha)
-                ctx.lineTo(rightX, rightY);
-                
-                // Dibujar la flecha cuando está tensado
-                drawArrowOnBow(leftX, leftY, rightX, rightY, tension);
-            } else {
-                // Cuerda en reposo (sigue la curva del arco pero menos pronunciada)
-                const stringCurve = bowCurve * 0.7;
-                const stringControlX = midX + (-dy / distance * stringCurve);
-                const stringControlY = midY + (dx / distance * stringCurve);
-                ctx.quadraticCurveTo(stringControlX, stringControlY, rightX, rightY);
-            }
+            ctx.lineTo(stringEndX, stringEndY);
             ctx.stroke();
 
             ctx.shadowBlur = 0;
+
+            // Dibujar la flecha cuando está tensado
+            if (tension > 20) {
+                drawArrowOnBow(leftX, leftY, stringEndX, stringEndY, controlX, controlY, tension);
+            }
 
             // Puntos de agarre decorativos (dorados brillantes)
             ctx.fillStyle = '#FFD700';
@@ -652,16 +656,24 @@
             ctx.shadowBlur = 0;
         }
 
-        function drawArrowOnBow(startX, startY, endX, endY, tension) {
-            // Calcular la posición de la flecha basada en la tensión
-            const arrowLength = 100;
-            const angle = Math.atan2(endY - startY, endX - startX);
+        function drawArrowOnBow(stringStartX, stringStartY, stringEndX, stringEndY, bowControlX, bowControlY, tension) {
+            // Calcular el punto medio de la cuerda donde va la flecha
+            const stringMidX = (stringStartX + stringEndX) / 2;
+            const stringMidY = (stringStartY + stringEndY) / 2;
             
-            // La flecha va desde la cuerda hacia el arco
-            const arrowEndX = endX;
-            const arrowEndY = endY;
-            const arrowStartX = endX - Math.cos(angle) * arrowLength;
-            const arrowStartY = endY - Math.sin(angle) * arrowLength;
+            // Ángulo de la cuerda (la flecha es perpendicular a esto)
+            const stringAngle = Math.atan2(stringEndY - stringStartY, stringEndX - stringStartX);
+            
+            // La flecha apunta HACIA el objetivo (perpendicular a la cuerda)
+            const arrowAngle = stringAngle + Math.PI / 2;
+            
+            const arrowLength = 100;
+            
+            // La flecha va desde la cuerda hacia donde apunta (hacia el blanco)
+            const arrowStartX = stringMidX;
+            const arrowStartY = stringMidY;
+            const arrowEndX = stringMidX + Math.cos(arrowAngle) * arrowLength;
+            const arrowEndY = stringMidY + Math.sin(arrowAngle) * arrowLength;
 
             // Efecto de resplandor de la flecha
             ctx.shadowBlur = 20;
@@ -691,33 +703,33 @@
             ctx.shadowBlur = 15;
             ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
             ctx.save();
-            ctx.translate(arrowStartX, arrowStartY);
-            ctx.rotate(angle);
+            ctx.translate(arrowEndX, arrowEndY);
+            ctx.rotate(arrowAngle);
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(-25, -10);
-            ctx.lineTo(-20, 0);
-            ctx.lineTo(-25, 10);
+            ctx.lineTo(25, -10);
+            ctx.lineTo(20, 0);
+            ctx.lineTo(25, 10);
             ctx.closePath();
             ctx.fill();
             
             // Brillo en la punta
             ctx.fillStyle = '#FFFFFF';
             ctx.beginPath();
-            ctx.moveTo(-5, 0);
-            ctx.lineTo(-18, -4);
-            ctx.lineTo(-15, 0);
-            ctx.lineTo(-18, 4);
+            ctx.moveTo(5, 0);
+            ctx.lineTo(18, -4);
+            ctx.lineTo(15, 0);
+            ctx.lineTo(18, 4);
             ctx.closePath();
             ctx.fill();
             ctx.restore();
 
             ctx.shadowBlur = 0;
 
-            // Plumas de la flecha (rojas y doradas)
+            // Plumas de la flecha (rojas y doradas) - en el extremo de la cuerda
             ctx.save();
-            ctx.translate(arrowEndX, arrowEndY);
-            ctx.rotate(angle);
+            ctx.translate(arrowStartX, arrowStartY);
+            ctx.rotate(arrowAngle);
             
             // Pluma superior roja
             ctx.fillStyle = '#DC143C';
@@ -725,16 +737,16 @@
             ctx.shadowColor = 'rgba(220, 20, 60, 0.6)';
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(20, -12);
-            ctx.lineTo(15, -2);
+            ctx.lineTo(-20, -12);
+            ctx.lineTo(-15, -2);
             ctx.closePath();
             ctx.fill();
             
             // Pluma inferior roja
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(20, 12);
-            ctx.lineTo(15, 2);
+            ctx.lineTo(-20, 12);
+            ctx.lineTo(-15, 2);
             ctx.closePath();
             ctx.fill();
 
@@ -743,16 +755,16 @@
             ctx.shadowBlur = 8;
             ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
             ctx.beginPath();
-            ctx.moveTo(5, -1);
-            ctx.lineTo(18, -10);
-            ctx.lineTo(15, -2);
+            ctx.moveTo(-5, -1);
+            ctx.lineTo(-18, -10);
+            ctx.lineTo(-15, -2);
             ctx.closePath();
             ctx.fill();
             
             ctx.beginPath();
-            ctx.moveTo(5, 1);
-            ctx.lineTo(18, 10);
-            ctx.lineTo(15, 2);
+            ctx.moveTo(-5, 1);
+            ctx.lineTo(-18, 10);
+            ctx.lineTo(-15, 2);
             ctx.closePath();
             ctx.fill();
             
