@@ -23,6 +23,41 @@
             height: 100vh;
         }
 
+        /* Animaciones */
+        @keyframes fadeOutScreen {
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+                pointer-events: none;
+            }
+        }
+
+        @keyframes pulse-zen {
+
+            0%,
+            100% {
+                transform: scale(1);
+                border-color: rgba(255, 215, 0, 0.6);
+            }
+
+            50% {
+                transform: scale(1.05);
+                border-color: rgba(255, 215, 0, 0.9);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         .intro-screen {
             position: fixed;
             top: 0;
@@ -42,14 +77,6 @@
             animation: fadeOutScreen 0.8s ease-out forwards;
         }
 
-        @keyframes fadeOutScreen {
-            to {
-                opacity: 0;
-                transform: scale(0.95);
-                pointer-events: none;
-            }
-        }
-
         .zen-circle {
             width: 200px;
             height: 200px;
@@ -58,20 +85,6 @@
             position: relative;
             margin-bottom: 40px;
             animation: pulse-zen 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse-zen {
-
-            0%,
-            100% {
-                transform: scale(1);
-                border-color: rgba(255, 215, 0, 0.6);
-            }
-
-            50% {
-                transform: scale(1.05);
-                border-color: rgba(255, 215, 0, 0.9);
-            }
         }
 
         .zen-circle::before {
@@ -129,34 +142,11 @@
             overflow: hidden;
         }
 
-        .start-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .start-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
         .start-btn:hover {
             background: rgba(255, 215, 0, 0.15);
             border-color: rgba(255, 215, 0, 0.9);
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-        }
-
-        .start-btn span {
-            position: relative;
-            z-index: 1;
         }
 
         .container {
@@ -228,6 +218,21 @@
             backdrop-filter: blur(10px);
         }
 
+        .wind-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+
+        .wind-arrow {
+            font-size: 1.2em;
+            color: #ffd700;
+            transition: transform 0.5s ease;
+        }
+
         .controls {
             position: absolute;
             bottom: 20px;
@@ -261,6 +266,7 @@
         .control-btn.active {
             background: rgba(255, 215, 0, 0.2);
             border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
         .info-icon {
@@ -316,24 +322,6 @@
             transform: translateX(0);
         }
 
-        .instructions strong {
-            color: #ffd700;
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
-
-        .instruction-item {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .instruction-icon {
-            font-size: 20px;
-            min-width: 25px;
-        }
-
         .target {
             position: absolute;
             top: 50%;
@@ -359,7 +347,6 @@
             height: 200px;
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
         .ring-2 {
@@ -411,7 +398,6 @@
             font-size: 1.8em;
             color: #ffd700;
             margin-bottom: 20px;
-            font-weight: 400;
             letter-spacing: 3px;
         }
 
@@ -427,7 +413,6 @@
             font-size: 1.2em;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 30px;
-            font-weight: 300;
             letter-spacing: 2px;
         }
 
@@ -436,7 +421,6 @@
             color: rgba(255, 215, 0, 0.8);
             margin-bottom: 20px;
             font-style: italic;
-            font-weight: 300;
         }
 
         .continue-btn {
@@ -449,68 +433,11 @@
             transition: all 0.3s ease;
             font-family: 'Noto Serif JP', serif;
             letter-spacing: 2px;
-            font-weight: 300;
         }
 
         .continue-btn:hover {
             background: rgba(255, 215, 0, 0.2);
             transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .arrow {
-            position: absolute;
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(90deg, #8B4513 0%, #D2691E 80%, #FFD700 100%);
-            z-index: 5;
-            display: none;
-            transform-origin: left center;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
-        }
-
-        .arrow.player1 {
-            background: linear-gradient(90deg, #8B4513 0%, #00a8cc 80%, #00d4ff 100%);
-            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
-        }
-
-        .arrow.player2 {
-            background: linear-gradient(90deg, #8B4513 0%, #c44569 80%, #ff6b9d 100%);
-            filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
-        }
-
-        .arrow::before {
-            content: '';
-            position: absolute;
-            right: -12px;
-            top: -6px;
-            width: 0;
-            height: 0;
-            border-left: 18px solid #FFD700;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
-        }
-
-        .arrow.player1::before {
-            border-left-color: #00d4ff;
-            filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.8));
-        }
-
-        .arrow.player2::before {
-            border-left-color: #ff6b9d;
-            filter: drop-shadow(0 0 5px rgba(255, 107, 157, 0.8));
-        }
-
-        .arrow::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: -4px;
-            width: 25px;
-            height: 12px;
-            background: #654321;
-            border-radius: 0 6px 6px 0;
         }
 
         .power-bar {
@@ -543,11 +470,60 @@
             transform: translateX(-50%);
             color: #ffd700;
             font-size: 0.9em;
-            font-weight: 300;
             letter-spacing: 2px;
             display: none;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
             font-family: 'Noto Serif JP', serif;
+        }
+
+        .arrow {
+            position: absolute;
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513 0%, #D2691E 80%, #FFD700 100%);
+            z-index: 5;
+            display: none;
+            transform-origin: left center;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .arrow::before {
+            content: '';
+            position: absolute;
+            right: -12px;
+            top: -6px;
+            width: 0;
+            height: 0;
+            border-left: 18px solid #FFD700;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -4px;
+            width: 25px;
+            height: 12px;
+            background: #654321;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .arrow.player1 {
+            background: linear-gradient(90deg, #8B4513 0%, #00a8cc 80%, #00d4ff 100%);
+        }
+
+        .arrow.player1::before {
+            border-left-color: #00d4ff;
+        }
+
+        .arrow.player2 {
+            background: linear-gradient(90deg, #8B4513 0%, #c44569 80%, #ff6b9d 100%);
+        }
+
+        .arrow.player2::before {
+            border-left-color: #ff6b9d;
         }
 
         .loading {
@@ -560,7 +536,6 @@
             text-align: center;
             z-index: 1000;
             font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
             letter-spacing: 2px;
         }
 
@@ -574,7 +549,6 @@
             text-align: center;
             z-index: 8;
             font-family: 'Noto Serif JP', serif;
-            font-weight: 300;
             letter-spacing: 3px;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -593,10 +567,10 @@
             transform: translate(-50%, -50%) scale(0);
             background: rgba(15, 15, 30, 0.98);
             padding: 60px 80px;
-            border: 3px solid rgba(255, 215, 0, 0.8);
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
             z-index: 200;
             text-align: center;
+            border: 3px solid rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             backdrop-filter: blur(20px);
             font-family: 'Noto Serif JP', serif;
@@ -609,7 +583,6 @@
         .winner-title {
             font-size: 3em;
             margin-bottom: 20px;
-            font-weight: 400;
             letter-spacing: 4px;
         }
 
@@ -627,15 +600,12 @@
             font-size: 2em;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 30px;
-            font-weight: 300;
         }
 
         .winner-message {
             font-size: 1.3em;
             color: #ffd700;
             margin-bottom: 35px;
-            font-weight: 300;
-            letter-spacing: 2px;
             font-style: italic;
         }
     </style>
@@ -671,11 +641,18 @@
             </div>
             <div class="status" id="status">両手を上げて Levanta ambas manos</div>
             <div class="status">射撃 <span id="shots">0</span></div>
+            <!-- Wind Indicator -->
+            <div class="wind-indicator" id="windIndicator">
+                風 <span id="windArrow" class="wind-arrow">➤</span> <span id="windText">0</span>
+            </div>
         </div>
 
         <div class="controls">
             <button class="control-btn" id="resetBtn">🔄 リセット REINICIAR</button>
             <button class="control-btn" id="modeBtn">👥 対戦 MODO VS</button>
+            <button class="control-btn" id="achievementsBtn">🏆 勲章 LOGROS</button>
+            <button class="control-btn" id="scoresBtn">📊 記録 RÉCORDS</button>
+            <button class="control-btn" id="musicBtn">🎵 音楽 MÚSICA</button>
         </div>
 
         <div class="info-icon" id="infoIcon"></div>
@@ -773,49 +750,273 @@
         let vsRounds = 5;
         let vsCurrentRound = 0;
 
-        // Sound effects using Web Audio API
+        // Wind System
+        let wind = 0; // -10 to 10
+
+        function updateWind() {
+            wind = (Math.random() * 6) - 3; // Random wind between -3 and 3
+            const windText = document.getElementById('windText');
+            const windArrow = document.getElementById('windArrow');
+
+            windText.textContent = Math.abs(wind).toFixed(1);
+            windArrow.style.transform = `rotate(${wind > 0 ? 0 : 180}deg)`;
+
+            // Si el viento es fuerte, mostrar advertencia zen
+            if (Math.abs(wind) > 2) {
+                // showZenMessage('風を読む Lee el viento');
+            }
+        }
+
+        // Achievements Logic
+        const achievements = {
+            firstBlood: { name: '初撃 First Blood', desc: 'Primer disparo al blanco', unlocked: false, icon: '🎯' },
+            perfectShot: { name: '完璧 Perfect', desc: '10 puntos en un disparo', unlocked: false, icon: '💯' },
+            sharpshooter: { name: '名射手 Sharpshooter', desc: '3 disparos perfectos seguidos', unlocked: false, icon: '🏹' },
+            centurion: { name: '百点 Centurion', desc: 'Alcanza 100 puntos', unlocked: false, icon: '💯' },
+            master: { name: '達人 Master', desc: '5 disparos perfectos en una partida', unlocked: false, icon: '👑' },
+            dedication: { name: '献身 Dedication', desc: '50 disparos totales', unlocked: false, icon: '🔥' }
+        };
+
+        let perfectStreak = 0;
+        let perfectsInGame = 0;
+        let totalShots = 0;
+
+        function checkAchievements(points) {
+            const newUnlocks = [];
+
+            if (points > 0 && !achievements.firstBlood.unlocked) {
+                achievements.firstBlood.unlocked = true;
+                newUnlocks.push('firstBlood');
+            }
+
+            if (points === 10) {
+                perfectStreak++;
+                perfectsInGame++;
+                if (!achievements.perfectShot.unlocked) {
+                    achievements.perfectShot.unlocked = true;
+                    newUnlocks.push('perfectShot');
+                }
+                if (perfectStreak >= 3 && !achievements.sharpshooter.unlocked) {
+                    achievements.sharpshooter.unlocked = true;
+                    newUnlocks.push('sharpshooter');
+                }
+                if (perfectsInGame >= 5 && !achievements.master.unlocked) {
+                    achievements.master.unlocked = true;
+                    newUnlocks.push('master');
+                }
+            } else {
+                perfectStreak = 0;
+            }
+
+            if (score >= 100 && !achievements.centurion.unlocked) {
+                achievements.centurion.unlocked = true;
+                newUnlocks.push('centurion');
+            }
+
+            totalShots++;
+            if (totalShots >= 50 && !achievements.dedication.unlocked) {
+                achievements.dedication.unlocked = true;
+                newUnlocks.push('dedication');
+            }
+
+            saveAchievements();
+            newUnlocks.forEach(showAchievementUnlock);
+        }
+
+        function showAchievementUnlock(achievementKey) {
+            const ach = achievements[achievementKey];
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed; top: 80px; right: 20px; z-index: 1000;
+                background: rgba(15, 15, 30, 0.98); padding: 20px 30px;
+                border: 2px solid rgba(255, 215, 0, 0.8);
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+                font-family: 'Noto Serif JP', serif; color: #ffd700;
+                animation: slideIn 0.5s ease-out;
+            `;
+            popup.innerHTML = `
+                <div style="font-size: 2em; text-align: center;">${ach.icon}</div>
+                <div style="font-size: 1.2em; margin: 10px 0; text-align: center;">🏆 LOGRO DESBLOQUEADO</div>
+                <div style="font-size: 1em; font-weight: 600;">${ach.name}</div>
+                <div style="font-size: 0.85em; color: rgba(255, 215, 0, 0.7);">${ach.desc}</div>
+            `;
+            document.body.appendChild(popup);
+            playSound(1500, 0.3, 'sine');
+            setTimeout(() => { popup.remove(); }, 4000);
+        }
+
+        function saveAchievements() {
+            localStorage.setItem('kyudo_achievements', JSON.stringify(achievements));
+            localStorage.setItem('kyudo_stats', JSON.stringify({ totalShots, perfectStreak, perfectsInGame }));
+        }
+
+        function loadAchievements() {
+            const saved = localStorage.getItem('kyudo_achievements');
+            const stats = localStorage.getItem('kyudo_stats');
+            if (saved) Object.assign(achievements, JSON.parse(saved));
+            if (stats) {
+                const s = JSON.parse(stats);
+                totalShots = s.totalShots || 0;
+                perfectStreak = s.perfectStreak || 0;
+                perfectsInGame = s.perfectsInGame || 0;
+            }
+        }
+
+        // High Scores Logic
+        function saveHighScore(newScore) {
+            let highScores = JSON.parse(localStorage.getItem('kyudo_highscores') || '[]');
+            highScores.push({ score: newScore, date: new Date().toISOString() });
+            highScores.sort((a, b) => b.score - a.score);
+            highScores = highScores.slice(0, 10);
+            localStorage.setItem('kyudo_highscores', JSON.stringify(highScores));
+            return highScores;
+        }
+
+        function showHighScores() {
+            const highScores = JSON.parse(localStorage.getItem('kyudo_highscores') || '[]');
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: rgba(15, 15, 30, 0.98); padding: 40px 60px; z-index: 1000;
+                border: 3px solid rgba(255, 215, 0, 0.8);
+                box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+                font-family: 'Noto Serif JP', serif; color: #ffd700;
+                max-height: 80vh; overflow-y: auto;
+            `;
+
+            let html = '<div style="font-size: 2em; margin-bottom: 20px; text-align: center;">🏆 殿堂 HIGH SCORES</div>';
+
+            if (highScores.length === 0) {
+                html += '<div style="text-align: center; color: rgba(255, 215, 0, 0.6);">まだ記録がありません<br>No hay récords aún</div>';
+            } else {
+                highScores.forEach((entry, i) => {
+                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`;
+                    const date = new Date(entry.date).toLocaleDateString();
+                    html += `
+                        <div style="padding: 15px; margin: 10px 0; background: rgba(255, 215, 0, 0.1); border-left: 3px solid rgba(255, 215, 0, 0.6);">
+                            <span style="font-size: 1.5em; margin-right: 15px;">${medal}</span>
+                            <span style="font-size: 1.3em; font-weight: 600;">${entry.score} 点</span>
+                            <span style="font-size: 0.8em; color: rgba(255, 215, 0, 0.6); margin-left: 10px;">${date}</span>
+                        </div>
+                    `;
+                });
+            }
+
+            html += '<button onclick="this.parentElement.remove()" style="margin-top: 20px; padding: 12px 30px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 2px solid rgba(255, 215, 0, 0.6); cursor: pointer; font-family: \'Noto Serif JP\', serif; font-size: 1em;">閉じる CERRAR</button>';
+            popup.innerHTML = html;
+            document.body.appendChild(popup);
+        }
+
+        function showAchievementsPanel() {
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background: rgba(15, 15, 30, 0.98); padding: 40px 60px; z-index: 1000;
+                border: 3px solid rgba(255, 215, 0, 0.8);
+                box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+                font-family: 'Noto Serif JP', serif; color: #ffd700;
+                max-height: 80vh; overflow-y: auto; min-width: 400px;
+            `;
+
+            let html = '<div style="font-size: 2em; margin-bottom: 20px; text-align: center;">🏆 勲章 LOGROS</div>';
+
+            Object.entries(achievements).forEach(([key, ach]) => {
+                const opacity = ach.unlocked ? '1' : '0.3';
+                const bgColor = ach.unlocked ? 'rgba(255, 215, 0, 0.15)' : 'rgba(100, 100, 100, 0.1)';
+                html += `
+                    <div style="padding: 15px; margin: 10px 0; background: ${bgColor}; border-left: 3px solid rgba(255, 215, 0, 0.6); opacity: ${opacity};">
+                        <span style="font-size: 2em; margin-right: 15px;">${ach.icon}</span>
+                        <div style="display: inline-block; vertical-align: middle;">
+                            <div style="font-size: 1.1em; font-weight: 600;">${ach.name}</div>
+                            <div style="font-size: 0.85em; color: rgba(255, 215, 0, 0.7);">${ach.desc}</div>
+                        </div>
+                        ${ach.unlocked ? '<span style="float: right; color: #4CAF50; font-size: 1.5em;">✓</span>' : ''}
+                    </div>
+                `;
+            });
+
+            html += '<button onclick="this.parentElement.remove()" style="margin-top: 20px; padding: 12px 30px; background: rgba(255, 215, 0, 0.1); color: #ffd700; border: 2px solid rgba(255, 215, 0, 0.6); cursor: pointer; font-family: \'Noto Serif JP\', serif; font-size: 1em;">閉じる CERRAR</button>';
+            popup.innerHTML = html;
+            document.body.appendChild(popup);
+        }
+
+        // Background Music
+        const bgMusic = {
+            context: null,
+            playing: false,
+            init() {
+                try {
+                    this.context = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) { console.error('AudioContext not supported'); }
+            },
+            playTraditional() {
+                if (this.playing || !this.context) return;
+                this.playing = true;
+                if (this.context.state === 'suspended') this.context.resume();
+
+                const notes = [
+                    { freq: 293.66, dur: 0.5 }, { freq: 329.63, dur: 0.5 }, { freq: 369.99, dur: 0.5 },
+                    { freq: 392.00, dur: 1.0 }, { freq: 369.99, dur: 0.5 }, { freq: 329.63, dur: 0.5 },
+                    { freq: 293.66, dur: 1.0 },
+                ];
+
+                let time = this.context.currentTime;
+                const playLoop = () => {
+                    if (!this.playing) return;
+                    notes.forEach(note => {
+                        const osc = this.context.createOscillator();
+                        const gain = this.context.createGain();
+                        osc.connect(gain);
+                        gain.connect(this.context.destination);
+                        osc.frequency.value = note.freq;
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(0.05, time); // Volumen bajo
+                        gain.gain.exponentialRampToValueAtTime(0.001, time + note.dur);
+                        osc.start(time);
+                        osc.stop(time + note.dur);
+                        time += note.dur;
+                    });
+                    // Loop 
+                    setTimeout(() => {
+                        if (this.playing) {
+                            time = this.context.currentTime;
+                            playLoop();
+                        }
+                    }, notes.reduce((sum, n) => sum + n.dur, 0) * 1000 + 3000);
+                };
+                playLoop();
+            },
+            stop() { this.playing = false; },
+            toggle() {
+                if (this.playing) { this.stop(); return false; }
+                else { this.playTraditional(); return true; }
+            }
+        };
+
+        // Sound effects
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
         function playSound(frequency, duration, type = 'sine') {
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-
             oscillator.frequency.value = frequency;
             oscillator.type = type;
-
             gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + duration);
         }
 
-        function playBowTension() {
-            playSound(200 + tensionPower * 2, 0.1, 'triangle');
-        }
-
-        function playShootSound() {
-            playSound(800, 0.3, 'sawtooth');
-            setTimeout(() => playSound(400, 0.2, 'sine'), 100);
-        }
-
+        function playBowTension() { playSound(200 + tensionPower * 2, 0.1, 'triangle'); }
+        function playShootSound() { playSound(800, 0.3, 'sawtooth'); setTimeout(() => playSound(400, 0.2, 'sine'), 100); }
         function playHitSound(points) {
-            if (points >= 8) {
-                playSound(1200, 0.2, 'sine');
-                setTimeout(() => playSound(1500, 0.2, 'sine'), 150);
-            } else if (points >= 4) {
-                playSound(800, 0.2, 'sine');
-            } else {
-                playSound(400, 0.3, 'triangle');
-            }
+            if (points >= 8) { playSound(1200, 0.2, 'sine'); setTimeout(() => playSound(1500, 0.2, 'sine'), 150); }
+            else if (points >= 4) { playSound(800, 0.2, 'sine'); }
+            else { playSound(400, 0.3, 'triangle'); }
         }
-
-        function playMissSound() {
-            playSound(200, 0.5, 'sawtooth');
-        }
+        function playMissSound() { playSound(200, 0.5, 'sawtooth'); }
 
         const startBtn = document.getElementById('startBtn');
         const introScreen = document.getElementById('introScreen');
@@ -826,15 +1027,17 @@
         const resetBtn = document.getElementById('resetBtn');
         const modeBtn = document.getElementById('modeBtn');
 
-        infoIcon.addEventListener('click', () => {
-            instructions.classList.toggle('show');
+        // Buttons listeners
+        document.getElementById('achievementsBtn').addEventListener('click', showAchievementsPanel);
+        document.getElementById('scoresBtn').addEventListener('click', showHighScores);
+        document.getElementById('musicBtn').addEventListener('click', (e) => {
+            if (!bgMusic.context) bgMusic.init();
+            const playing = bgMusic.toggle();
+            e.target.classList.toggle('active', playing);
         });
 
-        resetBtn.addEventListener('click', () => {
-            resetGame();
-            playSound(440, 0.3, 'sine');
-        });
-
+        infoIcon.addEventListener('click', () => { instructions.classList.toggle('show'); });
+        resetBtn.addEventListener('click', () => { resetGame(); playSound(440, 0.3, 'sine'); });
         modeBtn.addEventListener('click', () => {
             versusMode = !versusMode;
             resetGame();
@@ -843,15 +1046,9 @@
         });
 
         function resetGame() {
-            score = 0;
-            score1 = 0;
-            score2 = 0;
-            shots = 0;
-            vsCurrentRound = 0;
-            currentPlayer = 1;
-            gameState = 'idle';
-            arrowFlying = false;
-            tensionPower = 0;
+            score = 0; score1 = 0; score2 = 0; shots = 0; vsCurrentRound = 0; currentPlayer = 1;
+            gameState = 'idle'; arrowFlying = false; tensionPower = 0;
+            perfectStreak = 0;
 
             document.getElementById('score').textContent = '0';
             document.getElementById('score1').textContent = '0';
@@ -862,10 +1059,8 @@
             document.getElementById('resultPopup').classList.remove('show');
             document.getElementById('winnerPopup').classList.remove('show');
 
-            updateStatus(versusMode ?
-                (currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2') :
-                '準備 Preparado'
-            );
+            updateWind(); // New wind on reset
+            updateStatus(versusMode ? (currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2') : '準備 Preparado');
         }
 
         function updateModeUI() {
@@ -890,11 +1085,12 @@
 
         startBtn.addEventListener('click', async () => {
             introScreen.classList.add('hidden');
-            setTimeout(() => {
-                introScreen.style.display = 'none';
-            }, 800);
+            setTimeout(() => { introScreen.style.display = 'none'; }, 800);
             gameContainer.classList.add('active');
             playSound(440, 0.3, 'sine');
+            loadAchievements();
+            bgMusic.init();
+            updateWind();
             await initCamera();
         });
 
@@ -902,20 +1098,12 @@
             video = document.getElementById('video');
             canvas = document.getElementById('canvas');
             ctx = canvas.getContext('2d');
-
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: 1280, height: 720 }
-                });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } });
                 video.srcObject = stream;
-                video.onloadedmetadata = () => {
-                    video.play();
-                    loading.style.display = 'none';
-                    initHands();
-                };
+                video.onloadedmetadata = () => { video.play(); loading.style.display = 'none'; initHands(); };
             } catch (err) {
                 console.error('Error accessing camera:', err);
                 loading.textContent = 'Error al acceder a la cámara. Por favor permite el acceso.';
@@ -923,71 +1111,36 @@
         }
 
         function initHands() {
-            hands = new Hands({
-                locateFile: (file) => {
-                    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                }
-            });
-
-            hands.setOptions({
-                maxNumHands: 2,
-                modelComplexity: 1,
-                minDetectionConfidence: 0.7,
-                minTrackingConfidence: 0.7
-            });
-
+            hands = new Hands({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
+            hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.7, minTrackingConfidence: 0.7 });
             hands.onResults(onResults);
-
-            camera = new Camera(video, {
-                onFrame: async () => {
-                    await hands.send({ image: video });
-                },
-                width: 1280,
-                height: 720
-            });
-
+            camera = new Camera(video, { onFrame: async () => { await hands.send({ image: video }); }, width: 1280, height: 720 });
             camera.start();
         }
 
         function onResults(results) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             if (results.multiHandLandmarks && results.multiHandedness) {
-                rightHandPos = null;
-                leftHandPos = null;
-
+                rightHandPos = null; leftHandPos = null;
                 for (let i = 0; i < results.multiHandLandmarks.length; i++) {
                     const landmarks = results.multiHandLandmarks[i];
                     const handedness = results.multiHandedness[i].label;
-
                     const actualHand = handedness === 'Left' ? 'Right' : 'Left';
-
                     drawHand(landmarks, actualHand);
-
-                    if (actualHand === 'Right') {
-                        rightHandPos = landmarks[9];
-                    } else if (actualHand === 'Left') {
-                        leftHandPos = landmarks;
-                    }
+                    if (actualHand === 'Right') { rightHandPos = landmarks[9]; }
+                    else if (actualHand === 'Left') { leftHandPos = landmarks; }
                 }
-
                 processGestures();
             }
-
-            if (gameState === 'shooting' && arrowFlying) {
-                updateArrow();
-            }
+            if (gameState === 'shooting' && arrowFlying) { updateArrow(); }
         }
 
         function drawHand(landmarks, hand) {
             ctx.fillStyle = hand === 'Right' ? 'rgba(255, 100, 100, 0.5)' : 'rgba(100, 100, 255, 0.5)';
-
             landmarks.forEach(landmark => {
                 const x = canvas.width - (landmark.x * canvas.width);
                 const y = landmark.y * canvas.height;
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(x, y, 5, 0, 2 * Math.PI); ctx.fill();
             });
         }
 
@@ -1004,13 +1157,7 @@
 
             const thumbTip = leftHandPos[4];
             const indexTip = leftHandPos[8];
-
-            const pinchDistance = Math.sqrt(
-                Math.pow(thumbTip.x - indexTip.x, 2) +
-                Math.pow(thumbTip.y - indexTip.y, 2) +
-                Math.pow(thumbTip.z - indexTip.z, 2)
-            );
-
+            const pinchDistance = Math.sqrt(Math.pow(thumbTip.x - indexTip.x, 2) + Math.pow(thumbTip.y - indexTip.y, 2) + Math.pow(thumbTip.z - indexTip.z, 2));
             const isPinching = pinchDistance < 0.05;
 
             if (isPinching && gameState !== 'shooting' && !arrowFlying) {
@@ -1018,78 +1165,42 @@
                 const rightY = rightHandPos.y * canvas.height;
                 const leftX = canvas.width - (indexTip.x * canvas.width);
                 const leftY = indexTip.y * canvas.height;
-
-                const distance = Math.sqrt(
-                    Math.pow(rightX - leftX, 2) +
-                    Math.pow(rightY - leftY, 2)
-                );
+                const distance = Math.sqrt(Math.pow(rightX - leftX, 2) + Math.pow(rightY - leftY, 2));
 
                 const oldPower = tensionPower;
                 tensionPower = Math.min(100, (distance / 300) * 100);
 
                 if (tensionPower > 20) {
-                    if (gameState !== 'tensing') {
-                        gameState = 'tensing';
-                        showZenMessage('集中 Concentración');
-                    }
-
+                    if (gameState !== 'tensing') { gameState = 'tensing'; showZenMessage('集中 Concentración'); }
                     document.getElementById('powerBar').style.display = 'block';
                     document.getElementById('powerLabel').style.display = 'block';
                     document.getElementById('powerFill').style.width = tensionPower + '%';
                     updateStatus(`張力 Tensión... ${Math.round(tensionPower)}%`);
-
-                    if (Math.abs(tensionPower - oldPower) > 5) {
-                        playBowTension();
-                    }
-
+                    if (Math.abs(tensionPower - oldPower) > 5) playBowTension();
                     drawBow(rightX, rightY, leftX, leftY);
                 }
             } else if (gameState === 'tensing' && !isPinching) {
                 shootArrow();
             }
 
-            if (!isPinching && gameState === 'idle') {
-                updateStatus('親指と人差し指を合わせる Junta pulgar e índice');
-            }
+            if (!isPinching && gameState === 'idle') updateStatus('親指と人差し指を合わせる Junta pulgar e índice');
         }
 
         function drawBow(rightX, rightY, leftX, leftY) {
-            ctx.strokeStyle = '#8B4513';
-            ctx.lineWidth = 10;
-            ctx.lineCap = 'round';
-            ctx.shadowBlur = 15;
+            ctx.strokeStyle = '#8B4513'; ctx.lineWidth = 10; ctx.lineCap = 'round'; ctx.shadowBlur = 15;
             ctx.shadowColor = 'rgba(139, 69, 19, 0.5)';
-            ctx.beginPath();
-            ctx.arc(rightX, rightY, 80, -Math.PI / 3, Math.PI / 3);
-            ctx.stroke();
-            ctx.shadowBlur = 0;
+            ctx.beginPath(); ctx.arc(rightX, rightY, 80, -Math.PI / 3, Math.PI / 3); ctx.stroke(); ctx.shadowBlur = 0;
 
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.9)';
-            ctx.lineWidth = 2;
-            ctx.shadowBlur = 10;
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.9)'; ctx.lineWidth = 2; ctx.shadowBlur = 10;
             ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
             ctx.beginPath();
+            const topX = rightX + Math.cos(-Math.PI / 3) * 80; const topY = rightY + Math.sin(-Math.PI / 3) * 80;
+            const bottomX = rightX + Math.cos(Math.PI / 3) * 80; const bottomY = rightY + Math.sin(Math.PI / 3) * 80;
+            ctx.moveTo(topX, topY); ctx.lineTo(leftX, leftY); ctx.lineTo(bottomX, bottomY); ctx.stroke(); ctx.shadowBlur = 0;
 
-            const topX = rightX + Math.cos(-Math.PI / 3) * 80;
-            const topY = rightY + Math.sin(-Math.PI / 3) * 80;
-            const bottomX = rightX + Math.cos(Math.PI / 3) * 80;
-            const bottomY = rightY + Math.sin(Math.PI / 3) * 80;
-
-            ctx.moveTo(topX, topY);
-            ctx.lineTo(leftX, leftY);
-            ctx.lineTo(bottomX, bottomY);
-            ctx.stroke();
-            ctx.shadowBlur = 0;
-
-            ctx.strokeStyle = '#D2691E';
-            ctx.lineWidth = 5;
-            ctx.shadowBlur = 8;
+            ctx.strokeStyle = '#D2691E'; ctx.lineWidth = 5; ctx.shadowBlur = 8;
             ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
-            ctx.beginPath();
-            ctx.moveTo(leftX, leftY);
-            ctx.lineTo(rightX, rightY);
-            ctx.stroke();
-            ctx.shadowBlur = 0;
+            ctx.beginPath(); ctx.moveTo(leftX, leftY); ctx.lineTo(rightX, rightY); ctx.stroke(); ctx.shadowBlur = 0;
 
             const angle = Math.atan2(rightY - leftY, rightX - leftX);
             ctx.fillStyle = '#FFD700';
@@ -1097,61 +1208,44 @@
             ctx.moveTo(leftX, leftY);
             ctx.lineTo(leftX + Math.cos(angle - 0.5) * 15, leftY + Math.sin(angle - 0.5) * 15);
             ctx.lineTo(leftX + Math.cos(angle + 0.5) * 15, leftY + Math.sin(angle + 0.5) * 15);
-            ctx.closePath();
-            ctx.fill();
+            ctx.closePath(); ctx.fill();
         }
 
         function showZenMessage(message) {
             const zenMsg = document.getElementById('zenMessage');
-            zenMsg.textContent = message;
-            zenMsg.classList.add('show');
-            setTimeout(() => {
-                zenMsg.classList.remove('show');
-            }, 2000);
+            zenMsg.textContent = message; zenMsg.classList.add('show');
+            setTimeout(() => { zenMsg.classList.remove('show'); }, 2000);
         }
 
         function shootArrow() {
             if (arrowFlying) return;
-
-            gameState = 'shooting';
-            arrowFlying = true;
-            shots++;
+            gameState = 'shooting'; arrowFlying = true; shots++;
             document.getElementById('shots').textContent = shots;
             document.getElementById('powerBar').style.display = 'none';
             document.getElementById('powerLabel').style.display = 'none';
 
-            playShootSound();
-            showZenMessage('放つ ¡Dispara!');
+            playShootSound(); showZenMessage('放つ ¡Dispara!');
 
             const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
             const arrow = document.getElementById(arrowId);
-
-            if (versusMode && currentPlayer === 2) {
-                arrow.classList.add('player2');
-            } else if (versusMode && currentPlayer === 1) {
-                arrow.classList.add('player1');
-            }
+            if (versusMode && currentPlayer === 2) arrow.classList.add('player2');
+            else if (versusMode && currentPlayer === 1) arrow.classList.add('player1');
 
             const rightX = canvas.width - (rightHandPos.x * canvas.width);
             const rightY = rightHandPos.y * canvas.height;
-
             const target = document.querySelector('.target');
             const targetRect = target.getBoundingClientRect();
             const targetX = targetRect.left + targetRect.width / 2;
             const targetY = targetRect.top + targetRect.height / 2;
-
             const angle = Math.atan2(targetY - rightY, targetX - rightX);
 
-            arrow.style.left = rightX + 'px';
-            arrow.style.top = rightY + 'px';
-            arrow.style.transform = `rotate(${angle}rad)`;
-            arrow.style.display = 'block';
+            arrow.style.left = rightX + 'px'; arrow.style.top = rightY + 'px';
+            arrow.style.transform = `rotate(${angle}rad)`; arrow.style.display = 'block';
 
             const speed = tensionPower / 10;
             arrow.dataset.vx = Math.cos(angle) * speed;
             arrow.dataset.vy = Math.sin(angle) * speed;
-            arrow.dataset.x = rightX;
-            arrow.dataset.y = rightY;
+            arrow.dataset.x = rightX; arrow.dataset.y = rightY;
 
             updateStatus('飛行中 ¡Flecha en vuelo!');
         }
@@ -1159,95 +1253,50 @@
         function updateArrow() {
             const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
             const arrow = document.getElementById(arrowId);
-            let x = parseFloat(arrow.dataset.x);
-            let y = parseFloat(arrow.dataset.y);
-            const vx = parseFloat(arrow.dataset.vx);
-            const vy = parseFloat(arrow.dataset.vy);
+            let x = parseFloat(arrow.dataset.x); let y = parseFloat(arrow.dataset.y);
+            const vx = parseFloat(arrow.dataset.vx); const vy = parseFloat(arrow.dataset.vy);
 
-            x += vx * 10;
+            // Apply wind effect
+            x += vx * 10 - wind; // Wind affects x position
             y += vy * 10;
 
-            arrow.style.left = x + 'px';
-            arrow.style.top = y + 'px';
-            arrow.dataset.x = x;
-            arrow.dataset.y = y;
+            arrow.style.left = x + 'px'; arrow.style.top = y + 'px';
+            arrow.dataset.x = x; arrow.dataset.y = y;
 
             const target = document.querySelector('.target');
             const targetRect = target.getBoundingClientRect();
             const targetCenterX = targetRect.left + targetRect.width / 2;
             const targetCenterY = targetRect.top + targetRect.height / 2;
-
-            const distance = Math.sqrt(
-                Math.pow(x - targetCenterX, 2) +
-                Math.pow(y - targetCenterY, 2)
-            );
+            const distance = Math.sqrt(Math.pow(x - targetCenterX, 2) + Math.pow(y - targetCenterY, 2));
 
             if (distance < 100 || x > window.innerWidth || y < 0 || y > window.innerHeight) {
-                arrowFlying = false;
-                arrow.style.display = 'none';
+                arrowFlying = false; arrow.style.display = 'none';
                 calculateScore(distance);
             }
         }
 
         function calculateScore(distance) {
-            let points = 0;
-            let message = '';
-            let zenPhrase = '';
+            let points = 0; let message = ''; let zenPhrase = '';
+            if (distance < 20) { points = 10; message = '完璧 ¡PERFECTO!'; zenPhrase = '心が一つになった El espíritu es uno'; playHitSound(10); }
+            else if (distance < 40) { points = 8; message = '素晴らしい ¡Excelente!'; zenPhrase = '良い集中 Buena concentración'; playHitSound(8); }
+            else if (distance < 60) { points = 6; message = 'よくやった ¡Muy bien!'; zenPhrase = '道は続く El camino continúa'; playHitSound(6); }
+            else if (distance < 80) { points = 4; message = '良い ¡Bien!'; zenPhrase = '練習あるのみ Solo práctica'; playHitSound(4); }
+            else if (distance < 100) { points = 2; message = '的中 ¡En el blanco!'; zenPhrase = '始まりに過ぎない Es solo el comienzo'; playHitSound(2); }
+            else { points = 0; message = '外れた Fallaste'; zenPhrase = '失敗は学びの母 El error enseña'; playMissSound(); }
 
-            if (distance < 20) {
-                points = 10;
-                message = '完璧 ¡PERFECTO!';
-                zenPhrase = '心が一つになった El espíritu es uno';
-                playHitSound(10);
-            } else if (distance < 40) {
-                points = 8;
-                message = '素晴らしい ¡Excelente!';
-                zenPhrase = '良い集中 Buena concentración';
-                playHitSound(8);
-            } else if (distance < 60) {
-                points = 6;
-                message = 'よくやった ¡Muy bien!';
-                zenPhrase = '道は続く El camino continúa';
-                playHitSound(6);
-            } else if (distance < 80) {
-                points = 4;
-                message = '良い ¡Bien!';
-                zenPhrase = '練習あるのみ Solo práctica';
-                playHitSound(4);
-            } else if (distance < 100) {
-                points = 2;
-                message = '的中 ¡En el blanco!';
-                zenPhrase = '始まりに過ぎない Es solo el comienzo';
-                playHitSound(2);
-            } else {
-                points = 0;
-                message = '外れた Fallaste';
-                zenPhrase = '失敗は学びの母 El error enseña';
-                playMissSound();
-            }
+            checkAchievements(points);
 
             if (versusMode) {
-                if (currentPlayer === 1) {
-                    score1 += points;
-                    document.getElementById('score1').textContent = score1;
-                } else {
-                    score2 += points;
-                    document.getElementById('score2').textContent = score2;
-                }
-
+                if (currentPlayer === 1) { score1 += points; document.getElementById('score1').textContent = score1; }
+                else { score2 += points; document.getElementById('score2').textContent = score2; }
                 vsCurrentRound++;
-
-                if (vsCurrentRound >= vsRounds * 2) {
-                    showWinner();
-                } else {
-                    currentPlayer = currentPlayer === 1 ? 2 : 1;
-                    showResult(points, message, zenPhrase);
-                }
+                if (vsCurrentRound >= vsRounds * 2) { showWinner(); }
+                else { currentPlayer = currentPlayer === 1 ? 2 : 1; showResult(points, message, zenPhrase); }
             } else {
-                score += points;
-                document.getElementById('score').textContent = score;
+                score += points; document.getElementById('score').textContent = score;
                 showResult(points, message, zenPhrase);
             }
+            updateWind(); // Change wind on every shot
         }
 
         function showResult(points, message, zenPhrase) {
@@ -1256,55 +1305,35 @@
             document.getElementById('resultMessage').textContent = message;
             document.getElementById('zenPhrase').textContent = zenPhrase;
             document.getElementById('resultPopup').classList.add('show');
+
+            if (!versusMode) saveHighScore(score);
         }
 
         function showWinner() {
             const winnerPopup = document.getElementById('winnerPopup');
             const winnerTitle = document.getElementById('winnerTitle');
             const winnerScores = document.getElementById('winnerScores');
-
-            if (score1 > score2) {
-                winnerTitle.textContent = '青 JUGADOR 1 GANA';
-                winnerTitle.className = 'winner-title player1';
-            } else if (score2 > score1) {
-                winnerTitle.textContent = '桃 JUGADOR 2 GANA';
-                winnerTitle.className = 'winner-title player2';
-            } else {
-                winnerTitle.textContent = '引き分け EMPATE';
-                winnerTitle.className = 'winner-title';
-            }
-
+            if (score1 > score2) { winnerTitle.textContent = '青 JUGADOR 1 GANA'; winnerTitle.className = 'winner-title player1'; }
+            else if (score2 > score1) { winnerTitle.textContent = '桃 JUGADOR 2 GANA'; winnerTitle.className = 'winner-title player2'; }
+            else { winnerTitle.textContent = '引き分け EMPATE'; winnerTitle.className = 'winner-title'; }
             winnerScores.textContent = `${score1} - ${score2}`;
             winnerPopup.classList.add('show');
         }
 
         document.getElementById('continueBtn').addEventListener('click', () => {
             document.getElementById('resultPopup').classList.remove('show');
-            gameState = 'idle';
-            tensionPower = 0;
-
-            if (versusMode) {
-                updateStatus(currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2');
-            } else {
-                updateStatus('準備 Prepara el siguiente tiro');
-            }
+            gameState = 'idle'; tensionPower = 0;
+            if (versusMode) updateStatus(currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2');
+            else updateStatus('準備 Prepara el siguiente tiro');
             playSound(440, 0.2, 'sine');
         });
-
         document.getElementById('newGameBtn').addEventListener('click', () => {
             document.getElementById('winnerPopup').classList.remove('show');
-            resetGame();
-            playSound(440, 0.3, 'sine');
+            resetGame(); playSound(440, 0.3, 'sine');
         });
 
-        function updateStatus(text) {
-            document.getElementById('status').textContent = text;
-        }
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        function updateStatus(text) { document.getElementById('status').textContent = text; }
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
 
