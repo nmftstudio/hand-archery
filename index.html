@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏹 Tiro con Arco Virtual</title>
+    <title>🏹 Tiro con Arco Virtual - Enhanced</title>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <style>
@@ -60,11 +61,14 @@
         }
 
         @keyframes pulse-zen {
-            0%, 100% { 
+
+            0%,
+            100% {
                 transform: scale(1);
                 border-color: rgba(255, 215, 0, 0.6);
             }
-            50% { 
+
+            50% {
                 transform: scale(1.05);
                 border-color: rgba(255, 215, 0, 0.9);
             }
@@ -83,7 +87,7 @@
         .intro-title {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
             font-weight: 600;
             letter-spacing: 4px;
             text-align: center;
@@ -193,7 +197,7 @@
             left: 20px;
             z-index: 10;
             color: white;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
             font-family: 'Noto Serif JP', serif;
         }
 
@@ -215,7 +219,7 @@
 
         .status {
             font-size: 1em;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             padding: 8px 16px;
             border-left: 3px solid rgba(255, 215, 0, 0.6);
             margin-bottom: 8px;
@@ -235,7 +239,7 @@
         }
 
         .control-btn {
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             border: 2px solid rgba(255, 215, 0, 0.6);
             color: #ffd700;
             padding: 10px 20px;
@@ -259,29 +263,13 @@
             border-color: #ffd700;
         }
 
-        .versus-hud {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
-            font-family: 'Noto Serif JP', serif;
-            text-align: right;
-            display: none;
-        }
-
-        .versus-hud.active {
-            display: block;
-        }
-
         .info-icon {
             position: absolute;
             top: 20px;
             right: 20px;
             width: 40px;
             height: 40px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             border: 2px solid rgba(255, 215, 0, 0.6);
             border-radius: 50%;
             display: flex;
@@ -309,7 +297,7 @@
             position: absolute;
             top: 70px;
             right: 20px;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
             padding: 20px;
             border-left: 3px solid rgba(255, 215, 0, 0.6);
@@ -370,7 +358,7 @@
             width: 200px;
             height: 200px;
             background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(0,0,0,0.3);
+            border: 2px solid rgba(0, 0, 0, 0.3);
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
@@ -441,6 +429,14 @@
             margin-bottom: 30px;
             font-weight: 300;
             letter-spacing: 2px;
+        }
+
+        .zen-phrase {
+            font-size: 0.9em;
+            color: rgba(255, 215, 0, 0.8);
+            margin-bottom: 20px;
+            font-style: italic;
+            font-weight: 300;
         }
 
         .continue-btn {
@@ -524,7 +520,7 @@
             transform: translateX(-50%);
             width: 400px;
             height: 8px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(255, 215, 0, 0.4);
             overflow: hidden;
             z-index: 10;
@@ -554,11 +550,6 @@
             font-family: 'Noto Serif JP', serif;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
         .loading {
             position: absolute;
             top: 50%;
@@ -571,35 +562,6 @@
             font-family: 'Noto Serif JP', serif;
             font-weight: 300;
             letter-spacing: 2px;
-        }
-
-        .bow-visual {
-            position: absolute;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .hand-indicator {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 3px solid rgba(255, 215, 0, 0.6);
-            border-radius: 50%;
-            z-index: 4;
-            pointer-events: none;
-            display: none;
-            animation: pulse-indicator 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-indicator {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
         }
 
         .zen-message {
@@ -678,6 +640,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="intro-screen" id="introScreen">
         <div class="zen-circle"></div>
@@ -779,6 +742,7 @@
             <div class="result-title">的中 HIT</div>
             <div class="result-score" id="resultScore">10</div>
             <div class="result-message" id="resultMessage">完璧 ¡Perfecto!</div>
+            <div class="zen-phrase" id="zenPhrase"></div>
             <button class="continue-btn" id="continueBtn">続ける CONTINUAR</button>
         </div>
 
@@ -794,37 +758,37 @@
         let video, canvas, ctx;
         let hands, camera;
         let score = 0;
-        let score1 = 0; // Jugador 1 (izquierda - azul)
-        let score2 = 0; // Jugador 2 (derecha - rosa)
+        let score1 = 0;
+        let score2 = 0;
         let shots = 0;
         let isDrawing = false;
         let isTensing = false;
         let tensionPower = 0;
         let rightHandPos = null;
         let leftHandPos = null;
-        let gameState = 'idle'; // idle, tensing, shooting, result
+        let gameState = 'idle';
         let arrowFlying = false;
         let versusMode = false;
-        let currentPlayer = 1; // En modo versus, qué jugador está tirando
-        let vsRounds = 5; // Número de rondas en modo versus
+        let currentPlayer = 1;
+        let vsRounds = 5;
         let vsCurrentRound = 0;
 
         // Sound effects using Web Audio API
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
+
         function playSound(frequency, duration, type = 'sine') {
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-            
+
             oscillator.connect(gainNode);
             gainNode.connect(audioContext.destination);
-            
+
             oscillator.frequency.value = frequency;
             oscillator.type = type;
-            
+
             gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-            
+
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + duration);
         }
@@ -888,7 +852,7 @@
             gameState = 'idle';
             arrowFlying = false;
             tensionPower = 0;
-            
+
             document.getElementById('score').textContent = '0';
             document.getElementById('score1').textContent = '0';
             document.getElementById('score2').textContent = '0';
@@ -897,9 +861,9 @@
             document.getElementById('arrow2').style.display = 'none';
             document.getElementById('resultPopup').classList.remove('show');
             document.getElementById('winnerPopup').classList.remove('show');
-            
-            updateStatus(versusMode ? 
-                (currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2') : 
+
+            updateStatus(versusMode ?
+                (currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2') :
                 '準備 Preparado'
             );
         }
@@ -908,7 +872,7 @@
             const soloScore = document.getElementById('soloScore');
             const player1Score = document.getElementById('player1Score');
             const player2Score = document.getElementById('player2Score');
-            
+
             if (versusMode) {
                 soloScore.style.display = 'none';
                 player1Score.style.display = 'block';
@@ -987,7 +951,7 @@
 
         function onResults(results) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             if (results.multiHandLandmarks && results.multiHandedness) {
                 rightHandPos = null;
                 leftHandPos = null;
@@ -996,13 +960,12 @@
                     const landmarks = results.multiHandLandmarks[i];
                     const handedness = results.multiHandedness[i].label;
 
-                    // Invertir la etiqueta porque el video está en espejo
                     const actualHand = handedness === 'Left' ? 'Right' : 'Left';
 
                     drawHand(landmarks, actualHand);
 
                     if (actualHand === 'Right') {
-                        rightHandPos = landmarks[9]; // Muñeca
+                        rightHandPos = landmarks[9];
                     } else if (actualHand === 'Left') {
                         leftHandPos = landmarks;
                     }
@@ -1018,7 +981,7 @@
 
         function drawHand(landmarks, hand) {
             ctx.fillStyle = hand === 'Right' ? 'rgba(255, 100, 100, 0.5)' : 'rgba(100, 100, 255, 0.5)';
-            
+
             landmarks.forEach(landmark => {
                 const x = canvas.width - (landmark.x * canvas.width);
                 const y = landmark.y * canvas.height;
@@ -1039,19 +1002,16 @@
                 return;
             }
 
-            // Detectar gesto de pinza (pulgar e índice juntos)
             const thumbTip = leftHandPos[4];
             const indexTip = leftHandPos[8];
-            const wrist = leftHandPos[0];
 
-            // Calcular distancia entre pulgar e índice
             const pinchDistance = Math.sqrt(
-                Math.pow(thumbTip.x - indexTip.x, 2) + 
-                Math.pow(thumbTip.y - indexTip.y, 2) + 
+                Math.pow(thumbTip.x - indexTip.x, 2) +
+                Math.pow(thumbTip.y - indexTip.y, 2) +
                 Math.pow(thumbTip.z - indexTip.z, 2)
             );
 
-            const isPinching = pinchDistance < 0.05; // Dedos juntos
+            const isPinching = pinchDistance < 0.05;
 
             if (isPinching && gameState !== 'shooting' && !arrowFlying) {
                 const rightX = canvas.width - (rightHandPos.x * canvas.width);
@@ -1060,7 +1020,7 @@
                 const leftY = indexTip.y * canvas.height;
 
                 const distance = Math.sqrt(
-                    Math.pow(rightX - leftX, 2) + 
+                    Math.pow(rightX - leftX, 2) +
                     Math.pow(rightY - leftY, 2)
                 );
 
@@ -1072,22 +1032,19 @@
                         gameState = 'tensing';
                         showZenMessage('集中 Concentración');
                     }
-                    
+
                     document.getElementById('powerBar').style.display = 'block';
                     document.getElementById('powerLabel').style.display = 'block';
                     document.getElementById('powerFill').style.width = tensionPower + '%';
                     updateStatus(`張力 Tensión... ${Math.round(tensionPower)}%`);
-                    
-                    // Sonido de tensión
+
                     if (Math.abs(tensionPower - oldPower) > 5) {
                         playBowTension();
                     }
-                    
-                    // Dibujar arco y cuerda tensada
+
                     drawBow(rightX, rightY, leftX, leftY);
                 }
             } else if (gameState === 'tensing' && !isPinching) {
-                // ¡Disparo! - Dedos se separaron
                 shootArrow();
             }
 
@@ -1097,36 +1054,33 @@
         }
 
         function drawBow(rightX, rightY, leftX, leftY) {
-            // Dibujar arco con estilo más elegante
             ctx.strokeStyle = '#8B4513';
             ctx.lineWidth = 10;
             ctx.lineCap = 'round';
             ctx.shadowBlur = 15;
             ctx.shadowColor = 'rgba(139, 69, 19, 0.5)';
             ctx.beginPath();
-            ctx.arc(rightX, rightY, 80, -Math.PI/3, Math.PI/3);
+            ctx.arc(rightX, rightY, 80, -Math.PI / 3, Math.PI / 3);
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Dibujar cuerda con brillo
             ctx.strokeStyle = 'rgba(255, 215, 0, 0.9)';
             ctx.lineWidth = 2;
             ctx.shadowBlur = 10;
             ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
             ctx.beginPath();
-            
-            const topX = rightX + Math.cos(-Math.PI/3) * 80;
-            const topY = rightY + Math.sin(-Math.PI/3) * 80;
-            const bottomX = rightX + Math.cos(Math.PI/3) * 80;
-            const bottomY = rightY + Math.sin(Math.PI/3) * 80;
-            
+
+            const topX = rightX + Math.cos(-Math.PI / 3) * 80;
+            const topY = rightY + Math.sin(-Math.PI / 3) * 80;
+            const bottomX = rightX + Math.cos(Math.PI / 3) * 80;
+            const bottomY = rightY + Math.sin(Math.PI / 3) * 80;
+
             ctx.moveTo(topX, topY);
             ctx.lineTo(leftX, leftY);
             ctx.lineTo(bottomX, bottomY);
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Dibujar flecha siendo tensada
             ctx.strokeStyle = '#D2691E';
             ctx.lineWidth = 5;
             ctx.shadowBlur = 8;
@@ -1137,7 +1091,6 @@
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Dibujar punta de flecha
             const angle = Math.atan2(rightY - leftY, rightX - leftX);
             ctx.fillStyle = '#FFD700';
             ctx.beginPath();
@@ -1167,56 +1120,45 @@
             document.getElementById('powerBar').style.display = 'none';
             document.getElementById('powerLabel').style.display = 'none';
 
-            // Sonido de disparo
             playShootSound();
             showZenMessage('放つ ¡Dispara!');
 
             const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
             const arrow = document.getElementById(arrowId);
-            
+
             if (versusMode && currentPlayer === 2) {
                 arrow.classList.add('player2');
             } else if (versusMode && currentPlayer === 1) {
-                document.getElementById('arrow').classList.add('player1');
+                arrow.classList.add('player1');
             }
 
             const rightX = canvas.width - (rightHandPos.x * canvas.width);
             const rightY = rightHandPos.y * canvas.height;
 
-            // Calcular ángulo hacia el blanco
             const target = document.querySelector('.target');
             const targetRect = target.getBoundingClientRect();
             const targetX = targetRect.left + targetRect.width / 2;
             const targetY = targetRect.top + targetRect.height / 2;
 
             const angle = Math.atan2(targetY - rightY, targetX - rightX);
-            
+
             arrow.style.left = rightX + 'px';
             arrow.style.top = rightY + 'px';
             arrow.style.transform = `rotate(${angle}rad)`;
             arrow.style.display = 'block';
 
-            // Animación de vuelo
             const speed = tensionPower / 10;
             arrow.dataset.vx = Math.cos(angle) * speed;
             arrow.dataset.vy = Math.sin(angle) * speed;
             arrow.dataset.x = rightX;
             arrow.dataset.y = rightY;
-            arrow.dataset.player = currentPlayer;
 
             updateStatus('飛行中 ¡Flecha en vuelo!');
         }
 
         function updateArrow() {
-            const arrowId = versusMode && parseInt(document.getElementById('arrow2').dataset.player) === 2 && 
-                           document.getElementById('arrow2').style.display === 'block' ? 'arrow2' : 'arrow';
+            const arrowId = versusMode && currentPlayer === 2 ? 'arrow2' : 'arrow';
             const arrow = document.getElementById(arrowId);
-            
-            if (arrow.style.display === 'none') {
-                arrowId = arrowId === 'arrow' ? 'arrow2' : 'arrow';
-                arrow = document.getElementById(arrowId);
-            }
-            
             let x = parseFloat(arrow.dataset.x);
             let y = parseFloat(arrow.dataset.y);
             const vx = parseFloat(arrow.dataset.vx);
@@ -1230,14 +1172,13 @@
             arrow.dataset.x = x;
             arrow.dataset.y = y;
 
-            // Verificar impacto en el blanco
             const target = document.querySelector('.target');
             const targetRect = target.getBoundingClientRect();
             const targetCenterX = targetRect.left + targetRect.width / 2;
             const targetCenterY = targetRect.top + targetRect.height / 2;
 
             const distance = Math.sqrt(
-                Math.pow(x - targetCenterX, 2) + 
+                Math.pow(x - targetCenterX, 2) +
                 Math.pow(y - targetCenterY, 2)
             );
 
@@ -1293,14 +1234,13 @@
                     score2 += points;
                     document.getElementById('score2').textContent = score2;
                 }
-                
+
                 vsCurrentRound++;
-                
+
                 if (vsCurrentRound >= vsRounds * 2) {
-                    // Fin del juego versus
-                    setTimeout(() => showWinner(), 500);
+                    showWinner();
                 } else {
-                    // Cambiar de jugador
+                    currentPlayer = currentPlayer === 1 ? 2 : 1;
                     showResult(points, message, zenPhrase);
                 }
             } else {
@@ -1310,73 +1250,51 @@
             }
         }
 
-        function showWinner() {
-            const winnerPopup = document.getElementById('winnerPopup');
-            const winnerTitle = document.getElementById('winnerTitle');
-            const winnerScores = document.getElementById('winnerScores');
-            
-            if (score1 > score2) {
-                winnerTitle.textContent = '青の勝利 JUGADOR 1 GANA';
-                winnerTitle.className = 'winner-title player1';
-            } else if (score2 > score1) {
-                winnerTitle.textContent = '桃の勝利 JUGADOR 2 GANA';
-                winnerTitle.className = 'winner-title player2';
-            } else {
-                winnerTitle.textContent = '引き分け EMPATE';
-                winnerTitle.className = 'winner-title';
-                winnerTitle.style.color = '#ffd700';
-            }
-            
-            winnerScores.textContent = `${score1} - ${score2}`;
-            winnerPopup.classList.add('show');
-            
-            // Sonido de victoria
-            playSound(800, 0.3, 'sine');
-            setTimeout(() => playSound(1000, 0.3, 'sine'), 200);
-            setTimeout(() => playSound(1200, 0.5, 'sine'), 400);
-        }
-
-        document.getElementById('newGameBtn').addEventListener('click', () => {
-            document.getElementById('winnerPopup').classList.remove('show');
-            resetGame();
-            playSound(440, 0.3, 'sine');
-        });
-
         function showResult(points, message, zenPhrase) {
             gameState = 'result';
             document.getElementById('resultScore').textContent = points;
             document.getElementById('resultMessage').textContent = message;
-            
-            // Agregar frase zen si existe
-            const resultPopup = document.getElementById('resultPopup');
-            let zenElement = resultPopup.querySelector('.zen-phrase');
-            if (!zenElement) {
-                zenElement = document.createElement('div');
-                zenElement.className = 'zen-phrase';
-                zenElement.style.cssText = 'font-size: 0.9em; color: rgba(255, 215, 0, 0.8); margin-bottom: 20px; font-style: italic; font-weight: 300;';
-                resultPopup.insertBefore(zenElement, document.getElementById('continueBtn'));
+            document.getElementById('zenPhrase').textContent = zenPhrase;
+            document.getElementById('resultPopup').classList.add('show');
+        }
+
+        function showWinner() {
+            const winnerPopup = document.getElementById('winnerPopup');
+            const winnerTitle = document.getElementById('winnerTitle');
+            const winnerScores = document.getElementById('winnerScores');
+
+            if (score1 > score2) {
+                winnerTitle.textContent = '青 JUGADOR 1 GANA';
+                winnerTitle.className = 'winner-title player1';
+            } else if (score2 > score1) {
+                winnerTitle.textContent = '桃 JUGADOR 2 GANA';
+                winnerTitle.className = 'winner-title player2';
+            } else {
+                winnerTitle.textContent = '引き分け EMPATE';
+                winnerTitle.className = 'winner-title';
             }
-            zenElement.textContent = zenPhrase;
-            
-            resultPopup.classList.add('show');
+
+            winnerScores.textContent = `${score1} - ${score2}`;
+            winnerPopup.classList.add('show');
         }
 
         document.getElementById('continueBtn').addEventListener('click', () => {
             document.getElementById('resultPopup').classList.remove('show');
             gameState = 'idle';
             tensionPower = 0;
-            
+
             if (versusMode) {
-                // Cambiar de jugador
-                currentPlayer = currentPlayer === 1 ? 2 : 1;
-                const playerName = currentPlayer === 1 ? '青 Jugador 1' : '桃 Jugador 2';
-                updateStatus(`${playerName} - 準備 Turno`);
-                showZenMessage(currentPlayer === 1 ? '青の番 Turno Azul' : '桃の番 Turno Rosa');
+                updateStatus(currentPlayer === 1 ? '青 Turno Jugador 1' : '桃 Turno Jugador 2');
             } else {
                 updateStatus('準備 Prepara el siguiente tiro');
             }
-            
             playSound(440, 0.2, 'sine');
+        });
+
+        document.getElementById('newGameBtn').addEventListener('click', () => {
+            document.getElementById('winnerPopup').classList.remove('show');
+            resetGame();
+            playSound(440, 0.3, 'sine');
         });
 
         function updateStatus(text) {
@@ -1389,4 +1307,5 @@
         });
     </script>
 </body>
+
 </html>
